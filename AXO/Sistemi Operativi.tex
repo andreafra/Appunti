@@ -1,0 +1,229 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[scaled]{helvet}
+\renewcommand\familydefault{\sfdefault} 
+\usepackage[T1]{fontenc}\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage[margin=0.7in]{geometry}
+
+\newcommand{\code}{\texttt}
+\renewcommand\labelitemi{\tiny$\bullet$}
+
+\author{Andrea Franchini}
+\title{Appunti di Sistemi Operativi}
+
+\begin{document}
+    \maketitle
+    % Content
+    \section{Programmazione concorrente}
+    \subsection{Processo} Ogni processo è una macchina virtuale indipendente, con eventuali funzioni che gli permettano di intereagire con altri processi. Un processo può avere sottoprocessi, e tutti i processi hanno un padre. Quando un processo termina, terminano tutti i child processes.\\
+    Un processo si compone di tre segmenti: \emph{codice}, \emph{dati}, \emph{sistema}.
+    \subsubsection{Primitive di un Processo}
+    \begin{itemize}
+        \item \code{pid\_t PID} identifica un processo.
+        \item \code{pid\_t getpid()} restituisce sempre il PID del processo, anche all'interno di un thread.
+        \item \code{pid\_t fork()} clona il parent process, duplicando i segmenti \emph{dati} e \emph{sistema}. Restituisce al parent il PID del child, e al child 0.
+        \item \code{void exit(int)} termina il processo, restituendo al parent l'intero passato.
+        \item \code{pid\_t wait(int*)} sospende il parent e attende che un qualsiasi child termini. Restituisce il PID del child terminato. Il parametro è l'indirizzo del valore restituito dalla exit del child.
+        \item \code{pid\_t waitpid(pid\_t pid, int* status, \dots)} sospende il parent e aspetta che finisca il child col PID indicato.
+        \item \code{execl(char* path, char* argv)} sostituisce i segmenti \emph{codice} e \emph{dati} del processo con quelli del programma specificato. Il processo rimane lo stesso. \code{path} individua il programma e \code{argv} è un array di parametri, di cui il primo (\code{arg0}) deve essere il nome del programma e \code{arglast} deve essere \code{NULL}.
+        \item \emph{fork-exec} è una prassi per evitare che la terminazione di un codice lanciato con \code{execl} termini il processo, visto che in realtà lo sostituisce. Si esegue la \code{execl} solo se si è nel child process dopo una fork.
+    \end{itemize}
+    \subsection{Thread} Detti anche \emph{processi leggeri}, più thread possono esistere contemporaneamente all'interno di un processo. I thread di un processo condividono lo stesso spazio di indirizzamento. Se termina un processo terminano anche i suoi thread. A differenza dei processi, i thread \textbf{non} hanno un ordine gerarchico parent-children (sono tutti allo stesso livello).
+    \subsubsection{Primitive di un Thread}
+    \begin{itemize}
+        \item \code{pthread\_t TID} identifica un thread.
+        \item \code{pthread\_create(pthread\_t TID, void* attrs, function, void* param)} equivalente di \code{fork()}. TID è un indirizzo, attrs è un puntatore agli attributi del thread, di default \code{NULL}, \code{param} è l'indirizzo del parametro da passare. In caso di più parametri, si passa una struct.
+        \item \code{pthread\_join(pthread\_t TID, void* status)} equivalente di \code{waitpid()}, TID è il thread di cui aspettare la terminazione e status è l'indirizzo della variabile che la funzione del thread deve restituire.
+    \end{itemize}
+    \subsection{Tipi di Esecuzione}
+    L'esecuzione può essere sequenziale (deterministica) o concorrente (non-deterministica). Se il processore è single-core \emph{concorrente} è sinonimo di \emph{parallelo}. Su processori multi-core l'esecuzione può essere \emph{simulata} o \emph{reale}. Il processore permette a ciascun processo di funzionare per un po' di tempo, dopodichè lo sospende e passa ad un altro processo.
+    \subsection{Costrutti/Tecniche}
+    \subsubsection{Sequenza}
+    Una sequenza è una successione sequenziale di operazioni eseguite da un thread. Una sequenza si dice \emph{critica} quando le istruzioni in essa devono essere eseguite in successione senza che avvenga alcuna sospensione. Si cerca di garantire la mutua esclusione per tali sequenze.
+    \subsubsection{Istruzione Atomica}
+    Un'istruzione atomica è indivisibile a livello di codice macchina. Un'istruzione di un linguaggio di alto livello viene tradotta come sequenza critica in codice macchina.
+    \subsubsection{MutEx (Mutual Exclusion)}
+    è un costrutto particolare che permette di evitare che pi\`u thread accedano contemporaneamente allo stesso contenuto, bloccando la sequenza critica. Gli altri thread che cercano di accedere al blocco vengono messi in pausa.
+    \begin{itemize}
+        \item \code{pthread\_mutex\_t} è la variabile che tiene conto dello stato del mutex.
+        \item \code{pthread\_mutex\_init(pthread\_mutex\_t*, NULL)} inizializza il mutex.
+        \item \code{pthread\_mutex\_lock(pthread\_mutex\_t*)}
+        \item \code{pthread\_mutex\_unlock(pthread\_mutex\_t*)}
+    \end{itemize}
+    \subsubsection{Deadlock}
+    Il deadlock è una situazione in cui due thread devono bloccare due risorse A e B ma le bloccano in ordine inverso, finendo cos\`i in un loop. Succede quando due mutex sono annidati e bloccano le risorse in ordine inverso:\\
+    \code{lock(A) > lock(B) > unlock(B) > unlock(A)}
+    \subsubsection{Sincronizzazione e Semafori}
+    Per avere una relazione temporale deterministica tra due thread, si utilizza il \emph{semaforo}.
+    \begin{itemize}
+        \item \code{sem\_t} è il tipo della variabile, è un intero che può avere valori positivi, negativi o nulli.
+        \item \code{sem\_init(sem\_t*)} inizializza il semaforo a un valore positivo.
+        \item \code{sem\_wait(sem\_t*)} decrementa il valore del semaforo. Finché il semaforo è $\geq 0$ l'esecuzione continua; quando è $< 0$ il thread viene messo in attesa.
+        \item \code{sem\_post(sem\_t*)} incrementa il valore del semaforo, eventualmente sbloccandolo.
+    \end{itemize}
+    Generalmente, l'ordine di sblocco è di tipo FIFO. Il modulo di \code{sem\_t}, se esso è negativo, indica quanti thread sono stati messi in attesa, altrimenti quanti thread possono utilizzare le risorse senza venire bloccati. In POSIX, il semaforo è solo $\geq 0$, dove 0 corrisponde allo stato di attesa.
+    \section{Linux}
+    \subsection{Processi}
+    Linux è un OS multiprogrammato con time-sharing, dove a ciascun task è assegnato un quanto di tempo, entro il quale viene sospeso.
+    \subsubsection{Categorie di Processi}
+    \begin{itemize}
+        \item \textbf{Processo Leggero:} equivale a un thread.
+        \item \textbf{Processo Normale:} equivale a un processo non leggero.
+        \item \textbf{Processo o Task:} equivale indifferentemente a un processo o a un thread.
+    \end{itemize}
+    \subsubsection{Primitive}
+    \begin{itemize}
+        \item \code{gettid()} restituisce il TID del processo (unico per thread).
+        \item \code{getpid()} restituisce il PID del processo, più thread nello stesso processo hanno lo stesso PID.
+    \end{itemize}
+    \subsubsection{Context Switch}
+    La commutazione di processo, cioè la sostituzione del processo in esecuzione con un altro è detta \emph{context switch}.
+    \subsubsection{Scheduler}
+    L'entità che regola quali processi vengono eseguiti e quali sospesi si chiama \emph{scheduler}, e opera la context switch. I processi più importanti vengono eseguiti prima di quelli meno importanti.\\
+    Il codice del Kernel di Linux è \emph{non pre-emptable}, cioè non interrompibile quando viene eseguito.
+    \section{Gestione dei Processi}
+    \subsection{Hardware}
+    L'OS deve anche garantire che i task non possano compiere azioni dannose, regolando pertanto l'accesso a processore, memoria e periferiche. Per gestire le periferiche, esistono i driver, librerie che permettono l'astrazione dell'interfaccia con la periferica.
+    \subsection{Strutture Dati}
+    Il contesto di un processo è l'insieme di tutte le informazioni che lo riguardano. Esiste anche una parte detta \emph{contesto hardware}, che riguarda i registri della CPU del processo. Quando un processo viene sospeso, tali registri vanno salvati come parte della seguente struttura:
+    \begin{itemize}
+        \item \emph{Descrittore di Processo:} struttura dati fondamentale del processo.
+        \item \emph{Indirizzo del Descrittore:} fornisce un ID unico per il processo.
+        \item \emph{sPila} : rappresenta la pila del sistema operativo, unica per processo.
+    \end{itemize}
+    \subsubsection{Codice del Descrittore di Task}
+    \begin{verbatim}
+    struct task_struct {
+        // identificatori del task
+        pid_t pid, tgid;
+        // -1 unrunnable, 0 runnable, >0 stopped
+        volatile long state;    
+        // puntatore alla sPila del task
+        void* stack;
+        // struct per il contesto HW
+        struct thread_struct thread; 
+    }
+
+    struct thread_struct {
+        // puntatore alla base della sPila del processo
+        unsigned long sp0;
+        // puntatore alla posizione corrente della sPila del processo
+        unsigned long sp;
+        // punt. alla pila di modo U (uPila)
+        unsigned long usersp;
+    }
+    \end{verbatim}
+    \subsection{Modi di funzionamento della CPU}
+    Il processore può funzionare in due modi: \textbf{U} (user, non privilegiato) o \textbf{S} (system, privilegiato o kernel).
+    La modalità S può eseguire ogni comando e accedere a tutta la memoria, mentre in modo U si ha accesso solo alla propria porzione di memoria e ad un set limitato di istruzioni.
+    \paragraph{PSR:} Program Status Register, contiene le informazioni relative alla situazione del processore.
+    \subsubsection{System Call}
+    Esiste un'istruzione speciale chiamata \code{SYSCALL}, non privilegiata, che permette di fare un salto all'OS (passare in modalità S).
+    % \begin{enumerate}
+    %     \item \code{PC} viene incrementato sulla sPila.
+    %     \item \code{PSR} viene salvato sulla sPila.
+    %     \item In \code{PC} e \code{PSR} vengono caricati dei valori contenuti nell'array di syscall, che viene inizializzato all'avvio dell'OS, con la coppia <indirizzo di \code{system\_call()} e il PSR opportuno di \code{system\_call}.
+    % \end{enumerate}
+    \subsubsection{System Return}
+    Esiste un'istruzione speciale chiamata \code{SYSRET}, privilegiata, che permettere di ritornare in modalità U.
+    % \begin{enumerate}
+    %     \item Carica in \code{PSR} il valore contenuto nella sPila.
+    %     \item Carica in \code{PC}  il valore contenuto nella sPila.
+    % \end{enumerate}
+    \code{SYSRET} è eseguita alla fine della \code{system\_call()}
+    \subsection{Modello di Memoria}
+    La memoria di un x64 è di $2^{64}$ byte, cioè $2^{24}$ TByte.\\
+    Lo spazio in modo U occupa da \code{0x0000.0000.0000.0000} a \code{0x0000.7FFF.FFFF.FFFF} cioè $2^{47}$ byte.\\
+    Lo spazio in modo S occupa da \code{0xFFFF.8000.0000.0000} a \code{0xFFFF.FFFF.FFFF.FFFF}, cioè $2^{47}$ byte.\\
+    Gli spazi intermedi sono detti non-canonici e non sono accessibili. Oltre \code{0x0000.7FFF.FFFF.FFFF} in modo U si ha un errore.
+    \subsection{Commutazione di Pila}
+    % Esistono due pile, \emph{uPila} e \emph{sPila}, che hanno rispettivamente la cella USP e SSP.
+    % Quando si passa in modo S, SSP contiene il valore da caricare nel registro SP, mentre in USP viene salvato il registro SP.
+    \subsubsection{SYSCALL U $\rightarrow$ S}
+    \begin{enumerate}
+        \item Salva in USP il valore corrente di SP
+        \item Copia in SP il valore presente in SSP (così SP punta a sPila)
+        \item Salva su sPila il valore del PC del programma chiamante a cui ritornare.
+        \item Salva su sPila il valore del PSR del programma chiamante.
+        \item Carica in PC e PSR i valori dell'array di syscall.
+    \end{enumerate}
+    \subsubsection{SYSRET S $\rightarrow$ U}\begin{enumerate}
+        \item Ripristina in PSR il valore di sPila.
+        \item Ripristina in PC il valore di sPila.
+        \item Copia in SP il valore presente in USP (così punta su uPila).
+    \end{enumerate}
+    \subsection{Interrupt}
+    Esiste un sistema di eventi che vengono rilevati dall'hardware a cui è associata una \emph{routine di interrupt}, che interrompe l'esecuzione del processo e esegue la funzione associata all'interrupt. Quando questa termina, si ritorna all'esecuzione del programma che è stato interrotto.\\
+    L'istruzione che esegue il ritorno da interrupt è \code{IRET}.\\
+    Esiste una \emph{tabella degli interrupt} che contiene coppie di <PC, PSR>.\\
+    Non tutti gli interrupt vengono eseguiti subito, ma viene confrontato con la priorità (contenuta nel PSR) del processo in corso (che diminuisce nel tempo).
+    \subsection{Gestione dello Stato dei Processi}
+    \subsubsection{Stato del Processo}
+    Un processo può avere uno dei seguenti stati, contenuto nel Descrittore:
+    \begin{itemize}
+        \item Attesa: deve aspettare il verificarsi di un certo evento per andare in esecuzione. Un processo viene messo in stato di attesa quando esegue un servizio di sistema, oppure in caso di \emph{preemption}, cioè quando lo scheduler decide di sospenderne l'esecuzione per dare la precedenza ad un altro processo.
+        \item Pronto: può essere messo in esecuzione dallo scheduler. Il processo in esecuzione è comunque in stato di pronto e si chiama \emph{current process}.
+    \end{itemize}
+    \subsubsection{Contesto del Processo}
+    Un processo può avere due contesti di esecuzione:
+    \begin{itemize}
+        \item modo U: generalmente, un processo è per la maggior parte del tempo in questo stato.
+        \item modo S: quando si fa uso di una funzione dell'OS oppure avviene un interrupt, il processo è in modo S, ovvero è in esecuzione il sistema operativo.
+    \end{itemize}
+    \subsubsection{Scheduler}
+    \begin{itemize}
+        \item Gestisce la \emph{politica di scheduling}, cioè la regolazione del tempo di esecuzione dei singoli processi.
+        \item Esegue la \emph{context switch}, svolta dalla funzione \code{schedule()}.
+        \item Gestisce la \emph{runqueue}, una struttura dati del processore che ha due campi:
+        \item \begin{itemize}
+            \item \code{RB}: lista di pointer a tutti i processi in stato di pronto.
+            \item \code{CURR}: pointer al \emph{current process}.
+        \end{itemize}
+    \end{itemize}
+    \subsubsection{Gestione dell'Interrupt}
+    La gestione dell'interrupt è \emph{trasparente}, cioè avviene senza disturbare il processo in esecuzione. Gli interrupt vengono eseguiti nel processo corrente, cioè non sostituiscono il processo in esecuzione.\\
+    Se l'interrupt avviene al verificarsi di un evento su cui un processo era in stato di attesa, l'interrupt risveglia il processo portandolo in stato di pronto.
+    \subsubsection{Waitqueue}
+    Ogni volta che un processo deve essere messo, in attesa, viene creata una \emph{waitqueue}, che è una lista contenente i puntatori ai descrittori dei processi in attesa.
+    \section{Scheduler}
+    \subsection{Politche di Scheduling}
+    Ogni task ha un campo nel suo descrittore che descrive la politica di scheduling.
+    \subsubsection{Round robin (RR)}
+    Il round robin (= a turno) è una politica di scheduling equa, che assegna a ciascu task lo stesso \emph{quanto di tempo} per l'esecuzione. Il fatto che ogni task abbia lo stesso quanto di tempo fa sì che nessun task rimanga fermo indefinitivamente.\\
+    Vale la seguente precedenza: FIFO > RR > NORMAL.\\
+    FIFO e RR sono generalmente usati per task \emph{soft real-time}. La loro priorità è detta \emph{statica}, perché è un valore da 0 a 99 e non viene aggiornata una volta assegnata.
+    \begin{itemize}
+        \item \textbf{First In First Out (FIFO):}
+        I task vengono eseguiti per intero dopo essere appena selezionati, finché non terminano o si sospendono da soli.
+        \item \textbf{Round Robin (RR):} Ogni task ha un quanto di tempo per l'esecuzione. Ci sono code per ogni i-esimo livello che vengono eseguite solo se la (i+1)-esima coda è vuota.
+        \item \textbf{Normal (NORMAL):} I task vengono gestiti dinamicamente in tempo reale.
+    \end{itemize}
+    FIFO e RR sono generalmente usati per task \emph{soft real-time}. La loro priorità è detta \emph{statica}, perché è un valore da 0 a 99 e non viene aggiornata una volta assegnata.
+
+    \subsection{Gestione della Runqueue}
+    Lo scheduler interviene per decidere quale task rimettere in esecuzione tra quelli in stato di pronto nella runqueue. Viene scelto il task con il \emph{diritto di esecuzione maggiore}.\\
+    Lo scheduler deve scegliere un nuovo task da eseguire quando:
+    \begin{itemize}
+        \item un task si autosospende o termina.
+        \item un task in stato di attesa viene risvegliato, aumentanto la runqueue (perché potrebbe avere priorità maggiore).
+        \item scade il quanto di tempo (se si usa round robin).
+    \end{itemize}
+    \subsubsection{Completely Fair Scheduler (CFS)}
+    Il CFS è lo scheduler per i task NORMAL.\\
+    Lo scopo ideale è, dato un processore di potenza 1, dare a ogni task di N tasks 1/N tempo di esecuzione, che equivale ad avere una CPU di potenza 1/N.
+    Il vantaggio di CFS è:
+    \begin{enumerate}
+        \item determinare velocemente la durata del quanto di tempo.
+        \item assegnare la priorità ai task, dando più tempo ai task importanti.
+        \item permettere a un task rimasto in attesa molto a lungo di tornare in esecuzione aumentando la sua priorità.
+    \end{enumerate}
+    \begin{tabular}{|c|c|}
+        \hline
+        NRT &Numero di task in runqueue\\
+        \hline
+        PER &Periodo di scheduling, in cui tutti i task vengono eseguiti\\
+        \hline
+        Q & (Q=PER/NRT) \qquad Quanto di tempo assegnato al task\\
+        \hline
+    \end{tabular}
+\end{document}

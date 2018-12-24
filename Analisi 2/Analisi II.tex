@@ -1,0 +1,490 @@
+\documentclass[10pt,a4paper,fleqn]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage[margin=0.7in]{geometry}
+\usepackage{enumitem}
+
+\author{Andrea Franchini}
+\title{Appunti di Analisi II}
+%Table of contents
+\setcounter{tocdepth}{2}
+
+
+
+\begin{document}
+	\maketitle
+	\clearpage
+	
+	\tableofcontents
+	\clearpage
+
+	\section{Funzioni in più variabili}
+	\subsection{Definizione topologica di limite}
+	\begin{equation}
+	\begin{split}
+		&\lim_{(x, y) \to (x_0, y_0)} f(x, y) = l \qquad &l \in \rm I\!R \\
+		&\textit{oppure}\\
+		&\lim_{P \to P_0} f(P) = l \qquad &P=(x, y), P_0=(x_0, y_0)
+	\end{split}
+	\end{equation}
+	\subsection{Intorno di un punto}
+	\begin{equation}
+	I(P_0) = {(P) \in \rm I\!R^2: |P - P_0| < r}
+	\end{equation}
+	
+	Per comodità si considerano intorni circolari.
+	\subsection{Calcolo dei limiti} 
+	Il limite esiste e vale $l$ se il limite è indipendente dal cammino.
+	Presi due o più punti, ci sono infiniti modi per calcolare il limite.
+	Se trovo almeno due strade con limiti diversi il limite non esiste.
+	
+	Per comodità, conviene passare in coordinate polari:
+	\begin{equation}
+	f(x, y) \Rightarrow g(\rho, \theta) \qquad
+	\begin{cases}
+	x=x_0 + \rho \cos \theta \\
+	y=y_0 + \rho \cos \theta
+	\end{cases}
+	\end{equation}
+	\subsection{Derivate Parziali} 
+	Derivata parziale rispetto a $x$:
+	\begin{equation}
+	\lim_{h \to 0} \frac{f(x_0+h, y_0) - f(x_0, y_0)}{h}=f_x(x_0, y_0)=\frac{\partial f}{\partial x}
+	\end{equation}
+	\subsection{Teorema} 
+	
+	Se ho $f_{xx}$, $f_{xy}$, $f_{yx}$, $_{yy}$ continue su $(a, b)$ $\Rightarrow f_{xy}(a, b) = f_{yx}(a, b)$.
+	
+	L'esistenza di derivate parziali non dice nulla sulla differenziabilità.
+	\subsection{Differenziale} 
+	Il piano tangente $\pi$ contiene le rette tangenti, in particolare le rette che ottengo dalle derivate parziali.
+	\begin{equation}
+	\begin{split}
+	\pi:\quad &z-z_0 = a(x-x_0) + b(y-y_0) \qquad a=f_x(x_0, y_0), b=f_y(x_0, y_0)\\
+	\Rightarrow\quad &z-z_0 = f_x(x_0, y_0)(x-x_0) + f_y(x_0, y_0)(y-y_0)
+	\end{split}
+	\end{equation}
+	
+	Ho trovato quindi un piano generato dalle rette tangenti a $f$ in $(x_0, y_0)$.
+	
+	Una funzione in più variabili è \textbf{differenziabile} in $P_0$ se
+	\[\varDelta z = f_x(P_0)\varDelta x + f_y(P_0)\varDelta y + \varepsilon_1\Delta x + \varepsilon_2\varDelta y \]
+	
+	con $\varepsilon_1\rightarrow 0$ quando $\varDelta x \rightarrow 0$, idem per $\varepsilon_2$, $\varDelta y$.
+	
+	Se $f_x$ e $f_y$ sono continue, allora $f$ è differenziabile in un punto. Se non lo sono, non posso dire nulla.
+	
+	$f$ differenziabile $\Rightarrow f$ continua.
+	
+	$f$ non differenziabile $\not\Rightarrow f$ continua.
+	
+	\subsection{Gradiente}
+	\begin{equation}
+	\vec{\nabla}f(a, b) = (f_x(a, b), f_y(a, b)) = grad \vec{f}
+	\end{equation}
+	\subsection{Teorema: Formula del gradiente}
+	Prendiamo $f$ differenziabile.
+	\begin{equation}
+	\vec{u}=(u_1, u_2) \qquad D_{\vec{u}} f(a, b) = \vec{\nabla} f(a, b) \frac{\vec{u}}{|\vec{u}|}
+	\end{equation}
+	\subsection{Massimi e minimi locali} 
+	Dato un punto $(a, b)$ e $z = f(x, y)$:
+	\begin{itemize}
+		\item $(a, b)$ è massimo locale se in un intorno di $(a, b)$ se $f(x, y) \leq f(a, b)$.
+		\item$(a, b)$ è minimo locale se in un intorno di $(a, b)$ se $f(x, y) \geq f(a, b)$.
+	\end{itemize}
+	
+	Se $(a, b)$ è un punto di massimo o minimo locale, allora $f_x(a, b) = f_y(a, b) = 0$.
+	
+	Il piano tangente in quel punto è uguale a $O(z=0)$.
+	\subsection{Punto critico} 
+	$(a, b) \in D_f$ è un punto critico se:
+	
+	$f_x(a, b) = f_y(a, b) = 0$ \qquad \textit{oppure} \qquad
+	$\nexists$ almeno una derivata parziale.
+	\subsection{Punto di sella} (analogo del punto di flesso per le funzioni in due variabili)\\
+	$f$ differenziabile in $(a, b)$, $(a, b)$ è il punto di sella.
+	
+	\begin{equation}
+	\begin{split}
+	\forall I(a, b) \qquad &\exists punti (x, y) | f(x, y) \leq f(a, b)\qquad \mathbf{e}\\
+	&\exists punti (x', y') | f(x', y') \geq f(a, b)
+	\end{split}
+	\end{equation}
+	
+	\subsection{Formula di Taylor per funzioni in due variabili}
+	\begin{equation}
+	\begin{split}
+	f(x, y) &= f(a, b) + \left[(x-a)f_x(a, b) + (y-b)f_y(a, b) \right]\\ &+ \frac{1}{2}\left[(x-a)^2 f_{xx}(a, b) + 2(x-a)(y-b)f_{xy}(a, b) + (y-b)^2 f_{yy}(a, b)\right]\\ &+ ...
+	\end{split}
+	\end{equation}
+	\paragraph{Studiare un punto critico}
+	\begin{enumerate}
+	\item Risolvo il seguente sistema per trovare i punti critici:
+		\begin{equation}
+			\begin{cases}
+			f_x=0 \\ f_y=0
+			\end{cases}
+			\qquad o \qquad \vec{\nabla}f(x,y)=0
+		\end{equation}
+	\item Trovo (ad esempio) il punto (a, b) e studio la seguente espressione:
+	\begin{equation}
+	f_{xx}(a,b) + 2f_{xy}(a,b) + f_{yy}(a,b) \quad
+	\begin{cases}
+	> 0 \qquad \textit{max/min} \\ = 0 \qquad ? \\ < 0 \qquad \textit{sella}
+	\end{cases}
+	\end{equation}
+	\end{enumerate}
+	\subsection{Determinante Hessiano}
+	Anzichè scrivere la precedente forma (11), conviene calcolare il seguente determinante:
+	\begin{equation}
+	H = \begin{vmatrix}
+	f_{xx}(a,b) & f_{xy}(a,b) \\
+	f_{xy}(a,b) & f_{yy}(a,b) \\
+	\end{vmatrix}
+	= \begin{cases}
+	detH > 0 \Rightarrow \begin{cases}
+	f_{xx}(a,b) > 0 \quad \textit{min}\\
+	f_{xx}(a,b) < 0 \quad \textit{max}
+	\end{cases}\\
+	detH = 0 \Rightarrow \quad?\\
+	detH < 0 \Rightarrow (a,b) \quad \textit{sella}
+	
+	\end{cases}
+	\end{equation}
+	\subsection{Massimi e minimi vincolati}
+	\begin{enumerate}
+	\item Calcolo le derivate prime
+	\item Calcolo le derivate seconde
+	\item Considero la funzione lungo i bordi
+	\item Considero la funzione nei vertici (se esistono) e nei punti critici sui bordi
+	\end{enumerate}
+	Per i non-poligoni, posso passare alle coordinate polari e considero i massimi/minimi al variare di $\pi$.
+	\subsection{Metodo moltiplicatore di Lagrange}
+	Data una funzione $f(x,y,z)$, differenziabile in $A$, regione, e una curva regolare $C\in A$, trovo un punto $P$:
+	\begin{equation}
+	\vec{P}(t)=x(t)\vec{i}+y(t)\vec{j}+z(t)\vec{k} \qquad \vec{i},\vec{j},\vec{k} \quad \text{versori}
+	\end{equation}
+	Esisterà un punto derivato $\vec{P'}(t)$:
+	\begin{equation}
+	\vec{P'(t)}=x'(t)\vec{i}+y'(t)\vec{j}+z'(t)\vec{k} = \vec{v}(t)
+	\end{equation}
+	Prendo $P_0 \in C$ in cui $f$ ha un massimo o minimo rispetto ai punti della curva.
+	\begin{equation}
+	\begin{split}
+	&\vec{\nabla}f \perp \vec{v}(t)\\
+	&f(x,y,z)=f(x(t),y(t),z(t))\\
+	&\frac{df}{dt}=\frac{\partial f}{\partial x}\cdot\frac{dx}{dt}+\frac{\partial f}{\partial y}\cdot\frac{dy}{dt}+\frac{\partial f}{\partial z}\cdot\frac{dz}{dt}=\vec{\nabla}f\cdot\vec{v}
+	\end{split}
+	\end{equation}
+	Se $P_0$ è un massimo/minimo, allora $\vec{\nabla}f(P_0)=0 \Rightarrow \vec{\nabla}f\cdot\vec{v}\Bigr|_{\substack{P_0}} = 0$.\\
+	Se il prodotto scalare è $0$, i due vettori sono perpendicolari.
+	\subparagraph{Dimostrazione geometrica del teorema di Lagrange}
+	\begin{equation}
+	\begin{split}
+	&f(x,y,z)\hfill&\text{differenziabile}\\
+	&g(x,y,z)\rightarrow \text{vincolo} &\text{differenziabile}\\
+	&P_0 \in g(x,y,z)=0 (\vec{\nabla}g\neq 0) &\text{In $P_0 f$ ha max/min locale}\\\\
+	&\begin{cases}
+	\lambda: \nabla f = \lambda \nabla g \qquad\lambda \in \rm I\!R\\
+	g(x,y,z)=0
+	\end{cases}\\\\
+	&L(x,y,z)=xy+\lambda g(x,y) &\nabla L=0\\
+	&\begin{cases}
+	\frac{\partial L}{\partial x}=0\\
+	\frac{\partial L}{\partial y}=0\\
+	\frac{\partial L}{\partial z}=0\\
+	\frac{\partial L}{\partial \lambda}=0
+	\end{cases} &\parbox{200pt}{$f$ è una funzionare da rappresentare, $x$ e $y$ sono le coordinate di un punto in funzione di $\lambda$.\\Osservo poi se i punti trovati appartengono al \emph{vincolo}.}
+	\end{split}
+	\end{equation}
+	\indent Poi cerco massimi e minimi locali rispetto a $C: g(x,y,z)=0$.\\
+	\indent $\vec{\nabla}f \perp \vec{v}$ e $\vec{\nabla}g \perp$ tutte le linee di \textit{livello} ($\nabla f \perp \nabla g \Rightarrow \nabla f = \lambda\nabla g$).
+	\section{Integrali doppi}
+	\subsection{Definizione}
+	\begin{equation}
+	\lim_{n \to +\infty} \sum_{k=1}^{n}f(P_k)\cdot A_k=\int_R f(x,y)dR
+	\end{equation}
+	\subsection{Teorema di Fubini}
+	\begin{enumerate}[label=(\Alph*)]
+	\item $\int_D f(x,y) = \int_a^b dx\left( \int_{c(x)}^{d(x)} f(x,y)dy\right)$ $D$ normale rispetto a $x$, $D=\{ a\leq x \leq b, c(x) \leq y \leq d(x)\} $.
+	\item $\int_D f(x,y) = \int_c^d dy\left( \int_{h(y)}^{k(y)} f(x,y)dx\right)$ $D$ normale rispetto a $y$, $D=\{ h(y)\leq x \leq k(y), c \leq y \leq d\} $.
+	\end{enumerate}
+	\subsection{Volume}
+	\begin{equation}
+	\int_T \Bigr|f(x,y)\Bigr|dT > 0 \qquad \text{Il volume è l'integrale del modulo.}
+	\end{equation}
+	\subsection{Area e Valore Medio di una funzione}
+	\begin{equation}
+	\text{Area T} = \iint_T dxdy
+	\hspace{40pt}
+	M=\frac{\int_T fdT}{\text{area T}}
+	\end{equation}
+	\subsection{Sostituzione di variabili in funzioni in una variabile}
+	\begin{equation}
+	\begin{split}
+	&f(x) \longrightarrow x = g(t) \quad \text{invertibile}\\
+	&\int_a^b f(x)dx = \int_x^d f(g(t))\cdot g'(t)dt \qquad 0 \leq t \leq 1 \quad\text{e}\quad x \leq t^2
+	\end{split}
+	\end{equation}
+	\subsection{Sostituzione di variabili in funzioni in due variabili}
+	\begin{equation}
+	\begin{split}
+	&(\rm I)\quad A \quad\text{campo connesso}\\
+	&\begin{cases}
+	x=x(u,v)\\ y=y(u,v)
+	\end{cases} \in C^0(A) \qquad (u,v) \rightarrow (x(u,v),y(u,v))\\
+	&(\rm I\!I)\quad\tau: A \rightarrow \tau(A)=B \quad\text{biunivoca}\\\\
+	&(\rm I\!I\!I)\quad\det J=frac{\partial(u,v)}{\partial(x,y)} = \begin{vmatrix}
+	\frac{\partial x}{\partial u} & \frac{\partial x}{\partial v}\\
+	\frac{\partial y}{\partial u} & \frac{\partial y}{\partial v}
+	\end{vmatrix} \neq 0 \qquad \textit{(matrice Jacobiana)}\\
+	\end{split}
+	\end{equation}
+	Se ho \rm I, \rm I\!I, \rm I\!I\!I, la trasformazione è regolare.
+	\section{Linee in forma parametrica}
+	\subsection{Definizioni}
+	\begin{itemize}
+	\item $\gamma$ è una curva \emph{chiusa} se $\gamma(a)=\gamma(b)$, cioè se gli estremi coincidono.
+	\item $\gamma$ è una curva \emph{semplice} se $\forall t_1, t_2 \quad \gamma(t_1) \neq \gamma(t_2), t(a,b)$.
+	\item $\gamma$ è una curva \emph{regolare} se:
+	\begin{enumerate}
+		\item $\gamma(t) \in C^1([a,b])$
+		\item $\gamma'(t)\neq 0 \forall t \in (a,b)$
+		\item $\gamma(t)$ semplice
+	\end{enumerate}
+	\end{itemize}
+	\subsection{Calcolare la lunghezza di una linea}
+	Data una curva regolare, posso scrivere i punti $P_i$ sul piano, ricavandoli da $\vec{P}(t)$:
+	\begin{equation}
+	\begin{aligned}
+	&\vec{P}(t) = (x(t),y(t),z(t))\quad t \in [a,b]\\
+	&P_i=(x(t_i),y(t_i))
+	\end{aligned}
+	\end{equation}
+	Calcolo la distanza fra due punti:
+	\begin{equation}
+	\begin{aligned}
+	P_{i+1} - P_i &= \sqrt{[x(t_{i+1}-x(t_i)]^2+[y(t_{i+1})-y(t_i)]^2}=\\
+	&=\sqrt{[(t_{i+1}-t_i)x'(\alpha)]^2+[(t_{i+1}-t_i)y'(\beta)]^2}=\\
+	&=(t_{i+1}-t_i)\sqrt{s'^2(\alpha)+y'^2(\beta)}
+	\end{aligned}
+	\end{equation}
+	Considero la lunghezza della spezzata composta da segmenti infinitesimi:
+	\begin{equation}
+	\lim_{\delta\to 0}\sum^N_{\delta=0}\left( \delta_i\sqrt{x'^2(\alpha)+y'^2(\beta)} \right)=\int_a^b\sqrt{x'^2(t)+y'^2(t)}dt
+	\end{equation}
+	\subsection{Ascissa curvilinea}
+	\begin{equation}
+	s(t)=\int_a^t\left| P'(t)\right| dt
+	\end{equation}
+	Posso scrivere sia in forma parametrica ($s(t)$) che in ascissa curvilinea ($t(s)$).
+	Ogni curva ha la propria ascissa curvilinea.\\
+	Posso calcolare l'ascissa curvilinea anziché usare $(x,y,z)$ come sistema di riferimento, e per ogni punto della linea esistono i vettori $\vec{n}$ (vettore normale principale), $\vec{t}$ (vettore tangente) e $\vec{b}$ (binomiale, indica se la terna è destra).
+	\begin{equation}
+	\vec{n}=\frac{P''(s)}{|P''(s)|}\\ \vec{b}=\vec{t}\times\vec{n}
+	\end{equation}
+	\paragraph{Triedro fondamentale (o di Fresnel)} $(\vec{n}, \vec{t}, \vec{b})$
+	\subsection{Integrale di linea}
+	Con l'integrale di linea calcolo la superficie laterale compresa tra il piano $xy$ la funzione $z=f(x,y)$.
+	\begin{equation}
+	\lim_{\delta\to 0}\sum f_i(t_{i+1}-t_i)=\int_a^b f(s)ds
+	\end{equation}
+	Siccome è difficile calcolare l'integrale di linea con l'ascissa curvilinea, posso effettuare un cambio di variabile:
+	\begin{equation}
+	s\rightarrow t \qquad \text{e} \qquad ds \rightarrow |P'(t)|dt
+	\end{equation}
+	\subsection{Campo Vettoriale}
+	Un campo vettoriale è definito come segue:
+	\begin{equation}
+	\vec{F} = (F_1(x,y,z),F_2(x,y,z),F_3(x,y,z))\textit{Definizione di campo vettoriale}
+	\end{equation}
+	Se considero il lavoro infinitesimale e lo integro ottengo il lavoro $L$:
+	\begin{equation}
+	dL = \vec{F}\cdot d\vec{s}\textit{Lavoro infinitesimale}\\
+	\end{equation}
+	L'integrale di linea in un campo vettoriale viene chiamato \emph{lavoro}:
+	\begin{equation}
+	L=\int_C \vec{F}d\vec{s}
+	\end{equation}
+	Se considero $d\vec{s}=(dx,dy,dz)$ allora posso scrivere:
+	\begin{equation}
+	\vec{F}d\vec{s}=F_1dx + F_2dy + F_3dz\\
+	\begin{cases}
+	x=x(t)\\y=y(t)\\z=z(t)
+	\end{cases}\\
+	\begin{cases}
+	dx=x'(t)dt\\dy=y'(t)dt\\dz=z'(t)dt
+	\end{cases}
+	\end{equation}
+	\subsection{Integrale di linea di II specie (Lavoro)}
+	\begin{equation}
+	I=\int_a^b(F_1dx + F_2dy + F_3dz)
+	\end{equation}
+
+	$F_1dx + F_2dy + F_3dz$ è detta \emph{Forma Differenziale Lineare}, se è \emph{esatta} vuol dire che esiste un potenziale per tale funzione.
+	\subsection{Teorema}
+	Data una \emph{fdl} $\omega(x,y)=Xdx+Ydy$, $\omega$ è esatta se $\exists f: \vec{\nabla}f=\omega=Xdx+Ydy$, e il campo è conservativo (perché ammette un potenziale). Se una \emph{fdl} è esatta, il lavoro dipende solo dagli estremi.
+	\subsection{Teorema}
+	Se $\omega(x,y,z)$ è esatta in $A$ connesso, allora $\forall$ linea regolare $\gamma\in A$ che abbia estremi $A$ e $B$,
+	\begin{equation}
+	L=\int_{\gamma}\omega(x,y)d\gamma = \int_A^B\vec{\nabla}fd\gamma=\int_A^B f'(P)dP=f(B)-f(A)
+	\end{equation}
+	Se il campo è \emph{irrotazionale} e \emph{semplicemente connesso aperto}, il campo è conservativo.
+	\paragraph{Osservazione} La circuitazione (integrale lungo una linea \emph{chiusa}) in un campo conservativo è $0$.
+	\subsection{Rotore}
+	Se il rotore rot $\vec\omega=0$, la \emph{fdl} è chiusa e il campo è detto \emph{irrotazionale}.
+	\begin{equation}
+	\text{rot}\:\vec\omega=\begin{vmatrix}
+	\vec i & \vec j & \vec k\\
+	\frac{\partial}{\partial x} & 	\frac{\partial}{\partial y} & \frac{\partial}{\partial z}\\
+	x & y & z
+	\end{vmatrix}
+	\end{equation}
+	\subsection{Teorema}
+	Se $\vec r \times d\vec F$ \emph{fdl} di classe C1, in $A$ aperto e connesso, allora \emph{fdl} è \emph{esatta} e quindi \emph{chiusa}.
+	\paragraph{Osservazione} Se \emph{fdl} è chiusa, non è detto che sia esatta (ci possono essere \emph{buchi}).
+	\subsection{Calcolo del potenziale}
+	\begin{enumerate}
+	\item Derivo $X_y$ e $Y_x$\quad $\omega(x,y)=(Xdx, Ydy)$ e verifico che rot $\vec\omega=0$.
+	\item Calcolo il potenziale con la spezzata in $\rm I\!R^3$:
+		\begin{equation}
+		\begin{aligned}
+		&U(x,y)=\int_a^b Xdx + g(y) \qquad \textit{$g(y)$ è la funzione della variabile rispetto alla quale non integro.}\\
+		&\frac{\partial U}{\partial y} = g'(y) \longrightarrow g(y)=\int g'(y)dy = (...)+c \qquad \textit{sostituisco $g(y)$ in $U(x,y)$.}\\
+		&\text{}
+		\end{aligned}
+		\end{equation}
+		\item Nel caso avessi più di due variabili, nel passo 2 anzichè scrivere $c$ scriverò $h(z)$ (e $g(y)$ diventerà $g(y,z)$).
+	\end{enumerate}
+	
+	\section{Serie di potenze}
+	\begin{equation}
+		\text{Serie Numeriche}
+			\begin{cases}
+				\text{a segno positivo}\\
+				\text{a segno alterno}
+			\end{cases}\\
+		\text{Una serie}
+			\begin{cases}
+				\text{converge}\\
+				\text{non converge}\begin{cases}
+					\text{diverge}\\
+					\text{oscilla}
+				\end{cases}
+			\end{cases}
+	\end{equation}
+	\subsection{Serie di potenze}
+	\begin{equation}
+	\sum_0^{\inf} a_n x^n\qquad \text{o} \qquad \sum a_n(x-x_0)^n \quad \text{dove $x_0$ si dice centro della serie.}
+	\end{equation}
+	Posso fissare $x$ e ottengo una serie numerica:
+	\begin{equation}
+	{a_n}=\frac{(\bar x)^{2n+1}}{(2n+1)!}=\sum(-1)^nb_n \qquad\text{$\bar x$ è un $x$ fissato}
+	\end{equation}
+	Le serie di potenze sono una generalizzazione delle serie di Taylor.
+	\subsection{Raggio di convergenza}
+	Una serie $\sum a_nx^n$ di raggio di convergenza $R$ converge:
+	\begin{itemize}
+	\item $x=0$ ogni serie converge
+	\item $\exists R>0$ converge $\forall |x|<R$, diverge $|x|>R$, $|x|=R$ non posso dire nulla
+	\item $R=+\infty$
+	\end{itemize}
+	Per calcolare il raggio, conviene cercare le x con $\lim_{n\to\infty} \left| \frac{x^{n+1}}{b_n + 1}\cdot\frac{b_n}{x^n}\right|<1$.
+	\subsection{Teorema di derivazione per serie di potenze}
+	Se ho una serie di potenze che converge posso derivare termine a termine e ho una somma di derivate che converge.
+	\subsection{Teorema di integrazione per serie di potenze} (Inverso del precedente)\\
+	Sia $f(x)$ una serie di potenze con raggio di convergenza $R>0$.
+	\begin{equation}
+		f(x) = \sum_{k=0}^{+\infty}a_k(x-x_0)^k
+	\end{equation}
+	La serie $F(x)$ ha lo stesso raggio di convergenza $R$:
+	\begin{equation}
+		F(x) = \sum_{k=0}^{+\infty}\frac{a_k}{k+1}(x-x_0)^{k+1}
+	\end{equation}
+	Allora $\forall x \in (x_0 - R, x_0 + R)$, $F(x)$ è una primitiva di $f(x)$. In particolare:
+	\begin{equation}
+		\int_a^b \left[ \sum_{k=0}^{+\infty}a_k(x-x_0)^k\right] dx = \sum_{k=0}^{+\infty}\left[ \int_a^b a_k(x-x_0)^k\right] = \sum_{k=0}^{+\infty}\left[\frac{a_k}{k+1}(x-x_0)^{k+1}\right]
+	\end{equation}
+	\paragraph{Osservazione}
+	Posso ottenere una serie dall'integrale solo se questa è oscillante. Dato un integrale con un termine incalcolabile, lo espando con gli sviluppi di Taylor, portando fuori dall'integrale la serie, lasciando all'interno la parte con l'incognita. Calcolo infine i singoli $b_i$, $i=0,1,2...$ finché non ottengo una valore che è minore dell'errore dato, a quel punto scrivo $I=b_0-b_1+b_2-b_3...$.
+	\subsection{Serie di Fourier}
+	Dato un periodo $T = \pi$,
+	\begin{equation}
+		f(x) \cong \frac{a_0}{2} + \sum_{n=1}^\infty \left(a_n \cos nx + b_n \sin nx \right)
+	\end{equation}
+	in cui
+	\begin{equation}
+		a_n = \frac{1}{\pi}\int_{-\pi}^\pi f(x) \cos nxdx \qquad
+		b_n = \frac{1}{\pi}\int_{-\pi}^\pi f(x) \sin nxdx
+	\end{equation}
+	$a_n$ e $b_n$ sono i coefficienti della serie di Fourier se $T=2\pi$. Il termine $a_0$ è più facile calcolarlo separatamente.
+	\paragraph{Condizioni sufficienti per la convergenza}
+	\begin{equation}
+		\begin{aligned}
+			&f\quad\text{continua} \qquad \sum \text{converge al valore di } f(x_0)\\
+			&f\quad\text{discontinua di I specie} \qquad \sum \text{converge alla semisomma } \frac{f(x_{0^+})+f(x_{0^-})}{2}  
+		\end{aligned}
+	\end{equation}
+	\fbox{
+		\parbox{240pt}{
+			\begin{equation}
+			\begin{aligned}
+			a_n = 0 &\Longleftrightarrow f \text{dispari (funzione di soli seni)}\\
+			b_n = 0 &\Longleftrightarrow f \text{pari (funzione di soli coseni)}
+			\end{aligned}
+			\end{equation}
+		}
+	}
+	\paragraph{Periodi diversi da $2\pi$} Se ho periodi diversi da $2\pi$, bisogna effettuare una sostituzione:
+	\begin{equation}
+			T=L\qquad y=\frac{tx}{2\pi} \qquad f(x) \rightarrow f(y)\qquad
+			a_n = \frac{2}{L}\int_{-\frac{L}{2}}^{\frac{L}{2}} f(x) \cos \left[\frac{2\pi}{L}nx\right]dx\qquad b_n = \dots
+	\end{equation}
+	\paragraph{Estensione del teorema di CS per la convergenza}
+	Una funzione è sviluppabile come serie di Fourier se è assolutamente integrabile nell'intervallo.\\
+	\textit{In questo modo una funzione con discontinuità di II specie potrebbe essere sviluppabile con Fourier.}
+	\subsection{Uguaglianza di Bessel}
+	\begin{equation}
+		\frac{1}{\pi}\int_{-\pi}^{\pi} \left|f(x)\right|^2dx = \frac{1}{2}a_0^2 + \sum_1^\infty\left(a_n^2 + b_n^2\right)
+	\end{equation}
+	\subsection{Serie di Fourier con numeri complessi}
+	\begin{equation}
+		\begin{aligned}
+			&a_k\cos kx + b_k\sin kx\\
+			&\cos kx = \frac{e^{ikx}+e^{-ikx}}{2} \qquad
+			\sin kx = \frac{e^{ikx}-e^{-ikx}}{2}\\
+			&C_k = \frac{a_k}{2} - i\frac{b_k}{2} \qquad
+			C_{-k} = \frac{a_k}{2} + i\frac{b_k}{2}\\
+			&\Longrightarrow \sum_1\left(a_k \cos kx + b_k \sin kx\right) = \sum_1\left(C_k e^{ikx} + C_k e^{-ikx}\right) = \sum_{-\infty}^{+\infty} C_k e^{ikx}
+		\end{aligned}
+	\end{equation}
+	\section{Equazioni Differenziali}
+	\begin{equation}
+		a_n(x)y^{(n)}(x) + a_n(x)y^{(n-1)}(x) +\dots+a_0(x)y(x)=0
+	\end{equation}
+	in cui $a_n$ sono funzioni di $x$ e $y^{(n)}(x)$ è la funzione incognita.\\
+	Un'equazione differenziale di tale tipologia si dice \emph{ordinaria di ordine $n$ e grado $m$}.
+	\subsection{Forma Normale}
+	\begin{equation}
+		y^{(n)}(x)=F\left(x,y(x),y'(x),\dots,y^{(n-1)}(x)\right)
+	\end{equation}
+	\subsection{Problema di Cauchy}
+	\paragraph{Teorema di esistenza e unicità in piccolo} Data il seguente sistema
+	\begin{equation}
+		\begin{cases}
+			y'(x)=f(x,y(x))\\
+			y(x_0)=y_0 \quad \textit{$\longleftarrow$ Problema di Cauchy}
+		\end{cases}
+	\end{equation}
+	se $f$ e $f_y$ sono continue in $I(x_0, y_0)$, allora esiste una sola soluzione del problema di Cauchy in $I$.
+	\subsection{Tipi di Integrali}
+	\begin{itemize}
+		\item \textbf{Integrale Generale} (ha la costante $D$): \qquad $y^a = P(x) + D$
+		\item \textbf{Integrale Particolare} (non ha la costante): \qquad $y=P(x)^\frac{1}{a}$
+		\item \textbf{Integrale Singolare}: è l'identità data sostituendo a $y$ nel problema di Cauchy i valori in cui l'equazione in $y$ non è determinata. Potrebbe non esistere.
+	\end{itemize}
+\end{document}
