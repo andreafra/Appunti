@@ -1,0 +1,130 @@
+\documentclass[10pt,a4paper,fleqn]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage[margin=0.7in]{geometry}
+\usepackage{enumitem}
+
+\author{Andrea Franchini}
+\title{Formule Utili di Analisi II}
+
+\begin{document}
+    \section*{Serie di potenze come funzioni}
+    \renewcommand{\arraystretch}{2}
+    \begin{tabular}{|c|l|c|}
+        \hline
+        $\sin x$
+        &$\sum^{\infty}_{k=0}(-1)^k\frac{x^{2k+1}}{(2k+1)!}$
+        &$(-\infty, +\infty)$\\
+        \hline
+        $\cos x$
+        &$\sum^{\infty}_{k=0}(-1)^k\frac{x^{2k}}{(2k)!}$
+        &$(-\infty, +\infty)$\\
+        \hline
+        $e^x$
+        &$\sum^{\infty}_{k=0}\frac{x^k}{k!}$
+        &$(-\infty, +\infty)$\\
+        \hline
+        $\frac{1}{1-x}$
+        &$\sum^{\infty}_{k=0}x^k$
+        &$(-\infty, \infty)$\\
+        \hline
+    \end{tabular}
+    \begin{tabular}{|c|l|c|}
+        \hline
+        $\frac{1}{1+x}$
+        &$\sum^{\infty}_{k=0} (-1)^k x^k$
+        &$(-\infty, +\infty)$\\
+        \hline
+        $\frac{1}{1-x^2}$
+        &$\sum^{\infty}_{k=0} (-1)^k x^{2k}$
+        &$(-\infty, +\infty)$\\
+        \hline
+        $\arctan x$
+        &$\sum^{\infty}_{k=0} (-1)^k\frac{x^{2k+1}}{2k+1}$
+        &$[-\infty, +\infty]$\\
+        \hline
+        $\log (1+x)$
+        &$\sum^{\infty}_{k=0}(-1)^k \frac{x^{k+1}}{k+1}$
+        &$(-\infty, \infty)$\\
+        \hline
+    \end{tabular}
+    \subsection*{Serie di Fourier}
+    Consideriamo una funzione periodica $f$ di periodo $L$:
+    \[
+    f(x) \approx \frac{a_0}{2} + \sum_{k=1}^{\infty}\left(a_k \cos \frac{2k\pi}{L}x + b_k \sin\frac{2k\pi}{L}x\right)
+    \]
+    allora
+    \[
+    a_k = \frac{2}{L}\int^{\frac{L}{2}}_{-\frac{L}{2}}f(x)\cos\frac{2k\pi}{L}xdx\\
+    b_k = \frac{2}{L}\int^{\frac{L}{2}}_{-\frac{L}{2}}f(x)\sin\frac{2k\pi}{L}xdx
+    \]
+    \subsection*{Uguaglianza di Parseval}
+    \[
+    \int^{\frac{L}{2}}_{-\frac{L}{2}}f(x)^2dx = \frac{L}{2}\left[\frac{a_0^2}{2} + \sum_{k=1}^{\infty}\left(a^2_k + b^2_k\right)\right]
+    \]
+    \subsection*{Ricerca di un integrale particolare\\dell'equazione $y''(t)+ay'(t)+by(t)=0$}
+    \begin{itemize}
+        \item Sia $f(t)=P_m(t)$, polinomio di grado $m \geq 0$, allora $y(t)=P_q(t)$ ove $q=m+r$, essendo r l'ordine minimo di derivazione con cui appare la $y(t)$ nell’equazione differenziale.
+        \item Sia $f(t)=he^{kt}, k \not = 0$
+        \begin{itemize}
+            \item se $k$ non è radice dell'equazione caratteristica $y(t)=Ae^{kt}$
+            \item se $k$ è radice $r$-pla dell'equazione caratteristica $y(t)=At^re^{kt}$
+        \end{itemize}
+        \item Sia $f(t)=P_m(t)e^{kt}$ allora $y(t)=P_q(t)e^{kt}$ ove
+        \begin{itemize}
+            \item $q=m$ se $k$ non è radice dell'equazione caratteristica
+            \item $q=m+r$ se $k$ è radice $r$-pla dell'equazione caratteristica
+        \end{itemize}
+        \item Sia $f(t)=h\sin(kt)$ oppure $f(t)=h\cos(kt)$:
+        \begin{itemize}
+            \item se $\pm ik$ non sono radici dell'equazione caratteristica allora $y(t)=A\sin(kt)+B\cos(kt)$
+            \item se $\pm ik$ sono radici dell'equazione caratteristica $y(t)=t(A\sin(kt)+B\cos(kt))$
+        \end{itemize}
+        \item Sia $f(t)=e^{pt} \cos(qt)$ oppure $f(t)=e^{pt} \sin(qt)$
+        \begin{itemize}
+            \item se $p \pm iq$ non sono radici dell'equazione caratteristica $y(t)=e^{pt} (A \cos(qt) + B \sin(qt))$
+            \item se $p \pm iq$ sono radici dell'equazione caratteristica
+            $y(t)=e^{pt} (A \cos(qt) + B \sin(qt))$
+        \end{itemize}
+    \end{itemize}
+    \pagebreak
+    \subsection*{Equazione di Eulero}
+    \[
+        x^2 y''(x)+ bxy'(x) + cy(x) = f(x)
+    \]
+    Supponiamo $x>0$ e poniamo $x=e^t$,
+    \begin{multline*}
+        y(x)=y(e^t)=u(t)\\
+        u'(t)=y'(e^t)e^t\\
+        u''(t)=y''(e^t)e^{2t}+y'(e^t)e^t\\
+        y'(e^t)=u'(t)e^{-t}\\
+        y''(e^t)e^{2t}=u''(t)-y'(e^t)e^t=u''(t)-u'(t)e^{-t}e^t\\
+        y''(e^t)=\left[u''(t)-u'(t)\right]e^{-2t}\\
+    \end{multline*}
+    Quindi l'equazione di partenza diventa
+    \begin{multline*}
+        e^{2t}\left[u''(t)-u'(t)\right]e^{-2t}+be^tu'(t)e^{-t}+cu(t)=f(e^t)\\
+        u''(t)+(b-1)u'(t)+cu(t)=f(t)\\
+    \end{multline*}
+    \subsubsection*{Esempi}
+    \begin{minipage}{0.5\textwidth} 
+        \begin{multline*}
+            x^2 y''(x) + xy'(x)-y(x)=1 \quad\text{diventa}\\
+            u''(t)-u(t)=1\\
+            u(t)=Ae^t+Be^{-t}-1\\
+            y(x)=Ax+Bx^{-1}-1\\
+        \end{multline*}
+    \end{minipage}
+    \begin{minipage}{0.5\textwidth} 
+        \begin{multline*}
+            x^2 y''(x) -5xy'(x) + 8y(x)=x^3 \quad\text{diventa}\\
+            u''(t)-6u'(t) + 8u(t)= e^{3t}\\
+            u(t)=Ae^{4t}+Be^{2t}-e^{3t}\\
+            y(x)=Ax^4+Bx^2-x^3\\
+        \end{multline*}
+    \end{minipage}
+
+\end{document}
