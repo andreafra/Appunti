@@ -51,21 +51,27 @@
         &$(-\infty, \infty)$\\
         \hline
     \end{tabular}
+
     \subsection*{Serie di Fourier}
+
     Consideriamo una funzione periodica $f$ di periodo $L$:
     \[
-    f(x) \approx \frac{a_0}{2} + \sum_{k=1}^{\infty}\left(a_k \cos \frac{2k\pi}{L}x + b_k \sin\frac{2k\pi}{L}x\right)
+    f(x) \approx \frac{a_0}{2} + \sum_{k=1}^{\infty}\left(a_k \cos \left(\frac{2k\pi}{L}x\right) + b_k \sin\left(\frac{2k\pi}{L}x\right)\right)
     \]
     allora
     \[
-    a_k = \frac{2}{L}\int^{\frac{L}{2}}_{-\frac{L}{2}}f(x)\cos\frac{2k\pi}{L}xdx\\
-    b_k = \frac{2}{L}\int^{\frac{L}{2}}_{-\frac{L}{2}}f(x)\sin\frac{2k\pi}{L}xdx
+    a_k = \frac{2}{L}\int^{\frac{L}{2}}_{-\frac{L}{2}}f(x)\cos\left(\frac{2k\pi}{L}x\right)dx\\
+    b_k = \frac{2}{L}\int^{\frac{L}{2}}_{-\frac{L}{2}}f(x)\sin\left(\frac{2k\pi}{L}x\right)dx
     \]
+
     \subsection*{Uguaglianza di Parseval}
+
     \[
     \int^{\frac{L}{2}}_{-\frac{L}{2}}f(x)^2dx = \frac{L}{2}\left[\frac{a_0^2}{2} + \sum_{k=1}^{\infty}\left(a^2_k + b^2_k\right)\right]
     \]
+
     \subsection*{Ricerca di un integrale particolare\\dell'equazione $y''(t)+ay'(t)+by(t)=0$}
+
     \begin{itemize}
         \item Sia $f(t)=P_m(t)$, polinomio di grado $m \geq 0$, allora $y(t)=P_q(t)$ ove $q=m+r$, essendo r l'ordine minimo di derivazione con cui appare la $y(t)$ nell’equazione differenziale.
         \item Sia $f(t)=he^{kt}, k \not = 0$
@@ -91,7 +97,9 @@
         \end{itemize}
     \end{itemize}
     \pagebreak
+
     \subsection*{Equazione di Eulero}
+
     \[
         x^2 y''(x)+ bxy'(x) + cy(x) = f(x)
     \]

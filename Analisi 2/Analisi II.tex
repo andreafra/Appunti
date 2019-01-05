@@ -86,7 +86,14 @@
 	
 	con $\varepsilon_1\rightarrow 0$ quando $\varDelta x \rightarrow 0$, idem per $\varepsilon_2$, $\varDelta y$.
 	
-	Se $f_x$ e $f_y$ sono continue, allora $f$ è differenziabile in un punto. Se non lo sono, non posso dire nulla.
+	Se $f(x,y)$ è differenziabile in un punto, allora:
+	\begin{itemize}
+		\item $f(x,y)$ è continua in $(x_0, y_0)$
+		\item $f(x,y)$ ammette derivate direzionali in $(x_0, y_0)$ lungo ogni direzione di $\vec v \in \rm I\!R^2$
+		\item esistono le derivate parziali $f_x(x,y)$ e $f_y(x,y)$
+	\end{itemize}
+
+	Se $f_x$ e $f_y$ sono continue (ed esistono) in $(x_0, y_0)$, allora $f(x,y)$ è differenziabile in quel punto. Se non lo sono, non posso dire nulla.
 	
 	$f$ differenziabile $\Rightarrow f$ continua.
 	
@@ -121,8 +128,13 @@
 
 	$(a, b) \in D_f$ è un punto critico se:
 	
-	$f_x(a, b) = f_y(a, b) = 0$ \qquad \textit{oppure} \qquad
-	$\nexists$ almeno una derivata parziale.
+	\begin{equation}
+		\vec \nabla f(x,y) = 0 \Rightarrow
+		\begin{cases}
+			f_x(a, b) = 0 \\
+			f_y(a, b) = 0
+		\end{cases}
+	\end{equation}
 
 	\subsection{Punto di sella} (analogo del punto di flesso per le funzioni in due variabili)
 
@@ -130,8 +142,8 @@
 	
 	\begin{equation}
 	\begin{split}
-	\forall I(a, b) \qquad &\exists punti (x, y) | f(x, y) \leq f(a, b)\qquad \mathbf{e}\\
-	&\exists punti (x', y') | f(x', y') \geq f(a, b)
+	\forall I(a, b) \qquad &\exists \text{ punti } (x, y) \mid f(x, y) \leq f(a, b)\qquad \mathbf{e}\\
+	&\exists \text{ punti } (x', y') \mid f(x', y') \geq f(a, b)
 	\end{split}
 	\end{equation}
 	
@@ -162,7 +174,7 @@
 
 	\subsection{Determinante Hessiano}
 
-	Anzichè scrivere la precedente forma (11), conviene calcolare il seguente determinante:
+	Anzichè scrivere la precedente forma (11), conviene calcolare il seguente determinante, sostituendo a $(x, y)$ il punto $(a,b)$:
 	\begin{equation}
 	H = \begin{vmatrix}
 	f_{xx}(a,b) & f_{xy}(a,b) \\
@@ -277,10 +289,10 @@
 	x=x(u,v)\\ y=y(u,v)
 	\end{cases} \in C^0(A) \qquad (u,v) \rightarrow (x(u,v),y(u,v))\\
 	&(\rm I\!I)\quad\tau: A \rightarrow \tau(A)=B \quad\text{biunivoca}\\\\
-	&(\rm I\!I\!I)\quad\det J=frac{\partial(u,v)}{\partial(x,y)} = \begin{vmatrix}
+	&(\rm I\!I\!I)\quad\det J=\frac{\partial(u,v)}{\partial(x,y)} = \begin{vmatrix}
 	\frac{\partial x}{\partial u} & \frac{\partial x}{\partial v}\\
 	\frac{\partial y}{\partial u} & \frac{\partial y}{\partial v}
-	\end{vmatrix} \neq 0 \qquad \textit{(matrice Jacobiana)}\\
+	\end{vmatrix} \neq 0 \qquad \text{(matrice Jacobiana)}\\
 	\end{split}
 	\end{equation}
 	Se ho \rm I, \rm I\!I, \rm I\!I\!I, la trasformazione è regolare.
@@ -294,7 +306,7 @@
 	\item $\gamma$ è una curva \emph{regolare} se:
 	\begin{enumerate}
 		\item $\gamma(t) \in C^1([a,b])$
-		\item $\gamma'(t)\neq 0 \forall t \in (a,b)$
+		\item $\gamma'(t)\neq 0 \quad\forall t \in (a,b)$
 		\item $\gamma(t)$ semplice
 	\end{enumerate}
 	\end{itemize}
@@ -311,8 +323,8 @@
 	Calcolo la distanza fra due punti:
 	\begin{equation}
 	\begin{aligned}
-	P_{i+1} - P_i &= \sqrt{[x(t_{i+1}-x(t_i)]^2+[y(t_{i+1})-y(t_i)]^2}=\\
-	&=\sqrt{[(t_{i+1}-t_i)x'(\alpha)]^2+[(t_{i+1}-t_i)y'(\beta)]^2}=\\
+	P_{i+1} - P_i &= \sqrt{[x(t_{i+1}-x(t_i)]^2+[y(t_{i+1})-y(t_i)]^2}\\
+	&=\sqrt{[(t_{i+1}-t_i)x'(\alpha)]^2+[(t_{i+1}-t_i)y'(\beta)]^2}\\
 	&=(t_{i+1}-t_i)\sqrt{s'^2(\alpha)+y'^2(\beta)}
 	\end{aligned}
 	\end{equation}
@@ -393,7 +405,7 @@
 
 	\subsection{Rotore}
 
-	Se il rotore rot $\vec\omega=0$, la \emph{fdl} è chiusa e il campo è detto \emph{irrotazionale}.
+	Se il rotore rot $\vec\omega=0$, la \emph{fdl} è chiusa e il campo è detto \emph{irrotazionale}. \\Se $X_y = Y_x$, allora rot $ \vec\omega = 0$.
 	\begin{equation}
 	\text{rot}\:\vec\omega=\begin{vmatrix}
 	\vec i & \vec j & \vec k\\
@@ -410,17 +422,19 @@
 	\subsection{Calcolo del potenziale}
 
 	\begin{enumerate}
-	\item Trovo le derivate $X_y$ e $Y_x$\quad $\omega(x,y)=(Xdx, Ydy)$ e verifico che rot $\vec\omega=0$.\\\textbf{Se $X_y = Y_x$, allora rot $ \vec\omega = 0$}
+	\item Trovo le derivate $X_y$ e $Y_x$\quad $\omega(x,y)=(Xdx, Ydy)$ e verifico che rot $\vec\omega=0$.\\
+	\textbf{Se $X_y = Y_x$, allora rot $ \vec\omega = 0$}
+
 	\item Calcolo il potenziale con la spezzata in $\rm I\!R^3$:
 		\begin{equation}
-		\begin{aligned}
-		&U(x,y)=\int_a^b Xdx + g(y)\\
-		&\textit{$g(y)$ è la funzione della variabile rispetto alla quale non integro.}\\
-		&\frac{\partial U}{\partial y} = g'(y) \longrightarrow g(y)=\int g'(y)dy = (...)+c \qquad \textit{sostituisco $g(y)$ in $U(x,y)$.}\\
-		&\text{}
-		\end{aligned}
+		U(x,y)=\int Xdx + g(y)
 		\end{equation}
-		\item Nel caso avessi più di due variabili, nel passo 2 anzichè scrivere $c$ scriverò $h(z)$ (e $g(y)$ diventerà $g(y,z)$).
+		$g(y)$ è la funzione della variabile rispetto alla quale non integro.
+		\begin{equation}
+		\frac{\partial U}{\partial y} + g'(y) = Y \longrightarrow g(y)=\int g'(y)dy = (...)+c
+		\end{equation}
+		\item Sostituisco $g(y)$ in $U(x,y)$
+		\item Nel caso avessi più di due variabili, nel passo 2 anzichè scrivere $c$ scriverò $h(z)$ (e $g(y)$ diventerà $g(y,z)$)
 	\end{enumerate}
 	
 	\section{Serie di potenze}
@@ -598,7 +612,7 @@
 	Se $f(t) = 0$ l'equazione si dice omogenea.
 	L'integrale generale si calcola con la seguente formula
 	\begin{equation}
-		y(t)=e^{-A(t)}\left[C_1 + \int g(t)e^{A(t)}\right]dt \qquad \text{in cui}\quad A(t) = \int a(t)dt
+		y(t)=e^{-A(t)}\left[C_1 + \int f(t)e^{A(t)}\right]dt \qquad \text{in cui}\quad A(t) = \int a(t)dt
 	\end{equation}
 	Con quest'ultima equazione posso eventualmente verificare la soluzione al problema di Cauchy.
 
