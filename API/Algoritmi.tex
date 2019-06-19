@@ -1,0 +1,64 @@
+\documentclass[10pt,a4paper]{article}
+% Use Helvetica
+\usepackage[scaled]{helvet}
+% Use it as default
+\renewcommand\familydefault{\sfdefault} 
+\usepackage[T1]{fontenc}\usepackage[utf8]{inputenc}
+
+\usepackage{graphicx}
+% Add margins
+\usepackage[margin=0.4in]{geometry}
+
+% Code
+\newcommand{\code}{\texttt}
+
+% Lists have tiny bullet
+\renewcommand\labelitemi{\tiny$\bullet$}
+
+\author{Andrea Franchini}
+\title{Appunti di Algoritmi}
+
+\begin{document}
+\section{Complessit\`a del calcolo}
+   \subsection*{Caso pessimo}
+   $T_M(n) = \max\left\{T_M(x), |x|=n\right\}$\\
+   $S_M(n) = \max\left\{T_M(x), |x|=n\right\}$
+   \subsection*{Notazioni}
+   \begin{itemize}
+       \item O-grande: limite asintotico superiore.\\
+       Data $g(n)$, $O(g(n)) = \left\{f(n) \mid \exists c,n_0 \left(c,n_0 > 0 : \forall n \ge n_0 0 \le f(n) \le cg(n)\right)\right\}$
+
+       \item $\Omega$-grande: limite asintotico inferiore.\\
+       Data $g(n)$, $\Omega(g(n)) = \left\{f(n) \mid \exists c,n_0 \left(c,n_0 > 0 : \forall n \ge n_0 0 \le cg(n)  \le f(n) \right)\right\}$
+
+       \item $\Theta$-grande: limite asintotico sia superiore sia inferiore.\\
+       Data $g(n)$, $\Theta(g(n)) = \left\{f(n) \mid \exists c_1,c_2,n_0 \left(c_1,c_2,n_0 > 0 : \forall n \ge n_0 0 \le c_1g(n) \le f(n) \le c_2g(n)\right)\right\}$
+   \end{itemize}
+\section{Teoremi di accelererazione lineare}
+\begin{itemize}
+    \item Se $L$ \`e accettato da una MT $M$ a $k$ nastri con complessit\`a $S_M(n)$, per ogni $c > 0 (c \in R)$ si pu\`o costruire una MT $M'$ a $k$ nastri con complessit\`a $S_{M'}(n) < c S_M(n)$
+    
+    \item Se $L$ \`e accettato da una MT $M$ a $k$ nastri con complessit\`a $S_M(n)$, si pu\`o costruire una MT $M'$ a 1 nastro (\textit{non} a nastro singolo) con complessit\`a $S_{M'}(n) = S_M(n)$
+
+    \item Se $L$ \`e accettato da una MT $M$ a $k$ nastri con complessit\`a $S_M(n)$, per ogni $c > 0 (c \in R)$ si pu\`o costruire una MT $M'$ a 1 nastro con complessit\`a $S_{M'}(n) < cS_M(n)$
+
+    \item Se $L$ \`e accettato da una MT $M$ a $k$ nastri con complessit\`a $T_M(n)$, per ogni $c > 0 (c \in R)$ si pu\`o costruire una MT $M'$ (a $k+1$ nastri) con complessit\`a $T_{M'}(n) = \max \left\{n+1, cT_M(n)\right\}$
+\end{itemize}
+\paragraph{Conseguenze pratiche}
+\begin{itemize}
+    \item Lo schema di dimostrazione \`e valido per qualsiasi tipo di modello di calcolo, quindi anche per calcolatori reali (es.: aumentare il parallelismo fisico (16bit $\rightarrow$ 32bit $\rightarrow \dots$)).
+    \item Aumentando la potenza di calcolo in termini di risorse disponibili si pu\`o aumentare la velocit\`a di esecuzione, ma il miglioramento \`e al pi\`u lineare.
+    \item Miglioramenti di grandezza superiore possono essere ottenuti solo cambiando algoritmo e non in modo automatico.
+\end{itemize}
+\section{Macchina RAM}
+\begin{tabular}{l|l|l}
+    \hline
+    Comando & Operazione & Complessit\`a\\
+    \hline
+    \code{LOAD X} & \code{M[0] = M[X]} & \\
+    \code{LOAD= X} & \code{M[0] = X} & \\
+    \code{LOAD* X} & \code{M[0] = M[M[X]]} & \\
+
+\end{tabular}
+
+\end{document}
