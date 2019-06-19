@@ -4,14 +4,17 @@
 % Use it as default
 \renewcommand\familydefault{\sfdefault} 
 \usepackage[T1]{fontenc}\usepackage[utf8]{inputenc}
-
+\usepackage{amsmath}
 \usepackage{graphicx}
+\usepackage{tabularx}
+\usepackage{multicol}
 % Add margins
 \usepackage[margin=0.4in]{geometry}
 
 % Code
 \newcommand{\code}{\texttt}
-
+\usepackage{listings}
+\lstset{basicstyle=\ttfamily, mathescape=true}
 % Lists have tiny bullet
 \renewcommand\labelitemi{\tiny$\bullet$}
 
@@ -19,7 +22,7 @@
 \title{Appunti di Algoritmi}
 
 \begin{document}
-\section{Complessit\`a del calcolo}
+\section*{Complessit\`a del calcolo}
    \subsection*{Caso pessimo}
    $T_M(n) = \max\left\{T_M(x), |x|=n\right\}$\\
    $S_M(n) = \max\left\{T_M(x), |x|=n\right\}$
@@ -34,7 +37,7 @@
        \item $\Theta$-grande: limite asintotico sia superiore sia inferiore.\\
        Data $g(n)$, $\Theta(g(n)) = \left\{f(n) \mid \exists c_1,c_2,n_0 \left(c_1,c_2,n_0 > 0 : \forall n \ge n_0 0 \le c_1g(n) \le f(n) \le c_2g(n)\right)\right\}$
    \end{itemize}
-\section{Teoremi di accelererazione lineare}
+\section*{Teoremi di accelererazione lineare}
 \begin{itemize}
     \item Se $L$ \`e accettato da una MT $M$ a $k$ nastri con complessit\`a $S_M(n)$, per ogni $c > 0 (c \in R)$ si pu\`o costruire una MT $M'$ a $k$ nastri con complessit\`a $S_{M'}(n) < c S_M(n)$
     
@@ -50,15 +53,201 @@
     \item Aumentando la potenza di calcolo in termini di risorse disponibili si pu\`o aumentare la velocit\`a di esecuzione, ma il miglioramento \`e al pi\`u lineare.
     \item Miglioramenti di grandezza superiore possono essere ottenuti solo cambiando algoritmo e non in modo automatico.
 \end{itemize}
-\section{Macchina RAM}
-\begin{tabular}{l|l|l}
-    \hline
-    Comando & Operazione & Complessit\`a\\
-    \hline
-    \code{LOAD X} & \code{M[0] = M[X]} & \\
-    \code{LOAD= X} & \code{M[0] = X} & \\
-    \code{LOAD* X} & \code{M[0] = M[M[X]]} & \\
 
-\end{tabular}
+\section*{Macchina RAM}
+\begin{multicols}{2}
+\subsection*{Glossario}
 
+\textit{Accumulatore}: \`e la prima cella del modello della memoria, indicata con \code{M[0]}.\\
+\textit{Immediato}: \`e un numero intero.\\
+\textit{ADD}: Sono le operazioni elementari di somma (\code{ADD}), sottrazione (\code{SUB}), moltiplicazione (\code{MULT}), divisione (\code{DIV}).
+
+\subsection*{Costi Logaritmici}
+Il costo della copia di un numero $n$ da una cella all'altra \`e tante micro-operazioni elementari quanti sono i bit necessari a codificare $n$, cio\`e $\log(n)$.\\
+Il costo dell'accesso ad una cella di posizione $n$-esima \`e l'apertura di $\log(n)$ gate logici ad altrettanti banchi di memoria.\\
+In forma sintetica:
+\begin{equation*}
+    l(i) = \textit{if } i=0 \textit{ then } 1
+    \textit{ else } \left\lfloor\log_2|i|\right\rfloor + 1
+\end{equation*}
+
+\subsection*{Teorema di correlazione polinomiale}
+Sotto ``ragionevoli'' ipotesi di criteri di costo (il criterio di costo costante per la RAM non \`e ragionevole) se un problema \`e risolvibile mediante un modello di calcolo $M_1$ con complessit\`a $C_1(n)$, allora \`e risolvibile da qualsiasi altro modello di calcolo $M_2$ con complessit\`a $C_2(n) \le P_2(C_1(n))$, essendo $P_2$ un opportuno polinomio.
+\end{multicols}
+\begin{tabularx}{\linewidth}{l r|l|l|X}
+    \hline
+    Comando && Operazione & Complessit\`a & Descrizione\\
+    \hline
+    \code{LOAD} &\code{X}& \code{M[0] = M[X]} & $l(x)$ & Carica in \code{M[0]} il contenuto della cella X\\
+    \code{LOAD=} &\code{X}& \code{M[0] = X} & $l(x) + l(M[x])$ & Carica in \code{M[0]} l'immediato X\\
+    \code{LOAD*} &\code{X}& \code{M[0] = M[M[X]]} & $l(x) + l(M[x]) + l(M[M[x]])$ & Carica in \code{M[0]} dall'indirizzo M[X]\\
+    \code{STORE} &\code{X}& \code{M[X] = M[0]} & $l(x) + l(M[0])$ & Carica in \code{M[X]} il contenuto di M[0]\\
+    \code{STORE*} &\code{X}& \code{M[X] = M[M[0]]} & $l(x) + l(M[x]) + l(M[0])$& Carica in \code{M[X]} dall'indirizzo M[0]\\
+    \code{ADD} &\code{X}& \code{M[0] = M[0] + M[X]} & $l(M[0]) + l(x) + l(M[x])$ & Carica in \code{M[0]} il risultato dell'operazione\\
+    \code{ADD=} &\code{X}& \code{M[0] = M[0] + X} & $l(M[0]) + l(x)$ &\\
+    \code{ADD*} &\code{X}& \code{M[0] = M[0] + M[M[X]]} & $l(M[0]) + l(x) + l(M[x]) + l(M[M[x]])$ &\\
+
+    \code{READ} &\code{X}& \code{M[X] = read()} & $l(\textit{input value}) + l(x)$& Salva in X il valore letto in input\\
+    \code{READ*} &\code{X}& & $l(\textit{input value}) + l(x) + l(M[x])$ & \\
+    \code{WRITE} &\code{X}& write(M[X] ) & $l(x) + l(M[x])$ & Scrive in output il valore di X\\
+    \code{WRITE=} &\code{X}& write(X) & $l(x)$ & Scrive in output l'immediato X\\
+    \code{WRITE*} &\code{X}& write(M[M[X]]) & $l(x) + l(M[x]) + l(M[M[x]])$ & Scrive in output l'indirizzo di X\\
+    \code{JUMP} &\code{label}& \code{PC= b(label)} & $1$ & Salta alla label indicata\\
+    \code{JZ} &\code{label}& \code{if M[0] == 0}& $l(M[0])$& Salta alla label indicata se l'accumulatore \`e $0$.\\
+    \code{JGZ} &\code{label}& \code{if M[0] > 0}& $l(M[0])$& Salta alla label indicata se l'accumulatore \`e maggiore di $0$.\\
+    \code{HALT} && & $1$& Interrompe l'esecuzione del programma.\\
+\end{tabularx}
+
+\section*{Algoritmi}
+
+Si adotta il criterio di \textbf{costo costante} (manipoliamo numeri che non richiedono quantit\`a di memoria molto pi\`u grandi della dimensione dell'input). \\
+Ogni istruzione viene eseguita in un tempo costante $c_i$.
+
+\subsection*{Complessit\`a di un algoritmo \textit{divide et impera}}
+\begin{itemize}
+    \item Si divide il problem in $b$ sottoproblemi, ciascuno con dimensione $\frac{1}{b}$.
+    \item Se il problema ha dimensione $n$ piccola a sufficienza ($n < c$, $c$ costante caratteristica del problema), esso pu\`o essere risolto in tempo costante ($\Theta(1)$).
+    \item $D(n)$ \`e il costo di dividere il problema, e $C(n)$ \`e il costo di ricombinare i sottoproblemi. $T(n)$ \`e il costo per risolvere il problema totale.
+\end{itemize}
+\begin{equation*}
+    \text{Equazione di Ricorrenza} \quad T(n) = 
+    \begin{cases}
+        \Theta(1) \qquad \text{se } n < c\\
+        D(n) + aT(\frac{n}{b}) + C(n) \quad  \text{altrimenti}
+    \end{cases}
+\end{equation*}
+
+\pagebreak
+
+\begin{multicols*}{2}
+\subsection*{Insertion Sort}
+\begin{lstlisting}
+INSERTION-SORT(A)
+    for j = 2 to A.length
+        key = A[j]
+    i = j - 1
+    while i > 0 and A[i] > key
+        A[i+1] = A[i]
+        i = i - 1
+    A[i+1] = key
+\end{lstlisting}
+\subsection*{Merge Sort}
+\begin{lstlisting}
+MERGE-SORT(A, p, r)
+    if p < r
+        q = $\lfloor$(p+r)/2$\rfloor$
+        MERGE-SORT(A, p, q)
+        MERGE-SORT(A, q+1, r)
+        MERGE(A, p, q, r)
+
+MERGE (A, p, q, r)
+$n_1$ = q-p+1
+$n_2$ = r-q
+CreaArray(L[1...$n_1$+1] e R[1...$n_2$+1])
+for i = 1 to $n_1$
+    L[i] = A[p+i-1]
+for j = 1 to $n_2$
+    R[j] = A[q+j]
+L[$n_1$+1] = $\infty$
+R[$n_2$+1] = $\infty$
+i = 1
+j = 2
+for k = p to r
+    if L[i] <= R[j]
+        A[k] = L[i]
+        i = i+1
+    else
+        A[k] = R[j]
+        j = j+1
+\end{lstlisting}
+\subsection*{Heapsort}
+\begin{lstlisting}
+PARENT(i)
+    return $\lfloor i/2\rfloor$
+LEFT(i)
+    return 2*i
+RIGHT(i)
+    return 2*i+1
+
+MAX-HEAPIFY(A, i)
+    l = LEFT(i)
+    r = RIGHT(i)
+    if l <= A.heapsize and A[l] > A[i]
+        max = l
+    else
+        max = i
+    if r <= A.heapsize and A[r] > A[max]
+        max = r
+    if max != i
+        swap A[i] $\leftrightarrow$ A[max]
+        MAX-HEAPIFY(A, max)
+
+BUILD-MAX-HEAP(A)
+    A.heapsize = A.length
+    for i = A.length/2 to 1
+        MAX-HEAPIFY(A, i)
+
+HEAPSORT(A)
+    BUILD-MAX-HEAP(A)
+    for i = A.length to 2
+        swap A[1] $\leftrightarrow$ A[i]
+        A.heapsize = A.heapsize - 1
+        MAX-HEAPIFY(A, 1)
+\end{lstlisting}
+\subsection*{Quicksort}
+\begin{lstlisting}
+QUICKSORT(A, p, r)
+    if p < r
+        q = PARTITION(A, p, r)
+        QUICKSORT(A, p, q-1)
+        QUICKSORT(A, q+1, r)
+
+PARTITION(A, p, r)
+    x = A[r]
+    i = p-1
+    for j = p to r-1
+        if A[j] <= X
+            i = i+1
+            swap A[i] $\leftrightarrow$ A[j]
+    swap A[i+1] $\leftrightarrow$ A[r]
+    return i+1
+\end{lstlisting}
+\subsection*{Counting Sort}
+\begin{lstlisting}
+COUNTING-SORT(A, B, k)
+    for i = 0 to k
+        C[i] = 0
+    for j = 1 to A.length
+        C[A[j]] = C[A[j]] + 1
+    for i = 1 to k
+        C[i] = C[i] + C[i-1]
+    for j = A.length to 1
+        B[C[A[j]]] = A[j]
+        C[A[j]] = C[A[j]] - 1
+\end{lstlisting}
+\end{multicols*}
+
+\pagebreak
+
+\subsection*{Risoluzione di ricorrenze}
+\begin{itemize}
+    \item Metodo della sostituzione \begin{itemize}
+        \item formulare un'ipotesi di soluzione
+        \item sostituire la soluzione nella ricorrenza, e dimostrazione (per induzione) che \`e in effetti una soluzione.
+    \end{itemize}
+    \item Teorema dell'esperto (Master Theorem) \begin{itemize}
+        \item Data la ricorrenza $T(n) = aT(\frac{n}{b}) + f(n)$, in cui $a\ge1$, $b>1$, $\left\lfloor\frac{n}{b}\right\rfloor$ o $\left\lceil\frac{n}{b}\right\rceil$.
+        \begin{enumerate}
+            \item se $f(n) = O\left(n^{\log_ba-\varepsilon}\right)$ per qualche $\varepsilon>0$, allora $T(n)=\varTheta\left(n^{\log_ba}\right)$
+            \item se $f(n) = \varTheta\left(n^{\log_ba}\right)$, allora $T(n)=\varTheta\left(n^{\log_ba}\log(n)\right)$
+            \item se $f(n) = \varOmega\left(n^{\log_ba+\varepsilon}\right)$ per qualche $\varepsilon>0$, e $af\left(\frac{n}{b}\right)\le cf(n)$ per qualche $c<1$ e per tutti gli $n$ grandi a sufficienza, allora $T(n)=\varTheta(f(n))$
+        \end{enumerate}
+        \item Se $f(n) = \varTheta\left(n^k\right)$, con $k$ una qualche costante:
+        \begin{enumerate}
+            \item se $k < \log_ba \rightarrow T(n) = \varTheta\left(n^{\log_ba}\right)$
+            \item se $k = \log_ba \rightarrow T(n) = \varTheta\left(n^k\log(n)\right)$
+            \item se $k > \log_ba \rightarrow T(n) = \varTheta\left(n^k\right)$
+        \end{enumerate}
+    \end{itemize}
+\end{itemize}
 \end{document}
