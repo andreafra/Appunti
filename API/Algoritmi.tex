@@ -1,22 +1,33 @@
 \documentclass[10pt,a4paper]{article}
+\usepackage[italian]{babel}
 % Use Helvetica
 \usepackage[scaled]{helvet}
 % Use it as default
-\renewcommand\familydefault{\sfdefault} 
+\renewcommand\familydefault{\sfdefault}
 \usepackage[T1]{fontenc}\usepackage[utf8]{inputenc}
+
+\usepackage{enumitem}
+\setlist[itemize]{noitemsep, leftmargin=*}
 \usepackage{amsmath}
 \usepackage{graphicx}
 \usepackage{tabularx}
 \usepackage{multicol}
+\setlength\columnsep{30pt}
+%\setlength{\columnseprule}{0.4pt}
 % Add margins
 \usepackage[margin=0.4in]{geometry}
 
 % Code
 \newcommand{\code}{\texttt}
 \usepackage{listings}
-\lstset{basicstyle=\ttfamily, mathescape=true}
+\lstset{
+    basicstyle=\ttfamily,
+    mathescape=true,
+    resetmargins=true}
 % Lists have tiny bullet
-\renewcommand\labelitemi{\tiny$\bullet$}
+\renewcommand\labelitemi{\textendash}
+\renewcommand\labelitemii{\textendash}
+\renewcommand\labelitemiii{\textendash}
 
 \author{Andrea Franchini}
 \title{Appunti di Algoritmi}
@@ -55,13 +66,13 @@
 \end{itemize}
 
 \section*{Macchina RAM}
-\begin{multicols}{2}
+\begin{multicols*}{2}
 \subsection*{Glossario}
-
-\textit{Accumulatore}: \`e la prima cella del modello della memoria, indicata con \code{M[0]}.\\
-\textit{Immediato}: \`e un numero intero.\\
-\textit{ADD}: Sono le operazioni elementari di somma (\code{ADD}), sottrazione (\code{SUB}), moltiplicazione (\code{MULT}), divisione (\code{DIV}).
-
+\begin{itemize}
+    \item\textit{Accumulatore}: \`e la prima cella del modello della memoria, indicata con \code{M[0]}.
+    \item\textit{Immediato}: \`e un numero intero.
+    \item\textit{ADD}: Sono le operazioni elementari di somma (\code{ADD}), sottrazione (\code{SUB}), moltiplicazione (\code{MULT}), divisione (\code{DIV}).
+\end{itemize}
 \subsection*{Costi Logaritmici}
 Il costo della copia di un numero $n$ da una cella all'altra \`e tante micro-operazioni elementari quanti sono i bit necessari a codificare $n$, cio\`e $\log(n)$.\\
 Il costo dell'accesso ad una cella di posizione $n$-esima \`e l'apertura di $\log(n)$ gate logici ad altrettanti banchi di memoria.\\
@@ -73,7 +84,9 @@ In forma sintetica:
 
 \subsection*{Teorema di correlazione polinomiale}
 Sotto ``ragionevoli'' ipotesi di criteri di costo (il criterio di costo costante per la RAM non \`e ragionevole) se un problema \`e risolvibile mediante un modello di calcolo $M_1$ con complessit\`a $C_1(n)$, allora \`e risolvibile da qualsiasi altro modello di calcolo $M_2$ con complessit\`a $C_2(n) \le P_2(C_1(n))$, essendo $P_2$ un opportuno polinomio.
-\end{multicols}
+\end{multicols*}
+
+\hspace*{-0.7cm}
 \begin{tabularx}{\linewidth}{l r|l|l|X}
     \hline
     Comando && Operazione & Complessit\`a & Descrizione\\
@@ -233,7 +246,7 @@ COUNTING-SORT(A, B, k)
 \begin{itemize}
     \item Metodo della sostituzione \begin{itemize}
         \item formulare un'ipotesi di soluzione
-        \item sostituire la soluzione nella ricorrenza, e dimostrazione (per induzione) che \`e in effetti una soluzione.
+        \item sostituire la soluzione nella ricorrenza, e dimostrazione (per induzione) che \`e in effetti una soluzione
     \end{itemize}
     \item Teorema dell'esperto (Master Theorem) \begin{itemize}
         \item Data la ricorrenza $T(n) = aT(\frac{n}{b}) + f(n)$, in cui $a\ge1$, $b>1$, $\left\lfloor\frac{n}{b}\right\rfloor$ o $\left\lceil\frac{n}{b}\right\rceil$.
@@ -250,4 +263,269 @@ COUNTING-SORT(A, B, k)
         \end{enumerate}
     \end{itemize}
 \end{itemize}
+
+\section*{Strutture dati}
+
+\begin{multicols*}{2}
+\code{S} = collezione, \code{k} = chiave
+\subsection*{Operazioni comuni}
+\begin{itemize}
+    \item \code{SEARCH(S, k)}
+    \item \code{INSERT(S, k)}
+    \item \code{DELETE(S, k)}
+    \item \code{MINIMUM(S)}
+    \item \code{MAXIMUM(S)}
+    \item \code{SUCCESSOR(S, k)}
+    \item \code{PREDECESSOR(S, k)}
+\end{itemize}
+\subsection*{Pila/Stack}
+\begin{itemize}
+    \item Politica \textbf{LIFO} (Last In First Out)
+    \item \code{POP(S)} cancella l'elemento in cima alla pila e lo restituisce
+    \item \code{PUSH(S)} aggiunge un elemento in cima alla pila
+    \item \code{S.top} è l'elemento in cima alla pila
+    \item Se può contenere al massimo $n$ elementi, si implementa come un array di dimensione $n$
+\end{itemize}
+\subsection*{Code/Queue}
+\begin{itemize}
+    \item Politica \textbf{FIFO} (First In First Out)
+    \item \code{ENQUEUE(S)} inserisce un elemento in fondo alla coda
+    \item \code{DEQUEUE(S)} cancella il primo elemento dalla coda
+    \item \code{S.head} è l'elemento nella coda da più tempo
+    \item \code{S.tail} è la posizione dove verrà inserito il nuovo elemento
+\end{itemize}
+\subsection*{Lista doppiamente concatenata}
+\begin{itemize}
+    \item Ogni oggetto $x$ della lista $L$ è costituito da 3 attributi:
+    \begin{itemize}
+        \item \code{key} è il contenuto
+        \item \code{next} è il puntatore all'oggetto seguente
+        \item \code{prev} è il puntatore all'oggetto precedente
+    \end{itemize}
+    \item Se \code{x.next == nil}, \code{x} non ha successore
+    \item Se \code{x.prev == nil}, \code{x} non ha predecessore
+    \item \code{L.head} è il puntatore al primo elemento della lista
+\end{itemize}
+\subsubsection*{Costi di una lista}
+\begin{tabular}{l l}
+    Search & $T(n) = O(n)$\\
+    Insert & $T(n) = O(1)$\\
+    Delete & $T(n) = O(1)$\\
+\end{tabular}
+\subsection*{Dizionario/Dictionary}
+\begin{itemize}
+    \item Supporta solo le operazioni di \code{INSERT}, \code{DELETE}, \code{SEARCH}
+    \item Agli oggetti di un dizionario si accede tramite le chiavi, che sono numeri interi
+    \item Se la cardinalità $m$ dell'insieme delle possibili chiavi è piccola, conviene l'indirizzamento diretto, cioè un array di dimensione $m$ dove ogni chiave $k$ è mappata alla cella corrispondente
+\end{itemize}
+\subsubsection*{Costi di un dizionario}
+\begin{tabular}{l l}
+    Search & $T(n) = O(1)$\\
+    Insert & $T(n) = O(1)$\\
+    Delete & $T(n) = O(1)$\\
+\end{tabular}
+\subsection*{Tabella Hash/Hash Table}
+\begin{itemize}
+    \item Ho una funzione hash $h(k) \in N$ che converte una chiave di qualsiasi tipo in un intero tra $0$ e $m$
+    \item Se la dimensione $m$ della mia tabella è tale che $m \ll |U|$, ci sono sicuramente chiavi tali che $h(k_1) = h(k_2)$: in questo caso ho delle collisioni.
+\end{itemize}
+\subsubsection*{Concatenamento}
+\begin{itemize}
+    \item \emph{Idea:} gli oggetti che vengono mappati sullo stesso slot vengono messi in una lista $L$ concatenata, di lunghezza $|M|L| = [h(k)]|$
+\end{itemize}
+\begin{tabular}{l l l}
+    Search & $T(n) = |M[h(k)]|$ & $M$ è la hash table\\
+    Insert & $T(n) = O(1)$ & $x \not\in M$\\
+    Delete (1) & $T(n) = O(1)$ & double-linked $L$\\
+    Delete (2) & $T(n) = |M[h(k)]|$ & single-linked $L$\\
+\end{tabular}
+\begin{itemize}
+    \item Nel caso pessimo si ha la complessità di una ricerca in una lista di $n$ elementi, cioè $T(n) = O(n)$.
+    \item $\alpha = \frac{n}{m}$ è il \emph{fattore di carico}
+    \item $0\le n \le |U| \rightarrow 0 \le \alpha \le \frac{|U|}{m}$
+\end{itemize}
+\subsubsection*{Ipotesi di hashing uniforme semplice}
+\begin{itemize}
+    \item Ogni chiave ha la stessa probabilità $\frac{1}{m}$ di finire in una qualsiasi delle $m$ celle di $T$, indipendentemente dalle chiavi inserite. La lunghezza media di una lista è quindi:
+    \begin{equation*}
+        E\left(n_j\right) = \frac{1}{m}\sum^m_{i=1}n_i = \frac{n}{m} = \alpha
+    \end{equation*}
+    \item Il tempo medio per cercare una chiave $k$, sia che sia presente o meno nella lista, è 
+    \begin{equation*}
+        T(n) = \varTheta(1+\alpha) \rightarrow T(n) = O(1) \quad\text{(in media)}
+    \end{equation*}
+\end{itemize}
+\subsubsection*{Indirizzamento aperto}
+\begin{itemize}
+    \item La tabella contiene tutte le chiavi, senza memoria aggiuntiva $\rightarrow \alpha \le 1$
+    \item \emph{Idea:} si calcola l'indice dello slot in cui memorizzare l'oggetto. Se è già occupato, se ne cerca un altro libero.
+    \item Quando si cancella un oggetto, si inserisce nello slot un valore convenzionale come \code{DELETED}. La complessità dipende però dalla sequenza di ispezione della funzione di hash anzichè dal fattore di carico
+\end{itemize}
+\subsubsection*{Tecniche di ispezione}
+Introduciamo una seconda funzione di hash $h'(k)$.
+\begin{itemize}
+    \item Lineare
+        \begin{itemize}
+            \item $h(k,i)=\left(h'(k)+1\right) \mod{m}$
+            \item Soffre del fenomeno dell'addensamento (clustering) primario, cioè lunghe sequenze di celle consecutive, che aumentano il tempo di ricerca
+        \end{itemize}
+    \item Quadratica
+        \begin{itemize}
+            \item $h(k,i) = \left(h'(k)+c_1i+c_2i^2\right) \mod{m}$
+            \item $c_1$ e $c_2 (\not= 0)$ sono costanti ausiliarie, scelte opportunamente
+            \item Soffre del fenomeno dell'addensamento secondario: chiavi con la stessa posizione iniziale danno luogo alla stessa sequenza d'ispezione
+        \end{itemize}
+    \item Doppio hashing
+        \begin{itemize}
+            \item $h(k,i) = \left(h_1(k)+ih_2(k)\right) mod{m}$
+            \item $h_1$ e $h_2$ sono funzioni di hash ausiliarie
+            \item Il numero di sequenze d'ispezione è ora $\varTheta(m^2)$, perchè ogni coppia $(h_1(k), h_2(k))$ produce una sequenza di ispezione distinta
+        \end{itemize}
+\end{itemize}
+\subsection*{Albero Binario/Binary Tree}
+\begin{itemize}
+    \item \`E composto da 3 elementi:
+    \begin{itemize}
+        \item un nodo detto \emph{radice}
+        \item un albero binario detto \emph{sottoalbero sinistro}
+        \item un albero binario detto \emph{sottoalbero destro}
+    \end{itemize}
+    \item A ogni nodo è associata una chiave
+\end{itemize}
+\subsubsection*{Binary Search Tree}
+\begin{itemize}
+    \item Per tutti i nodi $x$ del BST, se $l$ è un nodo nel sottoalbero sinistro, allora \code{l.key $\le$ x.key}; se $r$ è un nodo del sottoalbero destro, allora \code{r.key $\ge$ x.key}
+\end{itemize}
+
+\subsubsection*{Attraversamento simmetrico/(in order)}
+Restituisce i nodi ordinati se l'albero è un BST:
+\begin{itemize}
+    \item Prima si visita il sottoalbero sinistro e si restituiscono i suoi nodi
+    \item Si restituisce la radice
+    \item Si visita il sottoalbero destro e si restituiscono i suoi nodi
+\end{itemize}
+    
+\subsubsection*{Successore}
+Il \emph{successore} di un oggetto $x$ in un BST è l'elemento $y$ tale che \code{y.key} è la più piccola tra le chiavi che sono più grandi di \code{x.key}, cioè è il minimo del sottoalbero destro di $x$. Se il sottoalbero di $x$ è vuoto, il successore di $x$ è il primo elemento $y$ che si incontra risalendo nell'albero da $x$ tale che $x$ è nel sottoalbero sinistro di $y$ (\small{salgo dai ``right'' finchè non risalgo da un ``left''})
+
+\subsubsection*{Predecessore}
+Il \emph{predecessore} di un oggetto $x$ in un BST è l'elemento $y$ tale che \code{y.key} è la più grande tra le chiavi che sono più piccole di \code{x.key}, cioè è il massimo del sottoalbero sinistro di $x$. Se il sottoalbero di $x$ è vuoto, il predecessore di $x$ è il primo elemento $y$ che si incontra risalendo nell'albero da $x$ tale che $x$ è nel sottoalbero destro di $y$ (\small{salgo dai ``left'' finchè non risalgo da un ``right''})
+
+\subsubsection*{Inserimento}
+Scendo nell'albero finchè non si raggiunge il posto in cui il nuovo elemento deve essere inserito, e lo si aggiunge come foglia.
+
+\subsubsection*{Cancellazione} Ci sono 3 possibili casi per cancellare un nodo $z$:
+    \begin{itemize}
+        \item Il nodo $z$ non ha sottoalberi: si mette a \code{nil} il puntatore del padre di z
+        \item Il nodo $z$ ha 1 sottoalbero: bisogna spostare il sottoalbero di $z$ in su di un livello.
+        \item Il nodo $z$ ha 2 sottoalberi: bisogna trovare il successore di $z$, copiare la chiave del successore in $z$ e cancellare il successore.
+    \end{itemize}
+\subsection*{Complessità degli alberi binari}
+Un albero si dice \emph{bilanciato} se per ogni nodo $x$ le altezze dei due sottoalberi di $x$ differiscono al massimo di 1.
+$h$ è l'altezza dell'albero. 
+\begin{equation*}
+    h = \begin{cases}
+        \varTheta(\log(n)) \quad \text{albero bilanciato}\\
+        \varTheta(n)\quad \text{caso pessimo}
+    \end{cases}
+\end{equation*}
+
+\begin{tabular}{l l}
+    Operazione & Complessità\\
+    \hline
+    In-order walk & $T(n) = \varTheta(n)$ \\
+    Search & $T(n) = O(h)$ \\
+    Max/Min & $T(n) = O(h) $\\
+    Successor & $T(n) = O(h) $\\
+    Insert & $T(n) = O(h) $\\
+    Delete & $T(n) = O(h) $\\
+\end{tabular}
+\subsection*{Alberi rosso-neri}
+\end{multicols*}
+\pagebreak
+\begin{multicols*}{2}
+\subsection*{In Order Tree Walk}
+\begin{lstlisting}
+INORDER-TREE-WALK(x)
+    if x != nil
+        INORDER-TREE-WALK(x.left)
+        print x.key
+        INORDER-TREE-WALK(x.right)
+\end{lstlisting}
+\subsection*{Tree Search}
+\begin{lstlisting}
+TREE-SEARCH(x, k)
+    if x == nil or k == x.key
+        return x
+    if k < x.key
+        return TREE-SEARCH(x.left, k)
+    else
+        return TREE-SEARCH(x.right, k)
+\end{lstlisting}
+\subsection*{Tree Minimum}
+\begin{lstlisting}
+TREE-MINIMUM(x)
+    while x.left != nil
+        x = x.left
+    return x
+\end{lstlisting}
+\subsection*{Tree Maximum}
+\begin{lstlisting}
+TREE-MAXIMUM(x)
+    while x.right != nil
+        x = x.right
+    return x
+\end{lstlisting}
+\subsection*{Tree Successor}
+\begin{lstlisting}
+TREE-SUCCESSOR(x)
+    if x.right != nil
+        return TREE-MINIMUM(x.right)
+    y = x.p
+    while y != nil and x = y.right
+        x = y
+        y = y.p
+    return y
+\end{lstlisting}
+\subsection*{Tree Insert}
+\begin{lstlisting}
+TREE-INSERT(T, z)
+    y = nil
+    x = T.root
+    while x != nil
+        y = x
+        if z.key < x.key
+            x = x.left
+        else x = x.right
+    z.p = y
+    if y == nil
+        T.root = z
+    else if z.key < y.key
+        y.left = z
+    else
+        y.right = z
+\end{lstlisting}
+\subsection*{Tree Delete}
+$y$ e' il nodo da eliminare, $x$ e' quello con cui lo sostituiamo
+\begin{lstlisting}
+TREE-DELETE(T, z)
+    if z.left == nil or z.right == nil
+        y = z
+    else
+        y = TREE-SUCCESSOR(z)
+    if y.left != nil
+        x = y.left
+    else
+        x = y.right
+    if x != nil
+        T.root = x
+    else if y == y.p.left
+        y.p.left = x
+    else
+        y.p.right = x
+    if y != z
+        z.key = y.key
+    return y
+\end{lstlisting}
+\end{multicols*}
 \end{document}
