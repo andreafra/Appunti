@@ -623,9 +623,9 @@ BELLMAN-FORD(adj, s)
                     RELAX(u, v, adj, d, Pi)
     return [d, Pi]
 \end{lstlisting}
-\end{multicols*}
-\pagebreak
-\begin{multicols*}{2}
+
+\section*{Pseudocodice}
+
 \subsection*{In Order Tree Walk}
 \begin{lstlisting}
 INORDER-TREE-WALK(x)
@@ -687,6 +687,7 @@ TREE-INSERT(T, z)
     else
         y.right = z
 \end{lstlisting}
+
 \subsection*{Tree Delete}
 $y$ e' il nodo da eliminare, $x$ e' quello con cui lo sostituiamo
 \begin{lstlisting}
@@ -709,6 +710,10 @@ TREE-DELETE(T, z)
         z.key = y.key
     return y
 \end{lstlisting}
+
+\vfill\mbox{}
+\columnbreak
+
 \subsection*{Rotazione a sinistra}
 \begin{lstlisting}
 ROTATE-LEFT(T, z)
@@ -727,6 +732,7 @@ ROTATE-LEFT(T, z)
     y.left = x
     x.p = y
 \end{lstlisting}
+
 \subsection*{RB Tree Insert}
 \begin{lstlisting}
 RB-TREE-INSERT(T, z)
@@ -776,6 +782,10 @@ RB-TREE-INSERT(T, z)
     (come il contenuto dell'if
     associato, scabio left e right)
 \end{lstlisting}
+
+\vfill\mbox{}
+\columnbreak
+
 \subsection*{RB Delete}
 \begin{lstlisting}
 RB-DELETE(T, z)
@@ -830,6 +840,10 @@ RB-DELETE-FIXUP(T, x)
     // come le righe 4-21, scambio
     // "left" $\leftrightarrow$ "right"
 \end{lstlisting}
+
+\vfill\mbox{}
+\columnbreak
+
 \subsection*{Breadth First Search}
 \begin{lstlisting}
 BFS(G, s)
@@ -869,6 +883,7 @@ DFS-VISIT(u)
     u.color = BLACK
     u.f = time = time + 1
 \end{lstlisting}
+
 \subsection*{Ordinamento Topologico}
 \begin{lstlisting}
 TOPOLOGICAL-SORT(G)
