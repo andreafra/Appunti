@@ -441,6 +441,110 @@ $h$ è l'altezza dell'albero.
     Delete & $T(n) = O(h) $\\
 \end{tabular}
 \subsection*{Alberi rosso-neri}
+\begin{itemize}
+    \item Sono BST abbastanza bilanciati, tali che $h = O(\log(n))$ ed è possibile realizzare tutte le operazioni più importanti in $T(n) = O(\log(n))$
+    \item Un ramo non è mai più lungo del doppio di un altro
+    \item Un BST è un albero RB se soddisfa le seguenti proprietà:
+    \begin{enumerate}
+        \item Ogni nodo è \emph{rosso} oppure \emph{nero}
+        \item La radice è necessari
+        \item Le foglie (\code{nil}) sono tutte nere
+        \item I figli di un nodo rosso sono entrambi neri
+        \item Per ogni nodo $x$ tutti i cammini da $x$ alle foglie sue discendenti contengono lo stesso numero $bh(x)$ di nodi neri. $bh(x)$ è l'\emph{altezza nera} del nodo $x$, che non viene conteggiato nella sua altezza
+    \end{enumerate}
+    \item Per comodità le foglie \code{nil} si usa un nodo sentinella \code{T.nil}
+    \item Un albero RB con $n$ nodi interni (cioè con chiavi), ha altezza $h \le 2\log_2(n+1)$. Pertanto, \code{SEARCH}, \code{MINIMUM}, \code{MAXIMUM}, \code{SUCCESSOR}, \code{PREDECESSOR} richiedono tempo $T(n) = O(\log(n))$
+    \item \code{INSERT} e \code{DELETE} sono modificate per poter rispettare le proprietà degli alberi RB, ma richiedono sempre $T(n) = O(\log(n))$
+    \item Per realizzare inserimenti e cancellazioni si usa il meccanismo delle rotazioni, con \code{ROTATE-LEFT} e \code{ROTATE-RIGHT}
+\end{itemize}
+\subsubsection*{Inserimento}
+Analogo a quello dei BST, ma per ristabilire le proprietà degli alberi RB si usa \code{RB-INSERT-FIXUP}, che viene invocato sempre su un nodo $z$ tale che \code{z.color = RED}, e al massimo $O(log(n))$ volte.
+\subsubsection*{Cancellazione}
+Analogo a quello dei BST. Se viene cancellato un nodo rosso non c'è bisogno di modificare i colori dei nodi, e quello che prende il suo posto è per forza nero.
+
+\subsection*{Grafi}
+Un grafo è una coppia $G = (V,E)$ in cui:
+\begin{itemize}
+    \item $V$ è un insieme di nodi detti vertici
+    \item $E$ è un insieme di archi detti lati/edges. Un arco è una connessione fra due vertici, detti quindi adiacenti. Un arco è una coppia $(u,v) \in E \subseteq V^2$
+    \item $|V|$ è il numero di vertici nel grafo, mentre $|E|$ è il numero di archi. Inoltre $0 \le |E| \le |V|^2$
+\end{itemize}
+I grafi esistono orientanti e \emph{non orientati}.
+\subsubsection*{Rappresentazione in memoria}
+\begin{itemize}
+    \item \emph{Liste di adiacenza}: array di liste, una per nodo. Per ogni nodo, la lista contiene i nodi adiacenti ad esso. Ha complessità spaziale $S_L = \varTheta(|V|+|E|)$
+    \item \emph{Matrice di adiacenza}: $m_{ij} = 1$ se c'è un arco dal nodo $i$ al nodo $j$, altrimenti è $0$. Ha complessità spaziale $S_M = \varTheta(|V|^2)$
+\end{itemize}
+\subsubsection*{Visita in ampiezza/Breadth-First Search}
+Ha complessità $T_\text{BFS} = O(|V| + |E|)$.
+\begin{itemize}
+    \item Usa una politica FIFO (coda)
+    \item Visito tutti i nodi a distanza 1 da $s$ (sorgente)
+    \item Quando visito un nodo $u$, salvo la sua distanza da $s$ in un attributo \code{u.dist}
+    \item Coloro i nodi che visito (\emph{bianco} se è da visitare, \emph{grigio} se è già stato visitato, ma bisogna completare la visita dei nodi adiacenti, \emph{nero} dopo che abbiamo visitato tutti i suoi nodi adiacenti)
+    \item All'inizio tutti i nodi sono bianchi tranne $s$ che è grigio.
+    \item I nodi da visitare sono in una coda (inizialmente solo $s$)
+    \item A ogni iterazione, cancello dalla coda un elemento $u$ e ne visitiamo i nodi adiacenti che sono ancora bianchi (la cui distanza da $s$ sarà \code{u.dist+1})
+\end{itemize}
+
+\subsubsection*{Visita in profondità/Depth-First Search}
+Ha complessità $T_\text{DFS} = O(|V| + |E|)$.
+\begin{itemize}
+    \item Usa una politica LIFO (stack)
+    \item Tiene traccia di quando un nodo è aggiunto alla pila (\code{u.d}) e di quando viene tolto (\code{u.f})
+\end{itemize}
+
+\subsubsection*{Ordinamento Topologico}
+Dato un grafo orientato aciclico (DAG), un ordinamento topologico è un ordinamento lineare dei nodi del grafo tale che, se nel DAG c'è un arco $(u,v)$, allora il nodo $u$ precede $v$ nell'ordinamento (cioè che le frecce ``vanno solo in una direzione''). L'ordinamento ottenuto rispetta la precedenza tra nodi/eventi.
+\begin{itemize}
+    \item Visito il DAG con un algoritmo DFS
+    \item quando coloro un nodo $u$ di nero, inserisco $u$ in testa alla lista
+    \item Una volta visitati tutti i nodi, ottengo un ordinamento topologico 
+\end{itemize}
+Ha la stessa complessità di DFS, cioè $T_\text{TS} = O(|V| + |E|)$.
+
+\subsubsection*{Cammini Minimi}
+\begin{equation*}
+    \delta(u,v) = \begin{cases}
+        \min\left\{w(p): u\xrightarrow p v\right\} \quad \text{se $\exists$ cammino $p$ da $u$ a $v$}\\
+        \infty \qquad \text{altrimenti}
+    \end{cases}
+\end{equation*}
+\begin{itemize}
+    \item $w: E \rightarrow R$ è la \emph{funzione di peso}
+    \item $d[v] = \delta(s, v)$ è detto \emph{stima di cammino minimo} dalla sorgente $s$ a $v$ 
+    \begin{itemize}
+        \item All'inizio vale $d[v] = \infty$
+        \item viene ridotto col procedere dell'algoritmo, ma $d[v] \le \delta(s, v)$
+    \end{itemize}
+    \item $P_i[v]$ è il \emph{predecessore di $v$} nel cammino minimo da $s$, se non esiste è \code{nil}
+\end{itemize}
+
+\subsubsection*{Rilassamento di un lato}
+\begin{itemize}
+    \item se $d[v] > d[u]+w(u,v)$ allora $d[v] = d[u] + w(u,v)$ e $P_i[v]=u$
+\end{itemize}
+\subsection*{Bellman-Ford}
+\begin{itemize}
+    \item Rilasso un passo alla volta partendo da s
+    \item Ad ogni passo avanzo nei cammini
+    \item Al $|V| - 1$-esimo passo sicuramente avrò toccato tutti i nodi raggiungibili
+    \item \emph{non} converge se ci sono cicli negativi
+\end{itemize}
+\begin{lstlisting}
+BELLMAN-FORD(adj, s)
+    V = vector of nodes of adj
+    allocate vectors d, Pi of size adj
+
+    for i = 0 to |adj| - 1
+        d[i] = $\infty$
+    d[s] = 0
+        repeat for |V| - 1 times
+            for u in V
+                for v in adj[u]
+                    RELAX(u, v, adj, d, Pi)
+    return [d, Pi]
+\end{lstlisting}
 \end{multicols*}
 \pagebreak
 \begin{multicols*}{2}
@@ -527,5 +631,187 @@ TREE-DELETE(T, z)
         z.key = y.key
     return y
 \end{lstlisting}
+\subsection*{Rotazione a sinistra}
+\begin{lstlisting}
+ROTATE-LEFT(T, z)
+    y = x.right
+    x.right = y.left
+
+    if y.left != T.nil
+        y.left.p = x
+    y.p = x.p
+    if x.p == T.nil
+        T.root = y
+    else if x == x.p.left
+        x.p.left = y
+    else
+        x.p.right = y
+    y.left = x
+    x.p = y
+\end{lstlisting}
+\subsection*{RB Tree Insert}
+\begin{lstlisting}
+RB-TREE-INSERT(T, z)
+    y = T.nil
+    x = T.root
+    while x != T.nil
+        y = x
+        if z.key < x.key
+            x = x.left
+        else x = x.right
+    z.p = y
+    if y == T.nil
+        T.root = z
+    else if z.key < y.key
+        y.left = z
+    else
+        y.right = z
+    z.left = T.nil
+    z.right = T.nil
+    z.color = RED
+    RB-INSERT-FIXUP(T, z)
+\end{lstlisting}
+
+\subsection*{RB Insert Fixup}
+\begin{lstlisting}
+    RB-INSERT-FIXUP(T, z)
+    if z == T.root
+        T.root.color = BLACK
+    else 
+        x = z.p
+    if x.color == RED
+        if x == x.p.left
+            y = x.p.right
+            if y.color == RED
+                x.color = BLACK
+                y.color = BLACK
+                x.p.color = RED
+                RB-INSERT-FIXUP(T, x.p)
+            else if z == x.right
+                z = x
+                LEFT-ROTATE(T, z)
+                x = z.p
+            x.color = BLACK
+            x.p.color = RED
+            RIGHT-ROTATE(T, x.p)
+        else //... 
+    (come il contenuto dell'if
+    associato, scabio left e right)
+\end{lstlisting}
+\subsection*{RB Delete}
+\begin{lstlisting}
+RB-DELETE(T, z)
+    if z.left == T.nil 
+    or z.right == T.nil
+        y = z
+    else
+        y = TREE-SUCCESSOR(z)
+    if y.left != T.nil
+        x = y.left
+    else 
+        x = y.right
+    x.p = y.p
+    if y.p == T.nil
+        T.root = x
+    else if y = y.p.left
+        y.p.left = x
+    else
+        y.p.right = x
+    if y != z
+        z.key = y.key
+    if y.color = BLACK
+        RB-DELETE-FIXUP(T,x)
+    return y
+\end{lstlisting}
+\subsection*{RB Delete Fixup}
+\begin{lstlisting}
+RB-DELETE-FIXUP(T, x)
+    if x.color == RED
+    or x.p == T.nil
+        x.color = BLACK
+    else if x == x.p.right
+        w = x.p.right
+        if w.color == RED
+            w.color = BLACK
+            x.p.color = RED
+            LEFT-ROTATE(T, x.p)
+            w = x.p.right
+        if w.left.color == BLACK
+        and w.right.color == BLACK
+            w.color = RED
+            RB-DELETE-FIXUP(T, x.p)
+        else if w.right.color == BLACK
+            w.left.color = BLACK
+            w.color = RED
+            ROTATE-RIGHT(T, w)
+            w = x.p.right
+        w.color = x.p.color
+        x.p.color = BLACK
+        ROTATE-LEFT(T, x.p)
+    else 
+    // come le righe 4-21, scambio
+    // "left" $\leftrightarrow$ "right"
+\end{lstlisting}
+\subsection*{Breadth First Search}
+\begin{lstlisting}
+BFS(G, s)
+    for each u $\in G.V - \left\{s\right\}$
+        u.color = WHITE
+        u.dist = $\infty$
+    s.color = GREY
+    s.dist = 0
+    Q = nil
+    ENQUEUE(Q, s)
+    while Q != nil
+        u = DEQUEUE(Q)
+        for each v $\in$ u.Adj
+            if v.color == WHITE
+                v.color = GREY
+                v.dist = u.dist + 1
+                ENQUEUE(Q, v)
+    u.color = BLACK
+\end{lstlisting}
+\subsection*{Depth First Search}
+\begin{lstlisting}
+DFS(G)
+    for each u $\in G.V$
+        u.color = WHITE
+    time = 0
+    for each u $\in G.V$
+        if u.color = WHITE
+            DFS-VISIT(u)
+
+DFS-VISIT(u)
+    u.color = GREY
+    time = time + 1
+    u.d = time
+    for each v $\in$ u.Adj
+        if v.color = WHITE
+            DFS-VISIT(v)
+    u.color = BLACK
+    u.f = time = time + 1
+\end{lstlisting}
+\subsection*{Ordinamento Topologico}
+\begin{lstlisting}
+TOPOLOGICAL-SORT(G)
+    L = nil
+    for each u $\in$ G.V
+        u.color = WHITE
+    for each u $\in$ G.V
+        if u.color = WHITE
+            TOPSORT-VISIT(L, u)
+return L
+
+TOPSORT-VISIT(L, u)
+    u.color = GREY
+    for each v $\in$ u.Adj
+        if v.color = WHITE
+            TOPSORT-VISIT(L, v)
+    ... // crea l'elemento di lista x
+    x.key = u
+    LIST-INSERT(L, x)
+    u.color = BLACK
+\end{lstlisting}
 \end{multicols*}
+
 \end{document}
