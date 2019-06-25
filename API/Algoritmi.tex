@@ -132,6 +132,8 @@ Sotto ``ragionevoli'' ipotesi di criteri di costo (il criterio di costo costante
     \code{HALT} && & $1$& Interrompe l'esecuzione del programma.\\
 \end{tabularx}
 
+\vfill
+
 \section*{Algoritmi}
 
 Si adotta il criterio di \textbf{costo costante} (manipoliamo numeri che non richiedono quantit\`a di memoria molto pi\`u grandi della dimensione dell'input). \\
@@ -150,6 +152,71 @@ Ogni istruzione viene eseguita in un tempo costante $c_i$.
         D(n) + aT(\frac{n}{b}) + C(n) \quad  \text{altrimenti}
     \end{cases}
 \end{equation*}
+
+\pagebreak
+
+\subsection*{Risoluzione di ricorrenze}
+
+\subsubsection*{Metodo della sostituzione}
+\begin{itemize}
+    \item formulare un'ipotesi di soluzione
+    \item sostituire la soluzione nella ricorrenza, e dimostrazione (per induzione) che \`e in effetti una soluzione
+    \item \emph{Esempio:}
+    \begin{enumerate}
+        \item $T(n) = 2T\left(\lfloor\frac{n}{2}\rfloor\right) + n$
+        \item Supponiamo $T(n) = O(n\log_2(n))$
+        \item Mostro che $T(n) \le cn\log_2(n)$ per una oppurtuna costante $c$
+        \item Supponiamo che valga per $T\left(\lfloor\frac{n}{2}\rfloor\right)$, cio\`e $T\left(\lfloor\frac{n}{2}\rfloor\right) \le c\lfloor\frac{n}{2}\rfloor\log_2(\lfloor\frac{n}{2}\rfloor)$
+        \item Sostituendo in $T(n)$ ottengo $T(n) \le 2c\lfloor\frac{n}{2}\rfloor\log_2(\lfloor\frac{n}{2}\rfloor) + n \le cn\log_2(\frac{n}{2}) + n = cn\log_2(n)-cn\log_2(2) + n = cn\log_2(n)+n \le cn\log_2(n)$, basta che $c > 1$
+        \item Mostriamo che la disuguaglianza vale nel caso limite $n=1$: $T(1) = 1 \rightarrow T(1)=1\le c\log_2(1) = 0$ non funziona.
+        \item Siccome $T(n) \le cn\log_2(n)$ deve valere solo da un certo $n_0$ in poi, ci basta prendere una costante $c$ tale che $T(2) = 4 \le 2c \log_2(2)$ e $T(3) = 5 \le 3c\log_2(3)$, cio\`e $c \ge 2$
+    \end{enumerate}
+\end{itemize}
+
+
+\subsubsection*{Teorema dell'esperto (Master Theorem)}
+\begin{itemize}
+    \item Data la ricorrenza $T(n) = aT(\frac{n}{b}) + f(n)$, in cui $a\ge1$, $b>1$, $\left\lfloor\frac{n}{b}\right\rfloor$ o $\left\lceil\frac{n}{b}\right\rceil$.
+    \begin{enumerate}
+        \item se $f(n) = O\left(n^{\log_ba-\varepsilon}\right)$ per qualche $\varepsilon>0$, allora $T(n)=\varTheta\left(n^{\log_ba}\right)$
+        \item se $f(n) = \varTheta\left(n^{\log_ba}\right)$, allora $T(n)=\varTheta\left(n^{\log_ba}\log(n)\right)$
+        \item se $f(n) = \varOmega\left(n^{\log_ba+\varepsilon}\right)$ per qualche $\varepsilon>0$, e $af\left(\frac{n}{b}\right)\le cf(n)$ per qualche $c<1$ e per tutti gli $n$ grandi a sufficienza, allora $T(n)=\varTheta(f(n))$
+    \end{enumerate}
+    \item Se $f(n) = \varTheta\left(n^k\right)$, con $k$ una qualche costante:
+    \begin{enumerate}
+        \item se $k < \log_ba \rightarrow T(n) = \varTheta\left(n^{\log_ba}\right)$
+        \item se $k = \log_ba \rightarrow T(n) = \varTheta\left(n^k\log(n)\right)$
+        \item se $k > \log_ba \rightarrow T(n) = \varTheta\left(n^k\right)$
+    \end{enumerate}
+    \item Se la ricorrenza \`e del tipo:
+    \begin{equation*}
+        T(n) = \begin{cases}
+            \varTheta(1)\qquad \text{se } n \le m \le h\\
+            \sum_{1\le i \le h} a_i T(n-1) + cn^k \quad \text{se} n>m
+        \end{cases}
+    \end{equation*}
+    \begin{itemize}
+        \item Posto $a = \sum_{1\le i \le h} a_i$
+        \item Allora segue che:
+        \begin{itemize}
+            \item se $a = 1$ allora $T(n) = O(n^{k+1})$
+            \item se $a \ge 2$ allora $T(n) = O(a^nn^k)$ 
+        \end{itemize}
+        \item \emph{Esempio:} $T(n)=T(n-1)+\varTheta(n) \rightarrow T(n)=O(n^2)$
+    \end{itemize}
+\end{itemize}
+\vfill
+\subsection*{Complessit\`a degli algoritmi di ordinamento}
+\begin{tabular}{l l l}
+    Nome & Caso Pessimo & Caso Ottimo\\
+    \hline
+    Insertion Sort & $O(n^2)$ & $O(n)$\\
+    Merge Sort & $\varTheta(n\log(n))$ & $\varTheta(n\log(n))$\\
+    Heapsort & $O(n\log(n))$ & $O(n\log(n))$\\
+    Quicksort & $\varTheta(n^2)$ & $\varTheta(n\log_2(n))$ \\
+    Counting Sort & $O(n+k)$ & $O(n+k)$ \\
+
+\end{tabular}
 
 \pagebreak
 
@@ -263,28 +330,6 @@ COUNTING-SORT(A, B, k)
 \end{multicols*}
 
 \pagebreak
-
-\subsection*{Risoluzione di ricorrenze}
-\begin{itemize}
-    \item Metodo della sostituzione \begin{itemize}
-        \item formulare un'ipotesi di soluzione
-        \item sostituire la soluzione nella ricorrenza, e dimostrazione (per induzione) che \`e in effetti una soluzione
-    \end{itemize}
-    \item Teorema dell'esperto (Master Theorem) \begin{itemize}
-        \item Data la ricorrenza $T(n) = aT(\frac{n}{b}) + f(n)$, in cui $a\ge1$, $b>1$, $\left\lfloor\frac{n}{b}\right\rfloor$ o $\left\lceil\frac{n}{b}\right\rceil$.
-        \begin{enumerate}
-            \item se $f(n) = O\left(n^{\log_ba-\varepsilon}\right)$ per qualche $\varepsilon>0$, allora $T(n)=\varTheta\left(n^{\log_ba}\right)$
-            \item se $f(n) = \varTheta\left(n^{\log_ba}\right)$, allora $T(n)=\varTheta\left(n^{\log_ba}\log(n)\right)$
-            \item se $f(n) = \varOmega\left(n^{\log_ba+\varepsilon}\right)$ per qualche $\varepsilon>0$, e $af\left(\frac{n}{b}\right)\le cf(n)$ per qualche $c<1$ e per tutti gli $n$ grandi a sufficienza, allora $T(n)=\varTheta(f(n))$
-        \end{enumerate}
-        \item Se $f(n) = \varTheta\left(n^k\right)$, con $k$ una qualche costante:
-        \begin{enumerate}
-            \item se $k < \log_ba \rightarrow T(n) = \varTheta\left(n^{\log_ba}\right)$
-            \item se $k = \log_ba \rightarrow T(n) = \varTheta\left(n^k\log(n)\right)$
-            \item se $k > \log_ba \rightarrow T(n) = \varTheta\left(n^k\right)$
-        \end{enumerate}
-    \end{itemize}
-\end{itemize}
 
 \section*{Strutture dati}
 
@@ -456,6 +501,8 @@ Scendo nell'albero finchè non si raggiunge il posto in cui il nuovo elemento de
 
 \justifying
 
+\columnbreak
+
 \subsection*{Complessità degli alberi binari}
 Un albero si dice \emph{bilanciato} se per ogni nodo $x$ le altezze dei due sottoalberi di $x$ differiscono al massimo di 1.
 $h$ è l'altezza dell'albero. 
@@ -498,6 +545,8 @@ $h$ è l'altezza dell'albero.
 \vspace{1em}
 \includegraphics[width=\linewidth, scale=0.9]{rb_rotations.png}
 \justifying
+
+\columnbreak
 
 \subsubsection*{Inserimento}
 Analogo a quello dei BST, ma per ristabilire le proprietà degli alberi RB si usa \code{RB-INSERT-FIXUP}, che viene invocato sempre su un nodo $z$ tale che \code{z.color = RED}, e al massimo $O(log(n))$ volte.
@@ -602,6 +651,9 @@ Ha la stessa complessità di DFS, cioè $T_\text{TS} = O(|V| + |E|)$.
 \begin{itemize}
     \item se $d[v] > d[u]+w(u,v)$ allora $d[v] = d[u] + w(u,v)$ e $P_i[v]=u$
 \end{itemize}
+
+\columnbreak
+
 \subsection*{Bellman-Ford}
 \begin{itemize}
     \item Rilasso un passo alla volta partendo da s
@@ -625,6 +677,22 @@ BELLMAN-FORD(adj, s)
 \end{lstlisting}
 
 \section*{Pseudocodice}
+
+\subsubsection*{Ricerca Binaria Ricorsiva}
+\begin{lstlisting}
+BIN-SEARCH-REC(array, p, r, v)
+    if p > r
+        return nil
+    if v < A[p] or v > A[r]
+        return nil
+    q= (p+r)/2
+    if A[q] == v
+        return q
+    if A[q] > v
+        return BIN-SEARCH-REC(A,p,q-1,v)
+    else
+        return BIN-SEARCH-REC(A,q+1,r,v)
+\end{lstlisting}
 
 \subsection*{In Order Tree Walk}
 \begin{lstlisting}
@@ -651,6 +719,9 @@ TREE-MINIMUM(x)
         x = x.left
     return x
 \end{lstlisting}
+
+\columnbreak
+
 \subsection*{Tree Maximum}
 \begin{lstlisting}
 TREE-MAXIMUM(x)
