@@ -1,10 +1,10 @@
 \documentclass[10pt,a4paper]{article}
 \usepackage[italian]{babel}
-% Use Helvetica
-\usepackage[scaled]{helvet}
-% Use it as default
-\renewcommand\familydefault{\sfdefault}
-\usepackage[T1]{fontenc}\usepackage[utf8]{inputenc}
+% % Use Helvetica
+% \usepackage[scaled]{helvet}
+% % Use it as default
+% \renewcommand\familydefault{\sfdefault}
+% \usepackage[T1]{fontenc}\usepackage[utf8]{inputenc}
 
 \usepackage{enumitem}
 \setlist[itemize]{noitemsep, leftmargin=*}
@@ -27,7 +27,7 @@
   headheight=12pt,
   top=2.5cm,
   bottom=1.5cm,
-  footskip=0cm
+  footskip=3.7cm
 }
 % Header page numbering
 \pagestyle{fancy}
@@ -192,7 +192,7 @@ Ogni istruzione viene eseguita in un tempo costante $c_i$.
     \begin{equation*}
         T(n) = \begin{cases}
             \varTheta(1)\qquad \text{se } n \le m \le h\\
-            \sum_{1\le i \le h} a_i T(n-1) + cn^k \quad \text{se} n>m
+            \sum_{1\le i \le h} a_i T(n-i) + cn^k \quad \text{se} n>m
         \end{cases}
     \end{equation*}
     \begin{itemize}
@@ -213,7 +213,7 @@ Ogni istruzione viene eseguita in un tempo costante $c_i$.
     Insertion Sort & $O(n^2)$ & $O(n)$\\
     Merge Sort & $\varTheta(n\log(n))$ & $\varTheta(n\log(n))$\\
     Heapsort & $O(n\log(n))$ & $O(n\log(n))$\\
-    Quicksort & $\varTheta(n^2)$ & $\varTheta(n\log_2(n))$ \\
+    Quicksort & $\varTheta(n^2)$ & $\varTheta(n\log(n))$ \\
     Counting Sort & $O(n+k)$ & $O(n+k)$ \\
 
 \end{tabular}
@@ -398,7 +398,7 @@ COUNTING-SORT(A, B, k)
 \end{itemize}
 \subsubsection*{Concatenamento}
 \begin{itemize}
-    \item \emph{Idea:} gli oggetti che vengono mappati sullo stesso slot vengono messi in una lista $L$ concatenata, di lunghezza $|M|L| = [h(k)]|$
+    \item \emph{Idea:} gli oggetti che vengono mappati sullo stesso slot vengono messi in una lista $L$ concatenata.
 \end{itemize}
 \begin{tabular}{l l l}
     Search & $T(n) = |M[h(k)]|$ & $M$ è la hash table\\
@@ -433,7 +433,7 @@ Introduciamo una seconda funzione di hash $h'(k)$.
 \begin{itemize}
     \item Lineare
         \begin{itemize}
-            \item $h(k,i)=\left(h'(k)+1\right) \mod{m}$
+            \item $h(k,i)=\left(h'(k)+i\right) \mod{m}$
             \item Soffre del fenomeno dell'addensamento (clustering) primario, cioè lunghe sequenze di celle consecutive, che aumentano il tempo di ricerca
         \end{itemize}
     \item Quadratica
@@ -633,7 +633,7 @@ Ha la stessa complessità di DFS, cioè $T_\text{TS} = O(|V| + |E|)$.
 \subsubsection*{Cammini Minimi}
 \begin{equation*}
     \delta(u,v) = \begin{cases}
-        \min\left\{w(p): u\xrightarrow p v\right\} \quad \text{se $\exists$ cammino $p$ da $u$ a $v$}\\
+        \min\left\{w(p): u\xrightarrow p v\right\} \quad \text{se $\exists$ path $p$ da $u$ a $v$}\\
         \infty \qquad \text{altrimenti}
     \end{cases}
 \end{equation*}
