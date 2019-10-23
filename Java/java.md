@@ -93,10 +93,10 @@ In Java si può decidere la visibilità (scope) di classi, attributi e metodi me
 
 | Modificatore | Visibilità |
 |--------------|------------|
-| `Public` | Ovunque |
-| `Protected` | Stesso [*package*](#costruttori-constructors) e *sottoclassi* della classe in questione |
+| `public` | Ovunque |
+| `protected` | Stesso [*package*](#costruttori-constructors) e *sottoclassi* della classe in questione |
 | - (friendly) | Stesso [*package*](#costruttori-constructors) |
-| `Private` | Stessa [classe](#classi-classes) |
+| `private` | Stessa [classe](#classi-classes) |
 
 ```java
 package Pets;
