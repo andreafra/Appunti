@@ -407,5 +407,162 @@ class Bird extends Animal implements flying {
 ```
 
 # Object (classe)
+In Java se non si specifica alcuna sopraclasse da cui ereditare si eredita automaticamente dalla classe `Object`. `Object` contiene alcuni metodi particolarmente comodi:
+## `public boolean equals(Object)`
+Restituisce `true` se i due oggetti sono identici. Spesso conviene fare override di `equals()` per controllare solo certi campi. L'implementazione di default controlla che i riferimenti siano uguali.
+```java
+class Circle {
+    public int x;
+    public int y;
+    public String color;
+    // ...
+}
+```
+```java
+Circle a = new Circle();
+Circle b = a;
+a.equals(b); // => true, hanno lo stesso riferimento.
+             // C'è una sola istanza di `Circle`!
+```
+## `public String toString()`
+Restituisce una rappresentazione testuale dei valori dell'oggetto. Si può fare override per stampare quello che si vuole.
+```java
+Circle a = newCircle(0, 0, "red");
+a.toString(); // => Circle@<hash dei valori>
+```
+Facendo override di `toString()` diventa
+```java
+class Circle {
+    // ...
+    @Override
+    public String toString() {
+        return "It's a " + color + " circle";
+    }
+}
+```
+```java
+Circle a = newCircle(0, 0, "red");
+a.toString(); // => "It's a red circle"
+```
+## `public Object clone()`
+Restituisce un riferimento a una copia dell'oggetto, nella quale vengono copiati i valori dei campi (attenzione: gli attributi che sono una reference copiano la reference allo stesso oggetto!) A volte conviene fare override per avere maggiore controllo su cosa viene clonato.
+```java
+Circle a = new Circle(0, 0, "red");
+Circle b = a;
+Circle c = a.clone();
+a.equals(b); // => true, è un riferimento alla
+             // medesima istanza.
+a.equals(c); // => false, c è un riferimento ad
+             // un'altra istanza di `Circle`, che
+             // ha però gli stessi attributi.
+```
 
-TODO
+# Eccezioni
+Java permette di gestire eventuali problemi a runtime senza causare l'arresto inaspettato del programma mediante le **eccezioni**.
+
+Una funzione può "lanciare" un'eccezione anziché restituire il valore atteso. L'eccezione viene "catturata" dal chiamante che può gestire il problema. Si usa la seguente sintassi:
+```java
+try {
+    // ...
+    // Blocco che contiene le funzioni che possono
+    // lanciare eccezioni.
+} catch(ExceptionType e) {
+    // ...
+    // Gestisco l'eccezione
+} finally {
+    // ...
+    // Viene sempre eseguito.
+    // Utile per chiudere i file letti o altri I/O.
+}
+```
+Le eccezioni sono delle speciali classi che quindi definiscono il tipo dell'eccezione. Si possono gestire così eccezioni diverse cambiando il tipo dell'eccezione.
+```java
+try {
+    int y = Integer.parseInt(stdin.readLine());
+    x = x/y;
+} catch(NumberFormatException e) {
+    // gestisco eccezioni da parseInt
+} catch (ArithmeticException e) {
+    // gestisco tutte le eccezioni aritmetiche, 
+    // inclusa DivisionByZero
+} catch (IOException e) {
+    // gestisco le eccezioni di I/O
+}
+```
+> Il parametro `e` può avere qualsiasi nome: è un oggetto che contiene informazioni sull'eccezione.
+
+Quando occorre un'eccezione, il codice nel `try` block smette di essere eseguito, e viene eseguito il `catch` corrispondente.
+
+## Throw
+
+Java non permette di non gestire le eccezioni: se non vuole gestire un'eccezione in una particolare funzione, si può passare l'eccezione al chiamante definendo nella dichiarazione le eccezioni che essa può generare dopo la keyword `throws`.
+```java
+public static int divideNumbersFromFile() throws IOException, ArithmeticException {
+    // ...
+}
+```
+
+All'interno di una propria funzione, è possibile "lanciare" un'eccezione mediante `throw`:
+```java
+public static int sumOnlyPositiveNumbers(a, b) throws NegativeException {
+    if (a < 0 || b < 0) {
+        throw new NegativeException();
+    } else {
+        return a + b;
+    }
+}
+```
+
+Le eccezioni sono sottoclassi di `Throwable`, e si dividono in `Error`s (errori gravi) e `Exception`s (gestibili). Le `Exception`s a loro volta si dividono in *checked* e *unchecked*: le eccezioni *checked* devono essere gestite a compile-time altrimenti si ha errore, quelle *unchecked* possono anche non essere gestite da un blocco `catch`, anche se converrebbe.
+
+Se si può evitare un'eccezione con un semplice check, spesso è conveniente.
+
+## Creare nuove eccezioni
+Si possono creare nuove eccezioni creando una classe che estende `Exception` e implemente due costruttuori, uno senza parametri e uno che riceve una stringa.
+```java
+public class MyException extends Exception {
+    public MyException() {
+        super();
+    }
+    public MyException(String s) {
+        super(s);
+    }
+}
+```
+Posso lanciare questa nuova eccezione nel seguente modo:
+```java
+throw new MyException("Houston, we have a problem!");
+```
+## Masking
+Le eccezioni possono essere usate per evitare un errore in una funzione che deve restituire al chiamante, per esempio restituendo un valore di default.
+```java
+public static String parseInput() {
+    // ...
+    String parsedOutput;
+    try {
+        stdin.readLine()
+    } catch(IOException e) {
+        // Restituisco una string vuota se ho
+        // delle eccezioni, anzichè avere un
+        // crash.
+        parsedOutput = "";
+    } finally {
+        // ...
+    }
+    // ...
+    return parsedOutput;
+}
+```
+## Reflection
+A volte si vuole propagare al chiamante un'eccezione, che non sempre è dei tipi `throw`-abili da esso: allora si può lanciare un'eccezione compatibile col chiamante nel blocco `catch` dell'eccezione.
+```java
+public static void feedBaby (Baby baby) throws CryException {
+    try {
+        feed(baby);
+    } catch (NotHungryException e) {
+        throw new CryException("WEEE!");
+    } catch (IsTiredException e) {
+        throw new CryException("WEEE!");
+    }
+}
+```
