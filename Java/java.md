@@ -515,6 +515,8 @@ public static int sumOnlyPositiveNumbers(a, b) throws NegativeException {
 
 Le eccezioni sono sottoclassi di `Throwable`, e si dividono in `Error`s (errori gravi) e `Exception`s (gestibili). Le `Exception`s a loro volta si dividono in *checked* e *unchecked*: le eccezioni *checked* devono essere gestite a compile-time altrimenti si ha errore, quelle *unchecked* possono anche non essere gestite da un blocco `catch`, anche se converrebbe.
 
+Se si può evitare un'eccezione con un semplice check, spesso è conveniente.
+
 ## Creare nuove eccezioni
 Si possono creare nuove eccezioni creando una classe che estende `Exception` e implemente due costruttuori, uno senza parametri e uno che riceve una stringa.
 ```java
@@ -531,3 +533,37 @@ Posso lanciare questa nuova eccezione nel seguente modo:
 ```java
 throw new MyException("Houston, we have a problem!");
 ```
+## Masking
+Le eccezioni possono essere usate per evitare un errore in una funzione che deve restituire al chiamante, per esempio restituendo un valore di default.
+```java
+public static String parseInput() {
+    // ...
+    String parsedOutput;
+    try {
+        stdin.readLine()
+    } catch(IOException e) {
+        // Restituisco una string vuota se ho
+        // delle eccezioni, anzichè avere un
+        // crash.
+        parsedOutput = "";
+    } finally {
+        // ...
+    }
+    // ...
+    return parsedOutput;
+}
+```
+## Reflection
+A volte si vuole propagare al chiamante un'eccezione, che non sempre è dei tipi `throw`-abili da esso: allora si può lanciare un'eccezione compatibile col chiamante nel blocco `catch` dell'eccezione.
+```java
+public static void feedBaby (Baby baby) throws CryException {
+    try {
+        feed(baby);
+    } catch (NotHungryException e) {
+        throw new CryException("WEEE!");
+    } catch (IsTiredException e) {
+        throw new CryException("WEEE!");
+    }
+}
+```
+
