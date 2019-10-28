@@ -1,3 +1,5 @@
+![banner](../images/java_banner.png)
+
 Java
 ====
 
@@ -566,3 +568,133 @@ public static void feedBaby (Baby baby) throws CryException {
     }
 }
 ```
+# Multithreading
+In un programma ci interessa la possibilità di svolgere più task in *parallelo* a livello *logico*.
+
+## Processo
+Un **processo** è un programma eseguibile che ha un suo spazio in memoria.
+A ogni processo corrisponde un programma.
+La comunicazione tra processi è gestita dal sistema operativo.
+Un processo può contenere più **thread**.
+
+## Thread
+Un **thread** è un attività logica sequenziale che condivide gli indirizzi e alcune variabili con altri thread dello stesso **processo**. Ha un suo contesto con variabili locali. È chiamato anche *lightweight process*.
+
+## Classe `Thread`
+Per creare un thread in Java si deve:
+1. definire una classe che estenda la classe `Thread` e che implementi il metodo `public void run()`
+    ```java
+    class MyNewThread extends Thread {
+        @Override
+        public void run() {
+            // ...
+        }
+    }
+    ```
+2. istanziare il thread
+    ```java
+    MyNewThread task = new MyNewThread();
+    ```
+3. far partire il thread col medoto `start()` che si occupa di chiamare `run()` all'interno del thread.
+    ```java
+    task.start()
+    ```
+
+## Interfaccia `Runnable`
+Alternativamente si può eseguire un task in parallelo implementando l'interfaccia `Runnable` (che è comunque implementata da `Thread`). È sufficiente:
+1. definire una classe che implementi l'interfaccia `Runnable` e che implementi il metodo `public void run()`
+    ```java
+    class MyNewTask implements Runnable {
+        @Override
+        public void run() {
+            // ...
+        }
+    }
+    ```
+2. istanziare la classe
+    ```java
+    MyNewTask task = new MyNewTask();
+    ```
+3. creare il thread
+    ```java
+    Thread myThread = new Thread(task);
+    ```
+4. far partire il thread col medoto `start()`
+    ```java
+    task.start()
+    ```
+## Priorità
+Ogni thread ha una priorità che va da `Min_Priority` a `Max_Priority`. La priorità serve allo scheduler per decidere quali thread eseguire.
+
+## Atomicità e `synchronized`
+Per evitare che più thread agiscano sulle stesse variabili condivise e si ottengano risultati inattesi (**interferenza**), si può definire una sequenza di azioni che viene eseguita senza interruzioni (**sequenza atomica**) mediante la keyword `syncronized`.
+```java
+class Jar {
+    private int candies;
+
+    syncronized public void take(int howMany) {
+        candies += howMany;
+    }
+    syncronized public void add(int howMany) {
+        candies -= howMany;
+    }
+}
+```
+In questo modo, quando un thread **A** esegue un metodo `syncronized` su un oggetto **X** un thread **B** che vuole chiamare un metodo su **X** deve aspettare che il metodo invocato da **A** termini.
+
+Quando si cerca di eseguire un metodo `syncronized` Java applica un **lock intrinseco** all'oggetto (in questo caso, l'istanza della classe `Jar`), cioè:
+- se l'oggetto è bloccato (*locked*), il task in esecuzione si sospende fino a quando la risorsa (instanza di `Jar`) viene sbloccata.
+- se l'oggetto è sbloccato (cioè non ci sono *locks*), viene applicato un *lock* e viene eseguito il metodo. Al completamento del metodo, l'oggetto viene sbloccato nuovamente.
+
+Se una un metodo non ha la keyword `syncronized`, non è mai bloccato.
+
+Eventuali dati `final` possono essere letti da metodi non `syncronized`, dato che sono costanti.
+
+Se si ha un metodo `static syncronized`, viene applicato alla *classe* un lock speciale, diverso da quello usato da un'istanza della classe, che controlla l'accesso ai campi *statici* della classe.
+
+I costruttori non sono *mai* `syncronized`.
+
+## Liveness
+Poichè eseguire un applicazione con multithreading richiede il rispetto di alcuni limiti di tempo è importante evitare di usare troppi metodi syncronized, ma conviene usare *lock* più fini. Sono però da evitare situazioni di *deadlock*, *starvation* e *livelock*.
+
+### Deadlock
+Si ha un **deadlock** quando due thread si bloccano in attesa l'uno dell'altro.
+> Esempio: *Ada e Bob devono salire in ascensore, ma ciascuno vuole lasciare entrare prima l'altro.*
+```java
+class Person {
+    // ...
+
+    public syncronized void waitFor(other) {
+        other.getOnTheElevatorBefore(this);
+    }
+
+    public syncronized void getOnTheElevator(person) {
+        // ...
+    }
+}
+
+Person ada = new Person("Ada");
+Person bob = new Person("Bob");
+
+new Thread(
+    new Runnable() {
+        public void run() {
+            ada.getOnTheElevatorBefore(bob);}
+        }
+    ).start();
+
+new Thread(
+    new Runnable() {
+        public void run() {
+            bob.getOnTheElevatorBefore(ada);}
+        }
+    ).start();
+```
+
+### Starvation
+Si parla di **starvation** quando un thread non riesce a guadagnare accesso frequentemente ad una risorsa condivisa di cui ha bisogno, per esempio a causa di altri thread ingordi (*greedy*) che invocano metodi molto lunghi, di conseguenza termina in tempi lunghi. Lo *scheduler* inoltre dà priorità ai task greedy.
+
+### Livelock
+Si ha un **livelock** quando un thread genera una sequenza ciclica di operazioni inutili ai fini dell'effettivo avanzamento della computazione, per esempio creando più task di quanti ne riesca ad eseguire. A differenza del *deadlock* non aspetta lo sblocco di nessuna risorsa.
+
+## Synchronized statements
