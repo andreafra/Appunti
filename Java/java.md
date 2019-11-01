@@ -698,3 +698,58 @@ Si parla di **starvation** quando un thread non riesce a guadagnare accesso freq
 Si ha un **livelock** quando un thread genera una sequenza ciclica di operazioni inutili ai fini dell'effettivo avanzamento della computazione, per esempio creando più task di quanti ne riesca ad eseguire. A differenza del *deadlock* non aspetta lo sblocco di nessuna risorsa.
 
 ## Synchronized statements
+
+Si può applicare un *lock* ad un oggetto all'interno di un metodo tramite `synchronized()`, che accetta come parametro l'oggetto da bloccare, e blocca l'oggetto fino al termine del blocco.
+
+```java
+class Person {
+    private String name;
+
+    public void changeName(String newName) {
+        synchronized(this) {
+            // ora l'istanza di `Person` che chiama
+            // `changeName` è bloccata fino al
+            // termine del blocco.
+            name = newName;
+        }
+        // Qui il lock è stato rimosso.
+        System.out.println("Name has been changed!");
+    }
+}
+```
+## Wait & Notify
+
+A volte si vuole mandare in sospensione un task finchè una certa condizione non viene soddisfatta. Si può quindi chiamare la funzione `wait()` per sospendere il thread, che resterà in tale stato fino a che un altro thread chiama `notify()` (risveglia un task in *wait* a caso) o `notifyAll()` (risveglia tutti i task che sono in *wait*).
+
+Conviene usare `notifyAll()`, anche se meno performante, per evitare di creare *deadlocks* o altre situazioni dove la *liveness* è a rischio.
+
+```java
+class Person {
+    private boolean isHungry;
+    private boolean isDinnerReady;
+    synchronized public void eat() {
+        while (isDinnerReady == false) {
+            // Se la cena non è pronta, aspetto a mangiare
+            // finchè non è pronta.
+            wait();
+        }
+        isHungry = false;
+    }
+    synchronized public void prepareDinner() {
+        cook();
+        wait(50);
+        isDinnerReady = true;
+        notifyAll(); // o anche `notify();`
+    }
+}
+```
+
+Conviene aggiungere `throws InterruptedException` ai metodi che chiamano `wait()` al loro interno, per capire se un thread sospeso viene interrotto per qualche ragione all'interno del programma.
+
+## Oggetti immutabili
+
+Si creano senza *setter* (non si rendono gli attributi modificabili), tutti gli attributi sono `final` e `private`.
+Non forniscono modi per modificare altri oggetti mutabili, nè i riferimenti ad altri oggetti mutabili (al massimo reference a copiedi essi). Si possono anche impedire *overrides* ai metodi.
+
+## `Java.util.concurrent`
+È una libreria che offre alternative più efficienti per gestire i thread.
