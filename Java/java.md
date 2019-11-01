@@ -779,6 +779,7 @@ class Person {
     }
 }
 ```
+
 ## Wait & Notify
 
 A volte si vuole mandare in sospensione un task finchè una certa condizione non viene soddisfatta. Si può quindi chiamare la funzione `wait()` per sospendere il thread, che resterà in tale stato fino a che un altro thread chiama `notify()` (risveglia un task in *wait* a caso) o `notifyAll()` (risveglia tutti i task che sono in *wait*).
@@ -813,5 +814,46 @@ Conviene aggiungere `throws InterruptedException` ai metodi che chiamano `wait()
 Si creano senza *setter* (non si rendono gli attributi modificabili), tutti gli attributi sono `final` e `private`.
 Non forniscono modi per modificare altri oggetti mutabili, nè i riferimenti ad altri oggetti mutabili (al massimo reference a copiedi essi). Si possono anche impedire *overrides* ai metodi.
 
-## `Java.util.concurrent`
+## `java.util.concurrent`
+
 È una libreria che offre alternative più efficienti per gestire i thread.
+
+### Lock esplicito
+
+Da [`java.util.concurrent.locks`](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/locks/package-summary.html) è possibile utilizzare un lock esplicito, dichiarando esplicitamente un *lock* e poi in un `try` statement provare ad attivare il *lock* e infine rilasciarlo nel `finally` statement.
+
+```java
+// Crea un lock
+Lock lock = new Lock();
+
+try {
+    // Prova ad attivare il lock
+    Boolean isLocked = lock.tryLock();
+    // ...
+} finally {
+    // Disattiva il lock
+    lock.unlock();
+}
+```
+
+## Esecutori (*executors*)
+
+Per distinguere tra il compito da eseguire (l'oggetto che implementa l'interfaccia `Runnable`) e il thread stesso (l'oggetto `Thread`), si possono usare gli esecutori, che sfruttano le *thread pools*, utili per evitare pesanti overhead in applicazioni con molti threads.
+
+Anzichè creare un nuovo thread per un oggetto *runnable* `r`
+
+```java
+(new Thread(r)).start();
+```
+
+si può usare un esecutore `e`
+
+```java
+e.execute(r);
+```
+
+### Thread pools
+
+Le **thread pools** limitano il tempo in esecuzione di ciascun thread.
+
+Anzichè di creare un nuovo *thread* per ogni *task*, il nuovo task viene messo in una coda e quando c'è un *thread* della *thread pool* inattivo, tale task viene assegnato ad esso.
