@@ -23,6 +23,7 @@ Java è un linguaggio *statico*, cioè ogni elemento deve avere un *tipo* esplic
 # Classi (*classes*)
 
 Le classi sono una struttura fondamentale di Java che incapsula il codice attraverso metodi (*methods*) e attributi (*attributes*). La sintassi è la seguente:
+
 ```java
 class Dog {
     // ...
@@ -31,6 +32,7 @@ class Dog {
 
 ## Attributi (*attributes*)
 Gli attributi sono delle variabili che sono contenute all'interno di una classe:
+
 ```java
 class Dog {
     float height; // Attr. non inizializzato
@@ -38,7 +40,9 @@ class Dog {
     boolean isHungry = true;
 }
 ```
+
 Si può accedere ad un attributo mediante la sintassi col `.`
+
 ```java
 // Dato un cane chiamato "doggo", posso accedere
 // all'attr. "age" come segue
@@ -46,8 +50,10 @@ Dog doggo = new Dog();
 
 doggo.age // => 2
 ```
+
 ## Metodi (*methods*)
 I metodi sono delle funzioni che sono contenute all'interno di una classe.
+
 ```java
 class Dog {
     // Attributes
@@ -72,9 +78,11 @@ class Dog {
 
 ## Istanze (*instances*) e Riferimenti (references)
 Una classe rappresenta una struttura di attributi e metodi, ma una volta che il programma è in esecuzione, affinchè possa accedere ad essi ho bisogno di allocare in **memoria** la classe: posso dunque istanziarla tramite la keyword `new`:
+
 ```java
 Dog scooby = new Dog();
 ```
+
 Il primo `Dog` specifica il tipo della variabile `scooby`, `new` dice al compilatore che vogliamo creare una nuova **istanza** in memoria, mentre l'ultimo `Dog()` è in realtà un metodo speciale chiamato **costruttore**.
 
 Il risultato è l'allocazione in memoria della nuova istanza di `Dog`, e viene assegnato alla variabile `scooby` il **riferimento** all'istanza in memoria. `scooby` **non** contiene l'istanza, ma solo un indirizzo di essa.
@@ -90,6 +98,7 @@ scooby.age = 4
 System.out.println(scooby.age) // => 4
 System.out.println(cloneOfScooby) // => 4
 ```
+
 ## Visibilità (*visibility*)
 In Java si può decidere la visibilità (scope) di classi, attributi e metodi mediante i **modificatori di visibilità** `public`, `protected`, `private`, che si inseriscono all'inizio di una dichiarazione.
 
@@ -126,6 +135,7 @@ private class Fish {
 
 ## Costruttori (*constructors*)
 Una [classe](#classi-classes) può richedere dei parametri quando viene istanziata, e per fare ciò si usa un metodo speciale detto **costruttore** che ha lo stesso nome della classe a cui appartiene:
+
 ```java
 class Dog {
     // attributi
@@ -144,6 +154,7 @@ class Dog {
 
 ### `this`
 `this` è una pseudo-variabile che ha come valore il riferimento all'oggetto in uso. È utile quando un parametro di un metodo ha lo stesso nome di un attributo. È opzionale quando non ci sono ambiguità.
+
 ```java
 class Dog() {
     private String name;
@@ -159,6 +170,7 @@ class Dog() {
 # Packages
 
 Più classi sono raggruppate in un pacchetto (*package*), definito così in cima ad un file `.java`:
+
 ```java
 package A; // Sono nel package A
 
@@ -166,7 +178,9 @@ public class Dog {
     // ...
 }
 ```
+
 Se volessi accedere alle classi contenute in *A* posso *importare* i contenuti di A in un altro file come segue:
+
 ```java
 package B; // Sono in un altro package
 import A.Dog; // Importo la classe "Dog" dal package A
@@ -176,11 +190,15 @@ public class House {
     Dog scooby = new Dog(); // Posso usare la classe Dog
 }
 ```
+
 Posso anche importare *tutti* i componenti di un package usando la *wildcard* '`*`' come segue:
-```java
+
+```Java
 import A.*; // Importa tutte i componenti di A
 ```
+
 I package si posso annidare come segue:
+
 ```java
 // File 1
 package restaurant.kitchen;
@@ -188,6 +206,7 @@ public class Oven {
     public void turnOn();
 }
 ```
+
 ```java
 // File 2
 import restaurant.staff.*;
@@ -197,6 +216,7 @@ public class Chef {
     Oven.turnOn();
 }
 ```
+
 # Stringhe
 
 Le stringhe sono oggetti immutabili in Java.
@@ -227,6 +247,7 @@ public class Math {
     public static int grade;
 }
 ```
+
 ```java
 // File 2
 import school.*;
@@ -245,14 +266,17 @@ public class Student {
     }
 }
 ```
+
 # Classi e metodi astratti
 In Java si possono define classi per le quali non è possibile creare un'istanza mediante la keyword `abstract`. Una classe è `abstract` se ha almeno un metodo *astratto*, cioè di cui viene data solo la *dichiarazione* ma non l'*implementazione*.
 
 Sarà un'altra classe a dover estendere e a implementare i metodi di una classe astratta.
+
 ```java
 new Shape(); // ERRORE: non si può istanziare una
              //         classe astratta.
 ```
+
 ```java
 abstract Shape {
     static int sides;
@@ -289,6 +313,7 @@ Dall'esempio sopra, è possibile, data un'istanza di `Dog`, poter chiamare sia `
 
 ## `super`
 È possibile accedere ai metodi della sopraclasse *da un **metodo** della sottoclasse* usando la pseudo-variabile `super`:
+
 ```java
 class Dog extends Animal {
     public void walk() {
@@ -302,8 +327,10 @@ class Dog extends Animal {
     }
 }
 ```
+
 ## Costruttori e superclassi
 I costruttori **non** vengono ereditati a differenza degli altri metodi, perchè c'è la necessità di inizializzare i nuovi membri di una sottoclasse. Si può però evitare di inizializzare manualmente i membri della sopraclasse chiamando invece il costruttore della stessa mediante `super();`
+
 ```java
 class Animal {
     private int numberOfLegs;
@@ -325,9 +352,9 @@ class Dog extends Animal {
 }
 ```
 
-
 ## Override
 Data una sottoclasse, è possibile modificare quello che fa un metodo ereditato dalla sopraclasse eseguendo un *override* (ridefinizione). Si indica al compilatore mediante digitando `@Override` prima del metodo di cui si effettua un override.
+
 ```java
 class Snake extends Animal {
     @Override
@@ -339,6 +366,7 @@ class Snake extends Animal {
 
 ## `final`
 Java permette di impedire la creazione di ulteriori sottoclassi mediante la keyword `final`.
+
 ```java
 final class Chihuahua extends Dog {
     // ...
@@ -348,7 +376,9 @@ class TalkingChihuahua extends Chihuahua {
     // ERRORE: non si può estendere una classe final.
 }
 ```
+
 Si possono anche avere metodi `final`...
+
 ```java
 class Bird extends Animal {
     final void fly() {
@@ -365,7 +395,9 @@ class Hawk extends Bird {
     }
 }
 ```
+
 ... e attributi `final`, in questo caso si comportano come *costanti*:
+
 ```java
 class Bird extends Animal {
     public final int numberOfEyes = 2;
@@ -391,6 +423,7 @@ interface flying {
 ```
 
 Un'interfaccia può estendere altre interfacce mediante la keyword `extends` come per le classi.
+
 ```java
 interface flying extends /* <altre interfacce> */ {
     // ...
@@ -398,6 +431,7 @@ interface flying extends /* <altre interfacce> */ {
 ```
 
 Una classe può implementare un'interfaccia mediante la keyword `implements`.
+
 ```java
 class Bird extends Animal implements flying {
     // ...
@@ -412,6 +446,7 @@ class Bird extends Animal implements flying {
 In Java se non si specifica alcuna sopraclasse da cui ereditare si eredita automaticamente dalla classe `Object`. `Object` contiene alcuni metodi particolarmente comodi:
 ## `public boolean equals(Object)`
 Restituisce `true` se i due oggetti sono identici. Spesso conviene fare override di `equals()` per controllare solo certi campi. L'implementazione di default controlla che i riferimenti siano uguali.
+
 ```java
 class Circle {
     public int x;
@@ -420,19 +455,24 @@ class Circle {
     // ...
 }
 ```
+
 ```java
 Circle a = new Circle();
 Circle b = a;
 a.equals(b); // => true, hanno lo stesso riferimento.
              // C'è una sola istanza di `Circle`!
 ```
+
 ## `public String toString()`
 Restituisce una rappresentazione testuale dei valori dell'oggetto. Si può fare override per stampare quello che si vuole.
+
 ```java
 Circle a = newCircle(0, 0, "red");
 a.toString(); // => Circle@<hash dei valori>
 ```
+
 Facendo override di `toString()` diventa
+
 ```java
 class Circle {
     // ...
@@ -442,12 +482,15 @@ class Circle {
     }
 }
 ```
+
 ```java
 Circle a = newCircle(0, 0, "red");
 a.toString(); // => "It's a red circle"
 ```
+
 ## `public Object clone()`
 Restituisce un riferimento a una copia dell'oggetto, nella quale vengono copiati i valori dei campi (attenzione: gli attributi che sono una reference copiano la reference allo stesso oggetto!) A volte conviene fare override per avere maggiore controllo su cosa viene clonato.
+
 ```java
 Circle a = new Circle(0, 0, "red");
 Circle b = a;
@@ -463,6 +506,7 @@ a.equals(c); // => false, c è un riferimento ad
 Java permette di gestire eventuali problemi a runtime senza causare l'arresto inaspettato del programma mediante le **eccezioni**.
 
 Una funzione può "lanciare" un'eccezione anziché restituire il valore atteso. L'eccezione viene "catturata" dal chiamante che può gestire il problema. Si usa la seguente sintassi:
+
 ```java
 try {
     // ...
@@ -477,7 +521,9 @@ try {
     // Utile per chiudere i file letti o altri I/O.
 }
 ```
+
 Le eccezioni sono delle speciali classi che quindi definiscono il tipo dell'eccezione. Si possono gestire così eccezioni diverse cambiando il tipo dell'eccezione.
+
 ```java
 try {
     int y = Integer.parseInt(stdin.readLine());
@@ -491,6 +537,7 @@ try {
     // gestisco le eccezioni di I/O
 }
 ```
+
 > Il parametro `e` può avere qualsiasi nome: è un oggetto che contiene informazioni sull'eccezione.
 
 Quando occorre un'eccezione, il codice nel `try` block smette di essere eseguito, e viene eseguito il `catch` corrispondente.
@@ -498,6 +545,7 @@ Quando occorre un'eccezione, il codice nel `try` block smette di essere eseguito
 ## Throw
 
 Java non permette di non gestire le eccezioni: se non vuole gestire un'eccezione in una particolare funzione, si può passare l'eccezione al chiamante definendo nella dichiarazione le eccezioni che essa può generare dopo la keyword `throws`.
+
 ```java
 public static int divideNumbersFromFile() throws IOException, ArithmeticException {
     // ...
@@ -505,6 +553,7 @@ public static int divideNumbersFromFile() throws IOException, ArithmeticExceptio
 ```
 
 All'interno di una propria funzione, è possibile "lanciare" un'eccezione mediante `throw`:
+
 ```java
 public static int sumOnlyPositiveNumbers(a, b) throws NegativeException {
     if (a < 0 || b < 0) {
@@ -521,6 +570,7 @@ Se si può evitare un'eccezione con un semplice check, spesso è conveniente.
 
 ## Creare nuove eccezioni
 Si possono creare nuove eccezioni creando una classe che estende `Exception` e implemente due costruttuori, uno senza parametri e uno che riceve una stringa.
+
 ```java
 public class MyException extends Exception {
     public MyException() {
@@ -531,12 +581,16 @@ public class MyException extends Exception {
     }
 }
 ```
+
 Posso lanciare questa nuova eccezione nel seguente modo:
+
 ```java
 throw new MyException("Houston, we have a problem!");
 ```
+
 ## Masking
 Le eccezioni possono essere usate per evitare un errore in una funzione che deve restituire al chiamante, per esempio restituendo un valore di default.
+
 ```java
 public static String parseInput() {
     // ...
@@ -555,8 +609,10 @@ public static String parseInput() {
     return parsedOutput;
 }
 ```
+
 ## Reflection
 A volte si vuole propagare al chiamante un'eccezione, che non sempre è dei tipi `throw`-abili da esso: allora si può lanciare un'eccezione compatibile col chiamante nel blocco `catch` dell'eccezione.
+
 ```java
 public static void feedBaby (Baby baby) throws CryException {
     try {
@@ -568,6 +624,7 @@ public static void feedBaby (Baby baby) throws CryException {
     }
 }
 ```
+
 # Multithreading
 In un programma ci interessa la possibilità di svolgere più task in *parallelo* a livello *logico*.
 
@@ -628,6 +685,7 @@ Ogni thread ha una priorità che va da `Min_Priority` a `Max_Priority`. La prior
 
 ## Atomicità e `synchronized`
 Per evitare che più thread agiscano sulle stesse variabili condivise e si ottengano risultati inattesi (**interferenza**), si può definire una sequenza di azioni che viene eseguita senza interruzioni (**sequenza atomica**) mediante la keyword `syncronized`.
+
 ```java
 class Jar {
     private int candies;
@@ -640,6 +698,7 @@ class Jar {
     }
 }
 ```
+
 In questo modo, quando un thread **A** esegue un metodo `syncronized` su un oggetto **X** un thread **B** che vuole chiamare un metodo su **X** deve aspettare che il metodo invocato da **A** termini.
 
 Quando si cerca di eseguire un metodo `syncronized` Java applica un **lock intrinseco** all'oggetto (in questo caso, l'istanza della classe `Jar`), cioè:
@@ -660,6 +719,7 @@ Poichè eseguire un applicazione con multithreading richiede il rispetto di alcu
 ### Deadlock
 Si ha un **deadlock** quando due thread si bloccano in attesa l'uno dell'altro.
 > Esempio: *Ada e Bob devono salire in ascensore, ma ciascuno vuole lasciare entrare prima l'altro.*
+
 ```java
 class Person {
     // ...
@@ -679,16 +739,18 @@ Person bob = new Person("Bob");
 new Thread(
     new Runnable() {
         public void run() {
-            ada.getOnTheElevatorBefore(bob);}
+            ada.getOnTheElevatorBefore(bob);
         }
-    ).start();
+    }
+).start();
 
 new Thread(
     new Runnable() {
         public void run() {
-            bob.getOnTheElevatorBefore(ada);}
+            bob.getOnTheElevatorBefore(ada);
         }
-    ).start();
+    }
+).start();
 ```
 
 ### Starvation
