@@ -502,6 +502,130 @@ a.equals(c); // => false, c è un riferimento ad
              // ha però gli stessi attributi.
 ```
 
+## `public int hashCode()`
+Restituisce un numero che dipende dallo stato dell’oggetto, in particolare instanze uguali ritornano hash uguali.
+Deve essere ridefinito nel caso si ridefinisca il metodo `equals()`.
+
+# Collection
+
+[`Collection`](http://docs.oracle.com/javase/8/docs/api/java/util/Collection.html) è una classe di Java che viene utilizzata da molte sue sottoclassi per rappresentare collezioni di elementi, come `List`, `Set` (non contiene elementi duplicati), `Queue` (ha metodi per inserire/prelevare in testa o coda). Tutte le sottoclassi di `Collection` sono *iterabili*, cioè implementano l'interfaccia `Iterable` e i loro elementi possono essere ciclati da un `forEach` loop.
+
+Si specifica il tipo contenuto nella *collection* all'interno delle parentesi uncinate `<`,`>`. Ad esempio per `Set`
+
+```java
+Set<Integer> mySet = new Set<Integer>();
+```
+
+### Implementazioni di Collection
+
+- [**Set**](http://docs.oracle.com/javase/8/docs/api/java/util/Set.html): non contiene elementi duplicati
+    - [HashSet](http://docs.oracle.com/javase/8/docs/api/java/util/HashSet.html)
+    - [TreeSet](http://docs.oracle.com/javase/8/docs/api/java/util/TreeSet.html)
+    - [LinkedHashSet](http://docs.oracle.com/javase/8/docs/api/java/util/LinkedHashSet.html)
+- [**List**](http://docs.oracle.com/javase/8/docs/api/java/util/List.html): sequenza di elementi che può contenere duplicati
+    - [ArrayList](http://docs.oracle.com/javase/8/docs/api/java/util/ArrayList.html)
+    - [LinkedList](http://docs.oracle.com/javase/8/docs/api/java/util/LinkedList.html)
+    - [Vector](http://docs.oracle.com/javase/8/docs/api/java/util/Vector.html)
+- [**Queue**](http://docs.oracle.com/javase/8/docs/api/java/util/Queue.html): coda di elementi che può contenere duplicati
+    - [Deque](http://docs.oracle.com/javase/8/docs/api/java/util/Deque.html) (entrambi gli estremi sono manipolabili)
+- [**Map**](http://docs.oracle.com/javase/8/docs/api/java/util/Map.html): associa a un valore a una chiave. Non ha duplicati, ma può avere valori nulli.
+    - [HashMap](http://docs.oracle.com/javase/8/docs/api/java/util/HashMap.html)
+    - [TreeMap](http://docs.oracle.com/javase/8/docs/api/java/util/TreeMap.html)
+    - [LinkedHashMap](http://docs.oracle.com/javase/8/docs/api/java/util/LinkedHashMap.html)
+
+## Generics
+
+Le classi in Java possono accettare dei parametri speciali chiamati *generics* che sono *tipi* di una variabile. È quindi possibile utilizzare tali parametri nei metodi della classe come *tipi* dei parametri del metodo.
+
+Si specifica il nome del generics tra le parentesi uncinate dopo il nome della classe.
+
+Più parametri devono essere separati da una virgola.
+
+```java
+public class MyList<T> {
+    // Attributo di tipo T
+    private T myVar;
+    // Metodo di tipo T
+    public myMethod(T param) {
+        // ...
+    }
+    // Costruttore che accetta un parametro di tipo T
+    public MyList(T value) {
+        myVar = value;
+    }
+}
+```
+
+Posso quindi utilizzare la classe specificando i parametri *generics* per creare una instance, ad esempio:
+
+```java
+MyList<Integer> listOfIntegers = new MyList<Integer>(3);
+MyList<String>  listOfStrings  = new MyList<String>("Hi!");
+```
+
+Si possono anche creare metodi generici senza dover avere una classe con *generics* nel seguente modo:
+
+```java
+public <T> void genericPrint(T param) {
+    System.out.format("%s", param);
+}
+
+myGenericMethod(33); // => 33
+myGenericMethod("Hello!"); // => Hello!
+```
+
+Il carattere `?`, detto *wildcard*, permette di rappresentare un tipo non definito.
+È comodo per definire dei sottoinsiemi di tipi che possono essere accettati mediante la keyword `extends` o `super`.
+
+Il seguente metodo accetta una `Collection` di `Mammal` o sue sottoclassi, che potrebbero essere `Cat` oppure `Dog`, o una sua sottoclasse, come `Bulldog`, ma non accetta `Fish`, che non è un mammifero.
+
+```java
+public void method(Collection<? extends Mammal> collection);
+```
+
+Il seguente metodo accetta una `Collection` di `Mammal` o di sue sopraclassi, come `Vertebrate` o la sua sopraclasse `Animal`, ma non `Invertebrate`, che è sottoclasse di `Animal` ma non sopraclasse di `Vertebrate`.
+
+```java
+public void method(Collection<? super Mammal> collection);
+```
+
+## HashTable
+
+Una *HashTable* è un'implementazione di una *Map*, e **non** ammette valori nulli, ed è [synchronized](#Atomicità-e-synchronized).
+
+`HashTable<K,V>` ha due *generics*, `K` e `V`, che sono la *chiave* e il *valore* ad essa associata.
+
+```java
+Hashtable<String, String> postalCode = new Hashtable<String, String>();
+numbers.put("Milan", "20100");
+numbers.put("Rome", "00194");
+```
+## Iteratibilità
+
+### `Iterator<E>`
+`Iterator<E>` è un'interfaccia che permette di scandire e rimuovere oggetti da collezioni. È composta dai metodi:
+
+- `boolean hasNext();` restituisce `True` se c'è un elemento successivo.
+- `E next();` restituisce l'elemento successivo
+- `void remove();` rimuove l'elemento corrente.
+
+```java
+Iterator<String> i = list.iterator();
+while(i.hasNext()) {
+    String s = i.next(); // Restituisce l'elemento successivo
+    iterator.remove(); //Rimuove l'elemento corrente
+}
+```
+
+### `Iterable<T>`
+`Iterable<T>` è un'interfaccia che permette di implementare il for generalizzato. È composta dal metodo 
+
+```java
+Iterator<T> iterator();
+```
+
+È possibile usare il for generalizzato su oggetti che implementano tale interfaccia.
+
 # Eccezioni
 Java permette di gestire eventuali problemi a runtime senza causare l'arresto inaspettato del programma mediante le **eccezioni**.
 
@@ -857,3 +981,39 @@ e.execute(r);
 Le **thread pools** limitano il tempo in esecuzione di ciascun thread.
 
 Anzichè di creare un nuovo *thread* per ogni *task*, il nuovo task viene messo in una coda e quando c'è un *thread* della *thread pool* inattivo, tale task viene assegnato ad esso.
+
+### Collezioni concorrenti
+
+Molte collezioni o strutture dati in Java non sono `synchronized`, pertanto è necessario utilizzare apposite collezioni o rendere quelle esistenti `synchronized`:
+
+```java
+List list = Collections.synchronizedList(new ArrayList());
+``` 
+
+Altre collezioni degne di nota sono [BlockingQueue](http://docs.oracle.com/javase/8/docs/api/java/util/concurrent/BlockingQueue.html) e [ConcurrentHashMap](http://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ConcurrentHashMap.html).
+
+## Variabili Atomiche
+
+Le variabili atomiche, dichiarate in [`java.util.atomic`](http://docs.oracle.com/javase/8/docs/api/java/util/concurrent/atomic/package-summary.html), sono un'implementazione più fine di alcuni tipi di *synchronized statements*, come per esempio un *counter*. Si specificano le singole variabili come `Atomic` e si può interagire con esse tramite appositi metodi.
+
+```java
+import java.util.concurrent.atomic.AtomicInteger;
+class AtomicCounter {
+    private AtomicInteger c = new AtomicInteger(0);
+
+    public void increment() {
+        // Sommo 1 a `c`
+        c.incrementAndGet();
+    }
+
+    public void decrement() {
+        // Sottraggo 1 a `c`
+        c.decrementAndGet();
+    }
+
+    public int value() {
+        return c.get();
+    }
+}
+```
+
