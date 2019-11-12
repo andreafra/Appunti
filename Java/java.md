@@ -442,68 +442,65 @@ class Bird extends Animal implements flying {
 }
 ```
 
-# Object (classe)
+## Object (classe)
 In Java se non si specifica alcuna sopraclasse da cui ereditare si eredita automaticamente dalla classe `Object`. `Object` contiene alcuni metodi particolarmente comodi:
-## `public boolean equals(Object)`
-Restituisce `true` se i due oggetti sono identici. Spesso conviene fare override di `equals()` per controllare solo certi campi. L'implementazione di default controlla che i riferimenti siano uguali.
 
-```java
-class Circle {
-    public int x;
-    public int y;
-    public String color;
-    // ...
-}
-```
+- `public boolean equals(Object)` restituisce `true` se i due oggetti sono identici. Spesso conviene fare override di `equals()` per controllare solo certi campi. L'implementazione di default controlla che i riferimenti siano uguali.
 
-```java
-Circle a = new Circle();
-Circle b = a;
-a.equals(b); // => true, hanno lo stesso riferimento.
-             // C'è una sola istanza di `Circle`!
-```
-
-## `public String toString()`
-Restituisce una rappresentazione testuale dei valori dell'oggetto. Si può fare override per stampare quello che si vuole.
-
-```java
-Circle a = newCircle(0, 0, "red");
-a.toString(); // => Circle@<hash dei valori>
-```
-
-Facendo override di `toString()` diventa
-
-```java
-class Circle {
-    // ...
-    @Override
-    public String toString() {
-        return "It's a " + color + " circle";
+    ```java
+    class Circle {
+        public int x;
+        public int y;
+        public String color;
+        // ...
     }
-}
-```
+    ```
 
-```java
-Circle a = newCircle(0, 0, "red");
-a.toString(); // => "It's a red circle"
-```
+    ```java
+    Circle a = new Circle();
+    Circle b = a;
+    a.equals(b); // => true, hanno lo stesso riferimento.
+                // C'è una sola istanza di `Circle`!
+    ```
 
-## `public Object clone()`
-Restituisce un riferimento a una copia dell'oggetto, nella quale vengono copiati i valori dei campi (attenzione: gli attributi che sono una reference copiano la reference allo stesso oggetto!) A volte conviene fare override per avere maggiore controllo su cosa viene clonato.
+- `public String toString()` restituisce una rappresentazione testuale dei valori dell'oggetto. Si può fare override per stampare quello che si vuole.
 
-```java
-Circle a = new Circle(0, 0, "red");
-Circle b = a;
-Circle c = a.clone();
-a.equals(b); // => true, è un riferimento alla
-             // medesima istanza.
-a.equals(c); // => false, c è un riferimento ad
-             // un'altra istanza di `Circle`, che
-             // ha però gli stessi attributi.
-```
+    ```java
+    Circle a = newCircle(0, 0, "red");
+    a.toString(); // => Circle@<hash dei valori>
+    ```
 
-## `public int hashCode()`
-Restituisce un numero che dipende dallo stato dell’oggetto, in particolare instanze uguali ritornano hash uguali.
+    Facendo override di `toString()` diventa
+
+    ```java
+    class Circle {
+        // ...
+        @Override
+        public String toString() {
+            return "It's a " + color + " circle";
+        }
+    }
+    ```
+
+    ```java
+    Circle a = newCircle(0, 0, "red");
+    a.toString(); // => "It's a red circle"
+    ```
+
+- `public Object clone()` restituisce un riferimento a una copia dell'oggetto, nella quale vengono copiati i valori dei campi (attenzione: gli attributi che sono una reference copiano la reference allo stesso oggetto!) A volte conviene fare override per avere maggiore controllo su cosa viene clonato.
+
+    ```java
+    Circle a = new Circle(0, 0, "red");
+    Circle b = a;
+    Circle c = a.clone();
+    a.equals(b); // => true, è un riferimento alla
+                // medesima istanza.
+    a.equals(c); // => false, c è un riferimento ad
+                // un'altra istanza di `Circle`, che
+                // ha però gli stessi attributi.
+    ```
+
+- `public int hashCode()` restituisce un numero che dipende dallo stato dell’oggetto, in particolare instanze uguali ritornano hash uguali.
 Deve essere ridefinito nel caso si ridefinisca il metodo `equals()`.
 
 # Collection
@@ -1017,3 +1014,371 @@ class AtomicCounter {
 }
 ```
 
+# Design Patterns
+
+I *design patterns* sono una serie di principi che permettono di scrivere codice in maniera più efficiente grazie a soluzioni testate per i problemi più comuni.
+
+Principi comuni ai design patterns sono:
+
+- **astrazione**, in modo da essere condivisi tra progettisti con punti di vista differenti
+- **bassa complessità**, per essere facilmente comprensibili
+- **non domain-specific**, per essere utilizzati in ogni tipo di applicazione
+
+I pattern si dividono in *tre* categorie:
+
+- **creazionali** (riguardano il processo di creazioni degli oggetti)
+- **strutturali** (riguardano la composizione di classi e oggetti)
+- **comportamentali** (regolano le interazioni tra le oggetti e distribuiscono le responsabilità)
+
+## Pattern creazionali
+
+### Singleton
+
+Il *singleton* serve per assicurarsi che esista una e una sola istanza di una classe.
+
+> Usare infatti solo metodi statici non assicura che esista una sola instance di essa.
+
+In un singleton quindi il *costruttore* è *protetto* o *privato*, e si accede all'unica copia dell'oggetto tramite un *metodo statico*.
+
+L'implementazione più comune è la seguente:
+
+```java
+public class Singleton {
+    // unica istanza
+    private static Singleton instance = null;
+    // costruttore invisibile
+    private Singleton() {
+        // ...
+    }
+
+    // uso questo metodo per accedere all'unica istanza
+    // possibile della classe.
+    public static Singleton instance() {
+        // crea l'oggetto solo se non esiste
+        if (instance == null) instance = new Singleton();
+        // altrimenti
+        return instance;
+    }
+    // ...
+}
+```
+
+Nel caso di multithreading, conviene usare un metodo `synchronized` per creare l'istanza della classe, come `createInstance()` nell'esempio seguente:
+
+```java
+public class Singleton {
+    // unica istanza
+    private static Singleton instance = null;
+    // costruttore invisibile
+    private Singleton() {
+        // ...
+    }
+
+    // crea l'oggetto solo se non esiste
+    private synchronized static Singleton createInstance() { 
+        if (instance == null) instance = new Singleton();
+        // altrimenti
+        return instance;
+    }
+
+    public static Singleton instance() {
+        // chiama metodo synchronized solo se
+        // l'oggetto non esiste
+        if (instance == null) createInstance();
+        // else
+        return instance;
+    }
+    // altri metodi
+}
+```
+
+Posso infine avere un singleton che si istanzia da solo nel seguente esempio, dove non è possibile accedere al suo costruttore:
+
+```java
+public class Singleton {
+    // L'unica istanza viene già inizializzata
+    final private static Singleton instance = new Singleton();
+
+    // costruttore invisibile
+    private Singleton() {
+        // ...
+    }
+
+    // restituisce l'unica istanza esistente
+    public static Singleton instance() {
+        return instance
+    }
+    // ...
+}
+```
+
+### Adapter
+
+Un'*adapter* è una classe che fa da *tramite* tra un'applicazione e una libreria che deve essere adattata ad essa. 
+
+> Attenzione, quado si parla in questo paragrafo di *interfaccia*, si intende l'insieme di metodi e attributi messi a disposizione da una classe, di solito una libreria di terze parti, non una ***interface*** di java
+
+Ci sono tre attori in questa situazione:
+
+- il **client**, cioè l'*applicazione* che interagisce con un *target* attraverso l'interfaccia messa a disposizione dall'*adapter*
+- l'**adapter**, che collega l'interfaccia di una *adaptee* a quella del *client*
+- l'**adaptee**, cioè ciò che viene "adattato", di solito una libreria di terze parti
+
+Il vantaggio è che non bisogna modificare il codice del *client* per integrare una nuova libreria, ma basta modificare l'*adapter*.
+
+Un esempio è quello di adattare un programma a diverse GUI (Graphical User Interface) di sistemi operativi diversi (OS): basta utilizzare un adapter per ogni libreria grafica messa a disposizione dai vari OS.
+
+### Pattern Strategy
+
+Una *Strategy* è un approccio utile a rendere un programma estendibile senza dover riscrivere molte classi, oppure quando è necessario scegliere a runtime tra algoritmi diversi, senza che l'utilizzatore sappia quale metodo sia stato scelto: è fondamentale che il tutto sia trasparente.
+
+Un esempio per chiarire le idee è il seguente:
+
+Si prenda un RPG (Role-Playing Game) dove il personaggio (una *sottoclasse* di `Character`) può usare armi (*sottoclassi* di `Weapon`) differenti. Vogliamo che a seconda del tipo di arma, cambi il modo con cui viene calcolato l'esito del combattimento:
+
+```java
+public abstract class Character {
+    // L'arma è un oggetto di tipo `Weapon`
+    Weapon weapon;
+
+    // `fight()` è un azione che viene implementata dai
+    // vari personaggi
+    abstract void fight();
+}
+```
+
+```java
+public class Paladin extends Character {
+    // implementa `fight()` a modo suo
+    @Override
+    void fight() {
+        // ...
+    }
+}
+```
+
+```java
+public class Wizard extends Character {
+    // implementa `fight()` a modo suo
+    @Override
+    void fight() {
+        // ...
+    }
+}
+```
+
+```java
+public class Rogue extends Character {
+    // implementa `fight()` a modo suo
+    @Override
+    void fight() {
+        // ...
+    }
+}
+```
+
+Ovviamente utilizzare uno *switch* all'interno di ogni implementazione di *fight* è una pessima idea, perchè se dovessimo cambiarlo, ci toccherebbe cambiarlo per ogni sottoclasse di `Character` che lo implementa, quindi `Knight`, `Wizard` e `Rogue`.
+
+La soluzione più intelligente è definire un interfaccia `Weapon` che viene implementata dai vari tipi di arma (es.: `Sword`, `Dagger`, `Spear`):
+
+```java
+interface Weapon {
+    void useWeapon();
+}
+```
+
+```java
+class Sword implements {
+    @Override
+    void useWeapon() {
+        // Slash with a sword!
+    }
+}
+```
+
+```java
+class Dagger implements {
+    @Override
+    void useWeapon() {
+        // Stab with a dagger!
+    }
+}
+```
+
+```java
+class Spear implements {
+    @Override
+    void useWeapon() {
+        // Throw a spear!
+    }
+}
+```
+
+È pratica abbastanza comunque usare un suffisso *Behaviour* o *Strategy* dopo il nome dell'interfaccia e delle classi che la implementano; in questo esempio avremmo potuto utilizzare `WeaponBehaviour` e `SwordBehaviour`, etc.
+
+### Pattern Decorator
+
+Un *Decorator* è un pattern che permette di aggiungere funzionalità a istanze di classi esistenti **senza** usare sottoclassi, particolarmente utile quindi a *runtime* e per evitare di avere un numero enorme di sottoclassi.
+
+Si costruisce una classe (**Decorator**) che ingloba l'oggetto esistente (**Component**) passandolo come *parametro* del *costruttore* del decoratore.
+
+Il *decorator* è dello **stesso** tipo del *component*, in modo da poter liberamente sostituire nel codice le occorrenze.
+
+Un esempio in cui è spesso utilizzato un decorator è negli stream di dati, in cui si vuole aggiungere la possibilità di comprimere, decomprimere, crittografare, etc. uno stream di dati.
+Conviene definire un "base" decorator sul quale poi si costruiscono gli altri.
+
+#### Esempio
+Analizziamo nel dettaglio un esempio, disponibile online [qui](https://refactoring.guru/design-patterns/decorator/java/example).
+
+Questa è l'interfaccia (astratta) che vogliamo decorare. 
+Quello che ci permette di fare è scrivere dei dati o leggerli.
+
+```java
+public interface DataSource {
+    void writeData(String data);
+
+    String readData();
+}
+```
+
+Implementiamo l'interfaccia `DataSource` con la classe `FileDataSource`.
+
+```java
+public class FileDataSource implements DataSource {
+    private String name;
+
+    public FileDataSource(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public void writeData(String data) {
+        // scrive i dati in un file
+    }
+
+    @Override
+    public String readData() {
+        // restituisce una stringa dei dati letti
+        // da un file
+    }
+}
+```
+
+Creiamo ora un *decoratore* per l'interfaccia `DataSource`: quello che fa è semplicemente identico a quello che faceva l'interfaccia, dobbiamo ancora creare dei decoratori che aggiungono funzionalità; questo ci serve solo come base.
+
+> In Inglese "Wrapper" è "Colui che contiene", mentre "Wrappee" è "colui che è contenuto". Non è un [*typo*](https://www.merriam-webster.com/dictionary/typo).
+
+```java
+public class DataSourceDecorator implements DataSource {
+    private DataSource wrappee;
+
+    // Copia la reference alla classe originale in `wrappee`
+    DataSourceDecorator(DataSource source) {
+        this.wrappee = source;
+    }
+
+    // Scrive nel file
+    @Override
+    public void writeData(String data) {
+        wrappee.writeData(data);
+    }
+
+    // Legge nel file
+    @Override
+    public String readData() {
+        return wrappee.readData();
+    }
+}
+```
+
+Creaiamo ora un decoratore che aggiunga la possibilità di codificare/decodificare il file, grazie ai due metodi `encode()` e `decode()`.
+
+```java
+public class EncryptionDecorator extends DataSourceDecorator {
+    // Il costruttore fa quello che faceva
+    // il decoratore "base"
+    public EncryptionDecorator(DataSource source) {
+        super(source);
+    }
+
+    // Prima CODIFICA, poi SCRIVE i dati nel file
+    @Override
+    public void writeData(String data) {
+        super.writeData(encode(data));
+    }
+
+    // Prima LEGGE i dati nel file, poi li DECODIFICA
+    @Override
+    public String readData() {
+        return decode(super.readData());
+    }
+
+    private String encode(String data) {
+        // Restituisce la versione codificata di `data`
+    }
+
+    private String decode(String data) {
+        // Restituiisce la versione decodificata di `data`
+    }
+}
+```
+
+Creaiamo ora anche un decoratore per comprimere il nostro filestream, grazie ai metodi `compress()` e `decompress()`:
+
+```java
+public class CompressionDecorator extends DataSourceDecorator {
+
+    // Il costruttore fa quello che faceva
+    // il decoratore "base"
+    public CompressionDecorator(DataSource source) {
+        super(source);
+    }
+
+    // Prima COMPRIME i dati, poi li scrive nel file.
+    @Override
+    public void writeData(String data) {
+        super.writeData(compress(data));
+    }
+
+    // Prima LEGGE i dati dal file, poi li DECOMPRIME
+    @Override
+    public String readData() {
+        return decompress(super.readData());
+    }
+
+    private String compress(String stringData) {
+        // Restituisce i dati compressi
+    }
+
+    private String decompress(String stringData) {
+        // Restituisce i dati decompressi
+    }
+}
+```
+
+Alla fine potremo usare i decoratori per creare un nuovo file, codificarlo e comprimerlo senza sforzi:
+
+```java
+public class Demo {
+    // Main
+    public static void main(String[] args) {
+        // Dati che devo scrivere
+        String superSecretData = "SuperSecretData";
+        // Creo il file in cui scriverò i dati
+        DataSourceDecorator encoded = 
+            new CompressionDecorator(
+                new EncryptionDecorator(
+                    new FileDataSource("out/OutputDemo.txt")
+                )
+            );
+        // Scrivo i dati
+        encoded.writeData(superSecretData);
+        // I dati che scrivo sono automaticamente
+        // codificati e compressi dal decoratore.
+    }
+}
+```
+
+## Pattern Strutturali
+
+🚧WIP 🚧
