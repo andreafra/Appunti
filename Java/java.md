@@ -99,6 +99,56 @@ System.out.println(scooby.age) // => 4
 System.out.println(cloneOfScooby) // => 4
 ```
 
+## Tipo statico e dinamico
+In Java il tipo che si vede scritto nel codice è definito *statico*:
+
+```java
+int number = 5; // Tipo Statico: `int`
+String greeting = "Hi!"; // Tipo Statico: `String`
+```
+
+Il tipo dinamico è quello della reference di un oggetto al momento in cui è stato instanziato:
+
+```java
+Book book = new Book()
+// Tipo Statico: `Book` (da `Book book`)
+// Tipo Dinamico: `Book` (da `new Book()`)
+```
+
+Per le proprietà delle sottoclassi, posso assegnare a una variabile del tipo di una superclasse (`Book`) un'istanza di una sua sottoclasse (`ComicBook`):
+
+```java
+Book book = new ComicBook()
+// Tipo Statico: `Book` (da `Book book`)
+// Tipo Dinamico: `ComicBook` (da `new ComicBook`)
+```
+
+Attenzione: non posso accedere agli eventuali metodi e attributi aggiuntivi di `ComicBook` dalla variabile `Book`, perchè il tipo `Book` non è a conoscenza delle estensioni aggiunte dalle sue sottoclassi.
+
+```java
+class Book {
+    String title;
+}
+
+class ComicBook extends Book {
+    int episode;
+    Image[] pictures;
+}
+```
+
+```java
+Book book = new ComicBook();
+book.title; // => OK
+book.episode; // => ERROR
+```
+
+**NON** si può invece assegnare a una variabile di tipo sottoclasse un'istanza della sopraclasse:
+
+```java
+ComicBook comic = new ComicBook(); // OK
+ComicBook book = new Book(); // ERROR
+```
+
 ## Visibilità (*visibility*)
 In Java si può decidere la visibilità (scope) di classi, attributi e metodi mediante i **modificatori di visibilità** `public`, `protected`, `private`, che si inseriscono all'inizio di una dichiarazione.
 
@@ -416,7 +466,7 @@ Java non permette di ereditare da più di una classe, ma in certe situazioni fa 
 Le interfacce sono come delle classi i cui attributi sono di default `public static final`, cioè **costanti** e i metodi sono `public abstract` (possono anche essere `static`).
 
 ```java
-interface flying {
+interface Flying {
     int LEGS = 2; // public, static, final
     void fly(); // public, abstract
 }
@@ -425,7 +475,7 @@ interface flying {
 Un'interfaccia può estendere altre interfacce mediante la keyword `extends` come per le classi.
 
 ```java
-interface flying extends /* <altre interfacce> */ {
+interface Flying extends /* <altre interfacce> */ {
     // ...
 }
 ```
@@ -433,7 +483,7 @@ interface flying extends /* <altre interfacce> */ {
 Una classe può implementare un'interfaccia mediante la keyword `implements`.
 
 ```java
-class Bird extends Animal implements flying {
+class Bird extends Animal implements Flying {
     // ...
     @Override
     public void fly() {
@@ -600,7 +650,7 @@ numbers.put("Rome", "00194");
 ## Iteratibilità
 
 ### `Iterator<E>`
-`Iterator<E>` è un'interfaccia che permette di scandire e rimuovere oggetti da collezioni. È composta dai metodi:
+[`Iterator<E>`](http://docs.oracle.com/javase/8/docs/api/java/util/Iterator.html) è un'interfaccia che permette di scandire e rimuovere oggetti da collezioni. È composta dai metodi:
 
 - `boolean hasNext();` restituisce `True` se c'è un elemento successivo.
 - `E next();` restituisce l'elemento successivo
@@ -614,14 +664,49 @@ while(i.hasNext()) {
 }
 ```
 
+#### Implementare `Iterator<E>`
+
+Per creare un proprio *iteratore*, basta implementare la omonima interfaccia `Iterator<E>` e implementare i tre metodi visti sopra:
+
+```java
+class MyIterator implements Iterator<E> {
+    public boolean hasNext() {
+        // deve restituire `True` se e solo se
+        // esiste il prossimo elemento
+    }
+
+    public E next() throws NoSuchElementException {
+        // restituisce il prossimo elemento, altrimenti lancia l'eccezione
+    }
+
+    public void remove() throws UnsupportedOperationException {
+        // cancella l'ultimo elemento restituito
+        // da `next()`
+    }
+}
+
+```
 ### `Iterable<T>`
-`Iterable<T>` è un'interfaccia che permette di implementare il for generalizzato. È composta dal metodo 
+[`Iterable<T>`](http://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html) è un'interfaccia che permette di implementare il for generalizzato. È composta dal metodo 
 
 ```java
 Iterator<T> iterator();
 ```
 
-È possibile usare il for generalizzato su oggetti che implementano tale interfaccia.
+È possibile usare il for generalizzato (o il metodo `forEach()`) su oggetti che implementano tale interfaccia.
+
+#### Implementare `Iterable<T>`
+
+È possibile creare una propria collezione implementando l'interfaccia `Iterable<T>`
+
+```java
+class MyCollectio  implements Iterable<T> {
+    public Iterator<T> iterator() {
+        // Restituisce l'iteratore per scandire
+        // la collezione
+    }
+}
+```
 
 # Eccezioni
 Java permette di gestire eventuali problemi a runtime senza causare l'arresto inaspettato del programma mediante le **eccezioni**.
@@ -1112,11 +1197,150 @@ public class Singleton {
 }
 ```
 
+### Factory Method
+
+È uno dei pattern più usati, che disaccoppia la il codice di una classe da quello che la crea.
+
+Per ogni tipo di *oggetto da produrre* (`ConcreteProduct`) si definisce una classe (`ConcreteFactory`) che contiene il metodo statico `factory()` che produce oggetti di quel tipo. Ogni `ConcreteProduct` estende una classe *astratta* `Product`.
+
+```java
+// Definisco le classi
+class Pizza {
+    // ...
+}
+class PizzaMarinara extends Pizza {
+    // ...
+}
+
+// Definisco i Factory che contengono
+// i factory method
+class PizzaFactory {
+    public Pizza factory();
+}
+
+public class MarinaraFactory implements PizzaFactory {
+    public Pizza factory() {
+        return new PizzaMarinara();
+    }
+}
+
+public class PizzaOrder {
+    private PizzaFactory pizzaFactory;
+    // Il metodo che userò per creare una pizza, 
+    // a cui passo la classe che contiene il
+    // factory method
+    public void PizzaOrder(PizzaFactory c) {
+        pizzaFactory = c;
+    }
+    public Pizza cook() {
+        Pizza pizza = pizzaFactory.factory();
+        // Fai altre operazioni con `pizza`
+        return pizza;
+    }
+    // ...
+}
+```
+
+Posso poi chiamare
+
+```java
+// Creo l'instanza di PizzaOrder per avere una
+// marinara, passando l'opportuno `Factory`
+PizzaOrder marinaraOrder = new PizzaOrder(new MarinaraFactory());
+// Faccio operazioni sulla nuova istanza di pizza.
+Pizza myFreshPizza = marinaraOrder.cook();
+```
+
+### Abstract Factory
+
+Una *abstract factory* è una variante in cui la  factory è un'interfaccia astratta (`AbstractFactory`) e definisce i metodi che devono essere implementati dalle classi `ConcreteFactory`. Inoltre l'abstract factory può creare famiglie di prodotti anziché un solo prodotto. I prodotti dello stesso tipo possono anch'essi implementare un'interfaccia astratta.
+
+Le singole `ConcreteFactory` implementano quindi più metodi factory:
+
+```java
+// Definisco un'interfaccia che specifica attributi
+// e metodi per le auto che la implementano
+interface Car {
+    // ...
+}
+class CityCar implements Car {
+    // Avrà delle proprie caratteristiche
+    // particolari
+}
+class SUV implements Car {
+    // Avrà caratteristiche diverse
+    // da una city car
+}
+
+// Definisco una classe ASTRATTA che contiene
+// i metodi per i tipi di auto da produrre
+interface CarFactory {
+    public abstract CityCar makeCityCar();
+    public abstract SUV makeSUV();
+}
+
+// Creo delle classi CONCRETE che implementano
+// la costruzione dei vari modelli di auto dalla
+// classe ASTRATTA
+class BMWFactory implements CarFactory {
+    @Override
+    public CityCar makeCityCar() {
+        // ...
+    };
+    @Override
+    public SUV makeSUV() {
+        // ...
+    };
+}
+class VolkswagenFactory implements CarFactory {
+    @Override
+    public CityCar makeCityCar() {
+        // ...
+    };
+    @Override
+    public SUV makeSUV() {
+        // ...
+    };
+}
+
+class CarDealer {
+    CarFactory factory;
+    Car car;
+    public CarDealer(factory) {
+        this.factory = factory;
+        this.car = car;
+    }
+
+    // Mi restituisce una
+    public Car buyCar(boolean isCityCar) {
+        if (isCityCar) {
+            return new factory.makeCityCar();
+        } else {
+            return new factory.makeSUV();
+        }
+    }
+}
+```
+
+Posso quindi chiamare
+
+```java
+CarDealer cd1 = new CarDealer(VolkswagenFactory);
+Car myNewCar = cd1.buyCar(true); // => VW CityCar
+Car myNewCar = cd1.buyCar(false); // => VW SUV
+
+CarDealer cd2 = new CarDealer(VolkswagenFactory);
+Car myNewCar = cd2.buyCar(true); // => BMW CityCar
+Car myNewCar = cd2.buyCar(false); // => BMW SUV
+```
+
+## Pattern Strutturali
+
 ### Adapter
 
 Un'*adapter* è una classe che fa da *tramite* tra un'applicazione e una libreria che deve essere adattata ad essa. 
 
-> Attenzione, quado si parla in questo paragrafo di *interfaccia*, si intende l'insieme di metodi e attributi messi a disposizione da una classe, di solito una libreria di terze parti, non una ***interface*** di java
+> Attenzione, quado si parla in questi paragrafi di *interfaccia*, si intende l'insieme di metodi e attributi messi a disposizione da una classe, di solito una libreria di terze parti, non una ***interface*** di java
 
 Ci sono tre attori in questa situazione:
 
@@ -1379,6 +1603,103 @@ public class Demo {
 }
 ```
 
-## Pattern Strutturali
+### Facade
 
-🚧WIP 🚧
+Una *facade* ("facciata", di un edificio) è un pattern utile a nascondere la complessità di un insieme di classi molto legate fra loro presentando un'interfaccia semplificata all'utilizzatore.
+
+### Proxy
+
+Un *proxy* è un pattern che si interpone tra un oggetto particolarmente grande o lento, per esempio su un server remoto, di cui copia l'interfaccia (cioè metodi e attributi).
+
+Un proxy può quindi snellire il carico all'oggetto per esempio facendo *pre-processing*, usando una *cache*, stabilendo priorità e code, etc.
+
+### Pattern State
+
+Il *pattern state* permette di estendere facilmente il comportamento di una classe (*context*) in base al suo stato (*state*). È particolarmente conveniente al posto di uno switch (che è limitato) e, similmente al *pattern strategy*, ricorre a un'**interfaccia** che viene implementata da classi che rappresentano i vari stati.
+
+Di solito, lo stato è salvato in un parametro dello stesso tipo dell'interfaccia.
+
+```java
+public class Writer {
+    WriteState state;
+
+    void writeBook() {
+        state.write()
+    }
+
+    void sendBookToPublisher() {
+        state.send()
+    }
+}
+
+interface State {
+    void write();
+    void send();
+}
+
+class HandwriteState implements State {
+    void write() {
+        // Scrivi libro a mano
+    }
+    void send() {
+        // Manda il libro tramite posta
+    }
+}
+
+class TypewriteState implements State {
+    void write() {
+        // Scrivi libro con macchina per scrivere
+    }
+    void send() {
+        // Manda il libro tramite fax
+    }
+}
+
+class DigitalTypewriteState implements State {
+    void write() {
+        // Scrivi libro al pc
+    }
+    void send() {
+        // Manda il libro via email
+    }
+}
+```
+Nell'esempio, se lo stato fosse un'istanza di `DigitalTypewriteState` e usassi il metodo della classe `Writer` `writeBook()`, scriverei il libro al PC. Non devo fare nessuna scelta in `Writer` su quale implementazione di `State` utilizzare,  se non settare correttamente la variabile `state`.
+
+
+Rispetto al *pattern strategy*, in cui ho un insieme di singoli algoritmi intercambiabili, ma che non dipendono da uno stato, nel *pattern state* ho un insieme di comportamenti che dipendono dallo stato corrente.
+
+### Observer/Observable (Publish/Subscribe)
+
+Molto usati da librerie grafiche e in ambienti distribuiti, gli *observer* permettono ad alcuni oggetti di essere "notificati" quando accade un particolare evento, per esempio quando si fa click su un bottone.
+
+Si definiscono di solito due ruoli, *Subject* ([`Observable`](http://docs.oracle.com/javase/8/docs/api/java/util/Observable.html)) e *Observer* ([`Observer`](http://docs.oracle.com/javase/8/docs/api/java/util/Observer.html)):
+
+- `Subject` è la classe astratta che registra o rimuove gli *observer*, mediante i seguenti metodi:
+    - `attach(Observer obs)` aggiunge un nuovo osservatore `obs`
+    - `detach(Observer obs)` rimuove l'osservatore obs
+    - `notify()` manda una notifica a tutti gli osservatori che il *subject* ha cambiato stato
+- `Observer` è un'interfaccia con il seguente metodo:
+    - `update()` viene chiamato ogni volta che il *subject* cambia stato, cioè quando riceve una notifica.
+
+### Flyweight Pattern
+
+Quando si potrebbe utilizzare molti oggetti identici e immutabili, può convenire creare un oggetto immutabile (*flyweight*), che rappresenta tutti gli oggetti identici.
+
+Anzichè creare una copia di un oggetto quando serve, si assegna semplicemente una reference al flyweight, che viene salvata in una tabella, e rimossa quando non serve più (solitamente una [WeakHashMap](http://docs.oracle.com/javase/8/docs/api/java/util/WeakHashMap.html), che rimuove la entry quando la chiave non sono è più in uso).
+
+[Questo pattern](https://en.wikipedia.org/wiki/Flyweight_pattern) è conveniente quando il numero di oggetti identici è **molto** elevato.
+
+Il vantaggio è il risparmio di memoria, e che non si perde tempo ad inizializzare oggetti duplicati.
+
+Un esempio potrebbe essere un sistema per gestire le ordinazioni in un bar enorme:
+- Ad ogni cliente si assegna la rispettiva ordinazione (inserendo l'ordine nella tabella)
+- Si aggiunge a una coda (queue) l'ordinazione.
+- Ogni ordinazione è una reference ad un oggetto immutabile (il nostro *flyweight*) che contiene le informazioni necessarie: il nome, la dimensione, gli ingredienti...
+- Quando l'ordinazione è servita, si rimuove dalla coda e la si serve al cliente.
+
+I flyweight sono per esempio usati anche nei word processor (come Office Word) per evitare di creare un oggetto per lettera: lettere (o meglio, glifi) uguali sono in realtà reference a un *flyweight*.
+
+## Pattern Architetturali
+
+WIP
