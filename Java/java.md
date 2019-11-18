@@ -1115,6 +1115,16 @@ I pattern si dividono in *tre* categorie:
 - **strutturali** (riguardano la composizione di classi e oggetti)
 - **comportamentali** (regolano le interazioni tra le oggetti e distribuiscono le responsabilità)
 
+#### Principio di Sostituzione di Liskov (LSP)
+
+> I tipi derivati devono essere *totalmente* sostituibili ai rispettivi tipi base.
+
+Alternativamente
+
+> "Se *q(x)* è una proprietà che si può dimostrare essere valida per oggetti *x* di tipo T, allora *q(y)* deve essere valida per oggetti *y* di tipo *S* dove *S* è un sottotipo di *T*."
+
+Se ho una classe A e una classe B che estende A, devo poter chiamare i metodi di A da un'istanza di B, accettando gli stessi tipi in *input* e producendo un *output* dello stesso tipo e rispettando eventuali condizioni (es.: l'input è un `int` maggiore di 0).
+
 ## Pattern creazionali
 
 ### Singleton
@@ -1702,4 +1712,28 @@ I flyweight sono per esempio usati anche nei word processor (come Office Word) p
 
 ## Pattern Architetturali
 
-WIP
+### Client-Server
+
+Il [modello Client-Server](https://en.wikipedia.org/wiki/Client%E2%80%93server_model) è molto utilizzato dalle applicazioni web come i siti Internet. Si basa su una struttura centrale (*server*) che gestisce la maggior parte della logica e dei dati, e gestisce le interazioni che riceve dagli utenti (*clients*).
+
+![Client-Server](https://upload.wikimedia.org/wikipedia/commons/f/fb/Server-based-network.svg)
+
+### Peer-to-Peer (P2P)
+
+Il [modello Peer-to-Peer](https://en.wikipedia.org/wiki/Peer-to-peer) è molto usato per la condivisione di file tra più macchine, come per i client Torrent.
+
+![P2P](https://upload.wikimedia.org/wikipedia/commons/3/3f/P2P-network.svg)
+
+### Model-View-Controller MVC
+
+MVC è un pattern molto utilizzato per la progettazione di *interfacce utente grafiche* (GUI), in cui si divide la struttura del programma in tre classi di componenti:
+
+- **Model** fornisce i metodi per l'accesso ai dati
+
+- **View** crea e gestisce l'interfaccia utente a partire dai dati accessibili dal *Model*
+
+- **Controller** contiene la logica per gestire le interazioni dell'utente, generalmente riceve notifiche dalla *View* e poi modifica quest'ultima o il *Model*
+
+![MVC](https://upload.wikimedia.org/wikipedia/commons/a/a0/MVC-Process.svg)
+
+# 
