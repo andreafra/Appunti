@@ -1115,6 +1115,16 @@ I pattern si dividono in *tre* categorie:
 - **strutturali** (riguardano la composizione di classi e oggetti)
 - **comportamentali** (regolano le interazioni tra le oggetti e distribuiscono le responsabilità)
 
+#### Principio di Sostituzione di Liskov (LSP)
+
+> I tipi derivati devono essere *totalmente* sostituibili ai rispettivi tipi base.
+
+Alternativamente
+
+> "Se *q(x)* è una proprietà che si può dimostrare essere valida per oggetti *x* di tipo T, allora *q(y)* deve essere valida per oggetti *y* di tipo *S* dove *S* è un sottotipo di *T*."
+
+Se ho una classe A e una classe B che estende A, devo poter chiamare i metodi di A da un'istanza di B, accettando gli stessi tipi in *input* e producendo un *output* dello stesso tipo e rispettando eventuali condizioni (es.: l'input è un `int` maggiore di 0).
+
 ## Pattern creazionali
 
 ### Singleton
@@ -1701,5 +1711,99 @@ Un esempio potrebbe essere un sistema per gestire le ordinazioni in un bar enorm
 I flyweight sono per esempio usati anche nei word processor (come Office Word) per evitare di creare un oggetto per lettera: lettere (o meglio, glifi) uguali sono in realtà reference a un *flyweight*.
 
 ## Pattern Architetturali
+
+### Client-Server
+
+Il [modello Client-Server](https://en.wikipedia.org/wiki/Client%E2%80%93server_model) è molto utilizzato dalle applicazioni web come i siti Internet. Si basa su una struttura centrale (*server*) che gestisce la maggior parte della logica e dei dati, e gestisce le interazioni che riceve dagli utenti (*clients*).
+
+![Client-Server](https://upload.wikimedia.org/wikipedia/commons/f/fb/Server-based-network.svg)
+
+### Peer-to-Peer (P2P)
+
+Il [modello Peer-to-Peer](https://en.wikipedia.org/wiki/Peer-to-peer) è molto usato per la condivisione di file tra più macchine, come per i client Torrent.
+
+![P2P](https://upload.wikimedia.org/wikipedia/commons/3/3f/P2P-network.svg)
+
+### Model-View-Controller MVC
+
+MVC è un pattern molto utilizzato per la progettazione di *interfacce utente grafiche* (GUI), in cui si divide la struttura del programma in tre classi di componenti:
+
+- **Model** fornisce i metodi per l'accesso ai dati
+
+- **View** crea e gestisce l'interfaccia utente a partire dai dati accessibili dal *Model*
+
+- **Controller** contiene la logica per gestire le interazioni dell'utente, generalmente riceve notifiche dalla *View* e poi modifica quest'ultima o il *Model*
+
+![MVC](https://upload.wikimedia.org/wikipedia/commons/a/a0/MVC-Process.svg)
+
+# Progettazione
+
+## Principi di Progettazione
+
+### Principio Open-Closed
+
+Vogliamo sfruttare l'ereditarietà per poter cambiare il comportamento di una classe senza modificarla: possiamo però *estendere* la classe solo se possiamo *sostituire* le componenti della *sopraclasse* con delle nuove che rispettino le regole esistenti (*tipo*, *vincoli* su parametri e return).
+
+Deve quindi valere il [principio di sostituizione di Liskov](#Principio-di-Sostituzione-di-Liskov-LSP).
+
+In molte situazioni, è meglio **comporre** (usare la [composizione di UML](https://en.wikipedia.org/wiki/Object_composition#UML_notation)), perché anziché modificare un metodo violando il LSP, è meglio aggiungere nuovi metodi.
+
+### Principio dell'Inversione della Dipendenza
+
+Il **DIP** (Depency Inversion Principle) è un principio in cui una classe deve dipendere da altre classi/interfacce *astratte*, anziché da altre classi concrete.
+
+Ogni volta che ho una *classe* `C` che potrebbe venire estesa in futuro, conviene definirla come sottoclasse di un'*interfaccia astratta* `A`.
+
+Se possibile, anziché riferirsi ad oggetti di tipo `C` (classe concreta), è meglio riferirsi ad oggetti di tipo *statico* `A` (classe/interfaccia astratta). Il vantaggio è una maggiore flessibilità del codice, in cui posso sostituire ad esempio la classe concreta `C` con altre sottoclassi/implementazioni di `A`.
+
+## Valutazione della qualità di un progetto
+
+Un progetto si può valutare secondo diversi indici:
+
+- **correttezza funzionale**, cioè se il progetto *funziona*
+- **efficienza**
+- **requisiti strutturali**, cioè quanto è facile da *modificare*
+
+Per valutare i *requisiti strutturali*, si possono osservare:
+
+- accoppiamento
+- coesione
+- [principio open-closed](#Principio-Open-Closed)
+
+### Accoppiamento (*Coupling*)
+
+L'*accoppiamento* è il grado di interconnessione fra classi. Se è molto elevato, vuol dire che è difficile modificare le singole classi, perchè c'è un'alta dipendenza fra esse.
+
+Bisognerebbe cercare di avere un accoppiamento *minimo*.
+
+#### Interaction Coupling
+Si ha quando un metodo di una classe ne chiama altri di altre classi.
+
+**Da evitare:** *modificare direttamente* attributi di altre classi.
+
+**Accettabile:** i metodi comunicano direttamente tramite i propri parametri, cioè non accedo agli attributi dell'altra classe.
+
+#### Component Coupling
+
+Una classe `A` è accoppiata ad un'altra classe `B` se ha:
+
+- attributi di tipo `B`
+- parametri di tipo `B`
+- metodi con variabili locali di tipo `B`
+
+Quando `A` è accoppiata a `C`, è accoppiata automaticamente anche alle sue sottoclassi.
+Se c'è Component Coupling, c'è anche Interaction Coupling di solito.
+
+#### Inheritance Coupling
+
+Si ha quando una classe `A` è sottoclasse di `B`.
+
+**Da evitare:** quando una sottoclasse cambia la segnatura (ordine/quantità dei parametri) di un metodo ereditato. (*Impossibile in Java*)
+
+È accettabile se la segnatura di un metodo di cui viene fatto override non cambia.
+
+È consigliabile avere una sottoclasse che aggiunge solo metodi e attributi, ma non fa override dei metodi ereditati.
+
+#### Coesione
 
 WIP
