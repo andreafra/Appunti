@@ -76,6 +76,44 @@ class Dog {
 }
 ```
 
+### Getter e Setter
+
+Spesso è poco conveniente accedere ad un attributo direttamente, per esempio mediante
+
+```java
+dog.timesPetted; // => 10
+```
+
+perchè `timesPetted` potrebbe essere sovrascritto. Conviene quindi usare un metodo per ottenere il valore di un attributo, comunemente chiamato *getter*, cioè che contiene la parola *get* (è puramente una formalità/convenzione):
+
+```java
+class Dog {
+    int timesPetted = 10;
+    // ...
+    // GETTER
+    int getTimesPetted() {
+        return timesPetted; // => 10
+    }
+}
+```
+
+Allo stesso modo, possiamo definire un metodo per modificare i valori di un attributo, chiamato *setter*, cioè che contiene la parola *set*:
+
+```java
+class Dog {
+    int timesPetted = 10;
+    // ...
+    // SETTER
+    void setTimesPetted(int n) {
+        if(n > 0) {
+            timesPetted = n;
+        }
+    }
+}
+```
+
+In questo modo possiamo anche accertarci che vengano rispettate delle convenzioni, come per esempio che `timesPetted` sia mantenuto sempre maggiore di zero.
+
 ## Istanze (*instances*) e Riferimenti (references)
 Una classe rappresenta una struttura di attributi e metodi, ma una volta che il programma è in esecuzione, affinchè possa accedere ad essi ho bisogno di allocare in **memoria** la classe: posso dunque istanziarla tramite la keyword `new`:
 
@@ -331,6 +369,92 @@ new Shape(); // ERRORE: non si può istanziare una
 abstract Shape {
     static int sides;
     abstract void draw();
+}
+```
+
+# Enum
+
+Gli [enum](https://docs.oracle.com/javase/tutorial/java/javaOO/enum.html) (da *enumerator*) sono un tipo particolare di dati che assegna a una variabile un insieme di costanti.
+
+Un enum viene istanziato a compile-time una sola volta, in modo simile ad un [singleton](#singleton).
+
+```java
+public enum Compass {
+    NORTH, SOUTH, EAST, WEST
+}
+```
+
+Si possono poi usare le costanti di un *enum* per esempio in uno *switch case*:
+
+```java
+void setDirection(Compass c) {
+    switch(c) {
+        case NORTH:
+            // go north
+            break;
+        case SOUTH:
+            // go south
+            break;
+        case EAST:
+            // go east
+            break;
+        case WEST:
+            // go west
+            break;
+        default:
+            // stay
+            break;
+    }
+}
+```
+
+In Java gli *enum* sono più potenti che in altri linguaggi: si possono infatti dichiarare metodi e attributi, proprio come in una classe, ma **solo dopo** aver definito le costanti.
+
+Il compilatore aggiunge inoltre dei metodi come `values()` che restituisce un [array](https://docs.oracle.com/javase/tutorial/java/nutsandbolts/arrays.html) con tutte le costanti dell'*enum*.
+
+Un *enum* può avere un *costruttore*, ma **deve** essere *privato* o *non accessibile* al di fuori del package.
+
+```java
+public enum Planet {
+    // Costanti
+    // a compile time, il compiler crea attraverso
+    // il costruttore le costanti a cui viene 
+    // associata la rispettiva massa e raggio.
+    // NomeCostante (mass, radius)
+    MERCURY (3.303e+23, 2.4397e6),
+    VENUS   (4.869e+24, 6.0518e6),
+    EARTH   (5.976e+24, 6.37814e6),
+    MARS    (6.421e+23, 3.3972e6),
+    JUPITER (1.9e+27,   7.1492e7),
+    SATURN  (5.688e+26, 6.0268e7),
+    URANUS  (8.686e+25, 2.5559e7),
+    NEPTUNE (1.024e+26, 2.4746e7);
+
+    // Attributi (costanti)
+    private final double mass;   // in kilograms
+    private final double radius; // in meters
+
+    // costante (di gravitazione universale)
+    public static final double G = 6.67300E-11;
+
+    // Metodi
+    // Construttore
+    Planet(double mass, double radius) {
+        this.mass = mass;
+        this.radius = radius;
+    }
+
+    // Getters per massa e raggio
+    private double mass() { return mass; }
+    private double radius() { return radius; }
+    
+    // Altri metodi
+    double surfaceGravity() {
+        return G * mass / (radius * radius);
+    }
+    double surfaceWeight(double otherMass) {
+        return otherMass * surfaceGravity();
+    }  
 }
 ```
 
@@ -1804,6 +1928,233 @@ Si ha quando una classe `A` è sottoclasse di `B`.
 
 È consigliabile avere una sottoclasse che aggiunge solo metodi e attributi, ma non fa override dei metodi ereditati.
 
-#### Coesione
+### Coesione (*Cohesion*)
 
-WIP
+La *coesione* riguarda gli elementi all'interno di uno stesso modulo, a differenza dell'accoppiamento, che riguarda le connessioni tra le classi.
+
+Una alta coesione (cioè elementi che sono fortemente correlati) porta ad un basso accoppiamento (il che è positivo).
+
+#### Method Coesion
+
+Quando il metodo implementa una funzione singola e ben definita si ha la massima coesione.
+
+Come regola generale, se si riesce a spiegare cosa fa il metodo con una sola frase, si è ottenuta una buona coesione.
+
+#### Class Coesion
+
+Una classe dovrebbe rappresentare un solo concetto e tutte le proprietà dovrebbero contribuire alla sua rappresentazione.
+
+Conviene evitare di inserire concetti diversi nella stessa classe.
+
+Se ci sono metodi che accedono rispettivamente ad attributi disgiunti, è probabile che ci sia una bassa coesione: si potrebbero estrarre delle classi che contengono gruppi di metodi e attributi che interagiscono fra loro.
+
+#### Inheritance Coesion
+
+La coesione è maggiore se si sfrutta la gerarchia delle classi per gestire la generalizzazione (o la specializzazione) dei componenti (cioè se c'è una struttura ragionata dell'ereditarietà delle classi).
+
+
+## Metriche del Software
+
+È possibile definire delle metriche per valutare un software:
+
+- **Weighted Methods per Class** (WMC)
+    - è il numero dei metodi pesati per la loro complessità
+    - conviene che sia basso per la maggior parte delle classi
+- **Depth of Inheritance Tree** (DIT)
+    - di solito è vicino alla radice (0), il massimo è 10
+    - si preferisce quindi la comprensibilità alla riusabilità
+- **Number of Children** (NOC)
+    - è il numero di sottoclassi
+    - di solito è basso, spesso è 0, cioè viene sfruttata poco l'ereditarietà
+- **Coupling Between Classes** (CBC)
+    - di solito è 0, cioè le classi non sono accoppiate
+    - gli oggetti di interfaccia hanno un CBC maggiore
+- **Response For a Class** (RFC)
+    - è il numero totale dei metodi che possono essere invocati da un oggetto della classe
+    - di solito è basso
+    - gli oggetti di interfaccia hanno un RFC più alto
+- **Lack of Cohesion Methods** (LCOM)
+    - misura la vicinanza tra i metodi di una classe
+    - non è particolarmente utile per predire difetti del codice
+
+Di solito queste metriche vengono calcolate da strumenti appositi.
+
+## Sintomi di un cattivo progetto
+
+Un progetto fatto male è solitamente:
+
+- **Rigido:** è difficile da modificare
+- **Fragile:** si *rompe* dopo una modifica
+- **Immobile:** è difficile riutilizzare il codice
+- **Viscoso:** è più facile prendere scorciatoie (o *hack*) piuttosto che fare uso dei metodi esistenti
+
+## Buone pratiche
+
+### Metodi
+- Preferire una dichiarazione di un metodo/attributo *privata* (o *friendly*/*protected*) a una pubblica se non c'è un motivo particolare.
+
+- Meglio definire solo il [*getter*](#getter-e-setter), e il *setter* solo quando serve.
+
+- Non è un obbligo fornire *getter* o *setter* per ogni attributo della classe. Conviene implementare solo quelli che servono.
+
+- Conviene mantenere i metodi con un numero di parametri basso.
+
+- Convine evitare una serie di parametri dello stesso tipo, per esempio
+
+    ```java
+    void drawCircle(int x, int y, int w, int h);
+    ```
+    
+    e invece *raccogliere* in delle classi ausiliarie i valori:
+
+    ```java
+    // Definite due classi Point e Size...
+    Point p1 = new Point(x, y);
+    Size s1 = new Size(w, h);
+    
+    // ...e la seguente funzione...
+    // void drawCircle(Point p, Size s);
+
+    // ...posso disegnare un cerchio!
+    drawCircle(p1, s1);
+    ```
+### Anti-pattern
+
+Un *anti-pattern* è una soluzione usata spesso ma riconosciuta come una pratica da evitare.
+
+#### Classe Blob
+
+Una classe enorme che contiene tutta la logica (tipico della programmazione in **C**).
+
+#### Codice duplicato
+
+Il principio **D.R.Y.** (Don't Repeat Yourself) è efficace per evitare di ripetere lo stesso codice per esempio all'interno di più metodi: conviene creare quindi un metodo ausiliario che incapsula il codice ripetuto.
+
+#### Metodi lunghi
+
+Conviene spezzare il codice di un metodo troppo lungo in più metodi per avere una maggiore leggibilità e modularità. Di solito un metodo è sulle 20 righe, nella maggior parte dei casi inferiore ai 40.
+
+#### Mischiare livelli di astrazione
+
+Per esempio, avere una sequenza di una subroutine in un metodo che chiama solo altri metodi di livello d'astrazione superiore.
+
+Per esempio, il seguente metodo specifica inutilmente i passaggi della colazione:
+
+```java
+void morningRoutine() {
+    wakeUp();
+    shower();
+    getBread(); // livello d'astrazione inferiore:
+    toastBread(); // si potrebbe inglobare in un
+    getJam(); // metodo `haveBreakfast()`
+    // ...
+    dressUp();
+}
+```
+
+È meglio riscriverlo come:
+
+```java
+void morningRoutine() {
+    wakeUp();
+    shower();
+    haveBreakfast();
+    // ...
+    dressUp();
+}
+```
+
+#### Mischiare contesti diversi
+
+È da evitare che un metodo faccia operazioni diverse che riguardano ambiti diversi:
+
+```java
+boolean isHouseClean() {
+    if (bathroom.isClean())
+        if (kitchen.sink.isClean())
+            if (dirtyClothes.hasBeenWashed())
+                return true;
+            else
+                washClothes(dirtyClothes);
+    return false
+}
+```
+
+È più conveniente riassumere le operazioni in dei metodi ausiliari, in modo da poter eventualmente modificare meglio il codice in futuro:
+
+```java
+boolean isHouseClean() {
+    return bathroom.isClean() &&
+           kitchen.isClean() &&
+           laundry.isDone()
+}
+```
+
+#### Dati e metodi
+
+Se un metodo in una classe `A` usa i dati di una classe `B`, conviene spostare il metodo nella classe `B`.
+
+#### Switch case e pattern
+
+Usare uno swift in certe situazioni rende il codice più difficile da modificare, conviene invece usare un pattern [strategy](#pattern-strategy) o [state](#pattern-state) enum o l'ereditarietà.
+
+#### Blocchi di dati
+
+Conviene raggruppare gruppi di dati affini con delle classi.
+
+## Pattern Stilistici
+
+I *pattern stilistici* sono delle convenzioni per rendere il codice più gradevole da leggere.
+
+### Commenti
+
+I commenti in Java (riga singola: `// ...`, righe multiple: `/* ... */`) sono utili per chiarire i passaggi più oscuri del codice. Sono da evitare i commenti che *ripetono* o *contraddicono* il codice.
+
+Un commento dovrebbe indicare cosa fa il codice in un certo *contesto*, non sottolineare l'ovvio.
+Ovviamente, se il codice si capisce senza commenti è ancora meglio.
+
+```java
+// Commento inutile:
+i = i + 1; // somma 1
+
+// Commento utile:
+i = i + 1; // incrementa `cardCounter`
+
+// Miglior implementazione:
+cardCounter++;
+```
+
+Generalmente, conviene commentare ogni dichiarazione di un metodo spiegando brevemente cosa fa (se è già auto-esplicativo è meglio) o se ha dei requisiti particolari.
+
+### Convenzioni sui nomi
+
+| Entità | Stile | Commento | 
+|:-------|:-|:-|
+| Classi | `UpperCamelCase` | La prima lettera è sempre *maiuscola*, ogni parola che segue ha la *prima* lettera maiuscola. |
+| Interfacce | `UpperCamelCase` | |
+| Attributi | `lowerCamelCase` | La prima lettera è sempre *minuscola*, ogni parola che segue ha la *prima* lettera maiuscola. |
+| Metodi | `lowerCamelCase` | |
+| Costanti | `UPPERCASE` | Le costanti sono sempre in maiuscolo. |
+
+Inoltre:
+
+- le classi hanno sempre nomi singolari, es.: `Stack`, non `Stacks`
+- i metodi `void` dovrebbero avere come nome il verbo di ciò che fanno.
+
+    Es.: `openFile()`, `sendNotification()`
+- i metodi `boolean` dovrebbero avere `is` + il participio passato (present perfect) di ciò che rappresentano.
+
+    Es.: `isOpen()`, `hasFinished()`
+
+    Fanno eccezione alcuni metodi come `contains()`. Generalmente se letti dovrebbero suonare come delle domande a cui si può rispondere con "sì" o "no".
+- i metodi non-`void`, cioè che restituiscono qualcosa, dovrebbero avere il nome di ciò che restituiscono.
+
+    Es.: `sizeOfScreen()`, `getStudent()`
+
+# Programmazione funzionale
+
+È uno stile di programmazione che si basa sul determinare un *output* a partire da degli *input* che vengono passati ad una catena di **funzioni** determinate.
+
+Concetti nuovi sono:
+
+- **First-Class Functions:** le funzioni sono valori che si possono assegnare a variabili, restituire (*return*) o passare come *parametro*.
