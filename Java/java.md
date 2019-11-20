@@ -2158,3 +2158,36 @@ Inoltre:
 Concetti nuovi sono:
 
 - **First-Class Functions:** le funzioni sono valori che si possono assegnare a variabili, restituire (*return*) o passare come *parametro*.
+
+- **Funzioni Anonime:** le funzioni sono usate come parametro senza dover specificarne il nome.
+
+Java non è un linguaggio funzionale puro ([Haskell](https://www.haskell.org/), Lisp, Erlang, Clojure...), quindi possiede solo alcune caratteristiche di questi linguaggi.
+
+## Espressioni Lambda
+
+### Esempio: `forEach()`
+
+Il metodo `forEach` di un oggetto che implementa l'interfaccia `Iterable` supporta la programmazione funzione, in particolare accetta come parametro una funzione anonima:
+
+```java
+List<String> fruits = Arrays.asList("Apple", "Banana", "Coconut");
+fruits.forEach(String fruit -> {
+    fruit.slice();
+    // ...
+})
+```
+
+Quello che accade è che ogni elemento della lista `fruits` viene passato come parametro `fruit` alla funzione anonima `<parametri> -> {blocco di codice}`, e poi viene eseguito il blocco di codice che segue nel cui *scope* vale la variabile `fruit`.
+
+Nel caso di un singolo comando dopo la freccia `->`, si possono omettere le parentesi `{`,`}`.
+
+L'esempio sopra senza utilizzare la programmazione funzionale potrebbe essere:
+
+```java
+List<String> fruits = Arrays.asList("Apple", "Banana", "Coconut");
+// Uso il for-in di Java
+for(String fruit : fruits) {
+    fruit.slice();
+    // ...
+}
+```
