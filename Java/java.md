@@ -1,4 +1,4 @@
-![banner](../images/java_banner.png)
+![banner](./images/java_banner.png)
 
 Java
 ====
@@ -2158,3 +2158,151 @@ Inoltre:
 Concetti nuovi sono:
 
 - **First-Class Functions:** le funzioni sono valori che si possono assegnare a variabili, restituire (*return*) o passare come *parametro*.
+
+- **Funzioni Anonime:** le funzioni sono usate come parametro senza dover specificarne il nome.
+
+Java non è un linguaggio funzionale puro ([Haskell](https://www.haskell.org/), Lisp, Erlang, Clojure...), quindi possiede solo alcune caratteristiche di questi linguaggi.
+
+## Espressioni Lambda
+
+### Esempio: `forEach()`
+
+Il metodo `forEach` di un oggetto che implementa l'interfaccia `Iterable` supporta la programmazione funzione, in particolare accetta come parametro una funzione anonima:
+
+```java
+List<String> fruits = Arrays.asList("Apple", "Banana", "Coconut");
+fruits.forEach(String fruit -> {
+    fruit.slice();
+    // ...
+})
+```
+
+Quello che accade è che ogni elemento della lista `fruits` viene passato come parametro `fruit` alla funzione anonima `(parametri) -> {blocco di codice}`, e poi viene eseguito il blocco di codice che segue nel cui *scope* vale la variabile `fruit`.
+
+Nel caso di un singolo comando dopo la freccia `->`, si possono omettere le parentesi graffe `{ }`, mentre nel caso di un singolo parametro si possono omettere quelle tonde `()`.
+
+L'esempio sopra senza utilizzare la programmazione funzionale potrebbe essere:
+
+```java
+List<String> fruits = Arrays.asList("Apple", "Banana", "Coconut");
+// Uso il for-in di Java
+for(String fruit : fruits) {
+    fruit.slice();
+    // ...
+}
+```
+
+### Sintassi
+
+```java
+myVar.myMethod((param1, param2) -> {
+    // ...
+})
+```
+
+In Java, nelle *lambda functions*, il **tipo** dei parametri può essere [inferito](http://www.treccani.it/enciclopedia/tag/inferire/) dal compilatore. Attenzione: o si specifica il tipo per ogni parametro, o non lo si specifica per nessuno.
+
+È importante che le funzioni passate come parametro siano:
+
+- *non-interfering*, cioè che non modifichino l'input. Si può volendo specificare il tipo del parametro come `final` a questo scopo.
+- *stateless*, cioè l'output **non** deve dipendere da fattori al di fuori della funzione, per esempio una variabile globale
+
+### Interfacce funzionali
+
+In Java le funzioni *lambda* rappresentano l'istanza di un'interfaccia *funzionale*, cioè un interfaccia che ha un solo `abstract` method. Ci sono dei tipi già pronti di *interfacce funzionali* sulla [documentazione di Java](https://docs.oracle.com/javase/8/docs/api/java/util/function/package-summary.html).
+
+### Method reference
+
+Se si vuole essere più concisi, si può usare una sintassi alternativa per *metodi pre-esistenti* o *named*. Prendiamo come esempio
+
+```java
+// converto la mia lista `fruits` in un tipo
+// speciale, Stream che permette operazioni
+// in parallelo
+Stream slicedFruits = fruits.stream()
+// L'istruzione non termina fino al `;`.
+// .stream() restituisce uno Stream
+// .map() lavora su uno stream e restituisce
+// un nuovo stream sui cui elementi è applicata
+// la funzione .slice()
+    .map(fruit -> fruit.slice());
+```
+
+Possiamo riscriverlo come
+
+```java
+Stream slicedFruits = fruits.stream()
+    .map(Fruit::slice())
+```
+
+in questo modo si risparmia l'uso del parametro `fruit`.
+
+Ovviamente questa sintassi è totalmente opzionale.
+
+### Quando usare le *funzioni lambda*
+
+Le *lambda functions* sono particolarmente utili quando si ha a che fare con:
+
+- manipolazione di *Collections*
+- manipolazione di *Stringhe*
+- multi-threading (le funzioni possono essere applicate in parallelo agli elementi di uno stream)
+- gestione delle risorse (files, sockets...)
+
+### Iterators vs Stream
+
+Gli [iteratori](#IteratorE) prevedono una visita ordinata di una *collection*, quindi in modo sequenziale e impedendo di usare *multi-threading*.
+
+Uno [stream](http://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html) può essere generato a partire da *collections*, *arrays*, *generatori* e *iteratori*, e permette di sfruttare il *multi-threading* per compiere operazioni su di esso.
+
+Alcuni suoi metodi utili sono:
+
+- `filter(<lambda function>)` restituisce uno stream contenente solo gli elementi per i quali la funzione lambda restituisce `true`.
+
+    ```java
+    Stream tallPeople = people.filter(p -> p > 180)
+    ```
+- `map(<lambda function>)` restituisce un nuovo stream di elementi ai quali viene applicata la funzione lambda passata come parametro. Un esempio è quello sopra.
+
+### Function references
+
+È possibile anche assegnare una funzione lambda ad una variabile di tipo `Predicate` (se restituisce un `Boolean`) o `Function` (altrimenti). Definita così una condizione
+
+```java
+final Predicate<Fruit> checkIfhasSeedsAndIsGreen =
+    fruit -> fruit.hasSeeds() &&
+             fruit.isColor("Green");
+```
+
+posso riutilizzarla dopo come
+
+```java
+fruits.stream()
+      .filter(checkIfHasSeedsAndIsGreen)
+      .map(fruit -> System.out.println(fruit));
+```
+
+### *Lexical Scoping* e *Clojure*
+
+Si può anche definire un **metodo** che restituisce una *funzione lambda*:
+
+```java
+public static Predicate<Fruit> checkColor(final String color) { // parametro
+    return fruit -> isColor(color);
+}
+```
+
+#### Lexical Scoping
+
+Nella riga `return fruit -> isColor(color);` il termine `color` non è un parametro: è una variabile locale al di fuori dello scope della lambda che il compilatore grazie al **lexical scoping** capisce essere legata al *parametro* del metodo che la contiene.
+
+#### Clojure
+
+```java
+checkColor("Green");
+```
+
+L'espressione sopra è una *clojure* o un'*espressione chiusa*, cioè il cui valore `"Green"` è memorizzato insieme all'ambiente della funzione lambda .
+
+### Optional<T>
+
+[`Optional<T>`](http://docs.oracle.com/javase/8/docs/api/java/util/Optional.html) è un contenitore di un singolo oggetto T, e si usa **solo** quando una funzione **potrebbe non ritornare** un valore. Evita quindi di restituire un null o un'eccezione da gestire.
