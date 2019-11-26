@@ -1249,6 +1249,8 @@ Alternativamente
 
 Se ho una classe A e una classe B che estende A, devo poter chiamare i metodi di A da un'istanza di B, accettando gli stessi tipi in *input* e producendo un *output* dello stesso tipo e rispettando eventuali condizioni (es.: l'input è un `int` maggiore di 0).
 
+Non deve mai ridurre le proprietà di un oggetto, può invece ampliarlo.
+
 ## Pattern creazionali
 
 ### Singleton
@@ -2306,3 +2308,144 @@ L'espressione sopra è una *clojure* o un'*espressione chiusa*, cioè il cui val
 ### Optional<T>
 
 [`Optional<T>`](http://docs.oracle.com/javase/8/docs/api/java/util/Optional.html) è un contenitore di un singolo oggetto T, e si usa **solo** quando una funzione **potrebbe non ritornare** un valore. Evita quindi di restituire un null o un'eccezione da gestire.
+
+# JML
+
+## Astrazioni
+
+> **Astrazione**: ignorare dettagli non essenziali per lo scopo che si vuole raggiungere.
+
+### Astrazione per parametrizzazione
+
+Un tipo di astrazione lo abbiamo già visto quando possiamo riassumere una sequenza di istruzioni identiche con una *funzione*, cioè l'*astrazione per parametrizzazione*.
+
+Per esempio, l'operazione per trovare il valore assoluto di un numero, anzichè usare un `if` statement può essere essere sintetizzata da una funzione `abs()` (che esiste già nella libreria `Math`).
+
+```java
+// Senza astrazione
+
+if (a < 0) a = -a;
+if (b < 0) b = -b;
+// ...
+
+// Con astrazione per parametrizzazione
+// (abstraction by parametrization)
+public static int abs(int p) {
+    if (p < 0) return -p;
+    else return p;
+}
+
+a = abs(a);
+b = abs(b);
+// ...
+```
+
+### Astrazione per specifica
+
+Riprendendo l'esempio sopra, possiamo effettuare invece un  altro tipo di astrazione, quella per specifica.
+
+Nell'*astrazione per specifica* non ci interessa il *come* ma il *che cosa* di un'operazione.
+
+Riprendendo l'esempio di prima, l'astrazione per specifica è *"una funzione che restituisce il valore assoluto del parametro che riceve in input"*.
+
+Potremmo poi implementare come preferiamo la specifica della funzione, l'importante è che essa venga rispettata. Dovesse restituire un numero negativo, c'è sicuramente un errore da qualche parte.
+
+Il vantaggio di quest'astrazione è il fatto che lascia molta libertà nello scrivere il codice e nel fare manutenzione in futuro, l'importante è che venga rispettata la specifica.
+
+### Astrazione procedurale
+
+L'*astrazione procedurale* definisce con una *specifica* un'*operazione complessa* su dati generici o parametri.
+Di solito può avere diverse implementazioni.
+
+Si può vedere come la classe d'equivalenza di tutte le funzioni che implementano la stessa specifica.
+
+## Specifica in JML
+
+JML (Java Modelling Language) permette di definire specifiche in [*linguaggio naturale*](https://en.wikipedia.org/wiki/Natural_language_processing) o in *notazione matematica*.
+
+### Pre e post condizioni
+
+In JML si scrive la specifica sopra il metodo in questione in dei commenti speciali che cominciano con `//@` o `/*@ */`. Ogni nuova riga deve contenere un `@` per dire che si tratta di una specifica JML.
+
+Si usano le seguenti *clausole* per specificare le varie condizioni.
+
+#### `assignable`
+`assignable` indica su quali variabili è possibile fare un assegnamento, separate da una "`,`". Se non ci devono essere variabili assegnabili, si aggiunge `\nothing`. Per gli array, si aggiunge `[*]` dopo il nome della variabile.
+
+```java
+int a = 0;
+int[] b = 1;
+//@ assignable \nothing
+public static void doNothing() {
+    // ...
+}
+
+//@ assignable a, b[*]
+public static void assignSomething() {
+    a = 10;
+    b = 27;
+}
+```
+
+Se si omette `assignables` si può assegnare un valore a qualsiasi variabile.
+
+#### `requires`
+`requires` specifica le condizioni sui parametri sotto le quali la specifica è definita, cioè che possiamo chiamare il metodo solo se la condizione è vera. È la *precondizione*.
+
+```java
+//@ requires n > 0
+public static float squareRoot(int n) {
+    // ...
+}
+```
+
+Se omettiamo la clausola *requires*, il metodo non ha nessuna precondizione da soddisfare.
+
+#### `ensures`
+`ensures` specifica il risultato garantito, cioè che cosa deve essere vero, al termine dell'esecuzione del metodo, **solo se** il `requires` è verificato. È la *postcondizione normale*.
+
+```java
+//@ ensures \result > 0
+public static float squareRoot(int n) {
+    float root;
+    // ...
+    return root;
+}
+```
+
+**Nota:** `\result` è il valore di ciò che viene restituito dal `return`.
+
+Se omettiamo la clausola *ensures*, il metodo non ha nessuna postcondizione da soddisfare (può quindi dare qualsiasi risultato).
+
+#### `signals`
+`signals` indica che cosa è vero quando il metodo lancia un'*eccezione*.
+
+```java
+// Deve lanciare l'eccezione specificata se il parametro
+// `n` è minore di 0.
+//@ signals (IllegalArgumentException e) n < 0;
+public static float squareRoot(int n) {
+    // ...
+}
+```
+
+#### Commenti/Linguaggio naturale
+
+Per inserire commenti o espressioni in linguaggio naturale, si usano i delimitatori `* ... *`. Tutto ciò che è compreso tra i due `*` è un espressione che ha sempre valore `true`.
+
+#### Congiunzioni
+
+Per legare più espressioni simili fra loro si può usare `&&` (AND), `||` (OR), `!` (NOT), e anche `===>` (implicazione) e `<==>` (doppia implicazione).
+
+### Quantificatori
+
+JML fornisce anche dei quantificatori simili a quelli della *logica del primo ordine*, come *per ogni* (for all) e *esiste* (exists):
+
+- `\forall`
+- `\exists`
+- `\sum`
+- `\product`
+- `\min`
+- `\max`
+- `\num_of`
+- `\old`
