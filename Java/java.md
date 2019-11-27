@@ -1,5 +1,3 @@
-![banner](./images/java_banner.png)
-
 Java
 ====
 
@@ -9,7 +7,9 @@ Java è un linguaggio di programmazione che è compilato in *bytecode* eseguibil
 
 Java è un linguaggio *statico*, cioè ogni elemento deve avere un *tipo* esplicito.
 
-# Tipi Primitivi *(primitives)*
+## Tipi Primitivi (*primitives*)
+
+Java ha i seguenti tipi primitivi:
 
 - `byte` (8 bit)
 - `short` (16 bit)
@@ -19,6 +19,8 @@ Java è un linguaggio *statico*, cioè ogni elemento deve avere un *tipo* esplic
 - `double` (64 bit)
 - `boolean` (*vero* o *falso*)
 - `char` (16 bit)
+
+Ulteriori tipi possono essere definiti mediante [classi](#classi-classes) o [enum](#enum).
 
 # Classi (*classes*)
 
@@ -114,7 +116,7 @@ class Dog {
 
 In questo modo possiamo anche accertarci che vengano rispettate delle convenzioni, come per esempio che `timesPetted` sia mantenuto sempre maggiore di zero.
 
-## Istanze (*instances*) e Riferimenti (references)
+## Istanze (*instances*) e Riferimenti (*references*)
 Una classe rappresenta una struttura di attributi e metodi, ma una volta che il programma è in esecuzione, affinchè possa accedere ad essi ho bisogno di allocare in **memoria** la classe: posso dunque istanziarla tramite la keyword `new`:
 
 ```java
