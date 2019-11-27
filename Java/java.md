@@ -192,12 +192,10 @@ ComicBook book = new Book(); // ERROR
 ## Visibilità (*visibility*)
 In Java si può decidere la visibilità (scope) di classi, attributi e metodi mediante i **modificatori di visibilità** `public`, `protected`, `private`, che si inseriscono all'inizio di una dichiarazione.
 
-| Modificatore | Visibilità |
-|--------------|------------|
-| `public` | Ovunque |
-| `protected` | Stesso [*package*](#costruttori-constructors) e *sottoclassi* della classe in questione |
-| - (friendly) | Stesso [*package*](#costruttori-constructors) |
-| `private` | Stessa [classe](#classi-classes) |
+- `public` Ovunque
+- `protected` Stesso [*package*](#costruttori-constructors) e *sottoclassi* della classe in questione
+- vuoto (friendly) Stesso [*package*](#costruttori-constructors)
+- `private` Stessa [classe](#classi-classes)
 
 ```java
 package Pets;
