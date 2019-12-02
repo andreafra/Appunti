@@ -2369,6 +2369,8 @@ In JML si scrive la specifica sopra il metodo in questione in dei commenti speci
 
 Si usano le seguenti *clausole* per specificare le varie condizioni.
 
+È convenienete cercare di avere il minor numero possibile di vincoli ed essere il più generale possibile nella specifica: se si è troppo specifici si limita l'implementazione, se si è troppo generici la specifica è poco utile.
+
 #### `assignable`
 `assignable` indica su quali variabili è possibile fare un assegnamento, separate da una "`,`". Se non ci devono essere variabili assegnabili, si aggiunge `\nothing`. Per gli array, si aggiunge `[*]` dopo il nome della variabile.
 
@@ -2402,7 +2404,7 @@ public static float squareRoot(int n) {
 Se omettiamo la clausola *requires*, il metodo non ha nessuna precondizione da soddisfare.
 
 #### `ensures`
-`ensures` specifica il risultato garantito, cioè che cosa deve essere vero, al termine dell'esecuzione del metodo, **solo se** il `requires` è verificato. È la *postcondizione normale*.
+`ensures` specifica il risultato garantito, cioè che cosa deve essere vero, al termine dell'esecuzione del metodo, **solo se** il `requires` è verificato, e non si verificano *eccezioni*. È la *postcondizione normale*.
 
 ```java
 //@ ensures \result > 0
@@ -2431,21 +2433,142 @@ public static float squareRoot(int n) {
 
 #### Commenti/Linguaggio naturale
 
-Per inserire commenti o espressioni in linguaggio naturale, si usano i delimitatori `* ... *`. Tutto ciò che è compreso tra i due `*` è un espressione che ha sempre valore `true`.
+Per inserire commenti o espressioni in linguaggio naturale, si usano i delimitatori `* ... *`. Tutto ciò che è compreso tra i due "`*`" è un espressione che ha sempre valore `true`.
 
 #### Congiunzioni
 
-Per legare più espressioni simili fra loro si può usare `&&` (AND), `||` (OR), `!` (NOT), e anche `===>` (implicazione) e `<==>` (doppia implicazione).
+Per legare più espressioni simili fra loro si può usare `&&` (AND), `||` (OR), `!` (NOT), e anche `==>` (implicazione) e `<==>` (doppia implicazione).
 
 ### Quantificatori
 
-JML fornisce anche dei quantificatori simili a quelli della *logica del primo ordine*, come *per ogni* (for all) e *esiste* (exists):
+JML fornisce anche dei quantificatori simili a quelli della *logica del primo ordine*, come *per ogni* (for all) e *esiste* (exists).
 
-- `\forall`
-- `\exists`
-- `\sum`
-- `\product`
-- `\min`
-- `\max`
-- `\num_of`
-- `\old`
+#### `\old`
+
+**Sintassi:** `\old(x)`
+
+Restituisce il valore della variabile `x` che aveva quando la funzione è stata invocata, cioè il valore iniziale.
+
+#### `\forall`
+
+**Sintassi:**
+`(\forall variable (inizializza), condizione ciclo (boolean), condizione (boolen))`
+
+Restituisce `true` se la *condizione* è verificata *per ogni* interazione.
+
+Per esempio, quest'espressione si assicura che gli elementi di un array `a` siano ordinati in modo crescente:
+
+```java
+//@ ensures (\forall int i; 0<=i && i< a.length-1; a[i]<=a[i+1])
+```
+
+Nella prima parte definisco `int i`, che sarà il contatore.
+Nella seconda parte specifico il range per cui effettuo il controllo sulla condizione, cioè per `i` compreso tra `0` e `a.length-1`, cioè la lunghezza dell'array.
+Nella terza parte, controllo che ogni elemento di `a`, cioè `a[i]`, sia minore o uguale al successivo `a[i+1]`. Se tale condizione è vera *per ogni* iterazione, la clausola sarà verificata.
+
+#### `\exists`
+
+**Sintassi:** `(\exists variabile; cond. ciclo (boolean); condizione (bool))`
+
+Restituisce `true` se la *condizione* è verificata *almeno una volta*.
+
+```java
+//@ ensures
+//@ (\exists int i; 0<=i && i<a.length; a[i] == x)
+//@ ? x == a[\result]
+//@ : \result == -1;
+public static int indexOf(int x, int [] a)
+```
+
+Come in `\forall`, si itera finchè la condizione del ciclo è *vera*. In quest'esempio, controlliamo se un valore `a[i]` di `a` è uguale al parametro `x` di `indexOf(...)`. Se almeno una volta tale condizione è `true`, l'[operatore ternario](https://docs.oracle.com/javase/tutorial/java/nutsandbolts/op2.html) `? :` (praticamente è un if-else: `<expression> ? < if true> : <if false>`) impone che `x = i`, altrimenti restituisce `-1`.
+
+#### `\num_of`
+
+**Sintassi:** `(\num_of variabile; cond. ciclo (boolean); condizione (bool))`
+
+Restituisce il numero di volte che la condizione è verificate durante il ciclo (cioè il numero di volte che *cond. ciclo* e *condizione* sono verificate).
+
+#### `\sum`
+
+**Sintassi:** `(\sum var; cond. ciclo (boolean); espressione)`
+
+Restituisce la somma dei valori delle espressioni.
+
+#### `\product`
+
+**Sintassi:** `(\product var; cond. ciclo (boolean); espressione)`
+
+Restituisce il prodotto dei valori delle espressioni.
+
+#### `\min`
+
+**Sintassi:** `(\min var; cond. ciclo (boolean); espressione)`
+
+Restituisce il minimo valore di tutte le espressioni computate durante il ciclo.
+
+
+#### `\max`
+
+**Sintassi:** `(\max var; cond. ciclo (boolean); espressione)`
+
+Restituisce il massimo valore di tutte le espressioni computate durante il ciclo.
+
+### Procedure parziali
+
+Una procedura è *parziale* se ha *requires* (precondizione) non vuoto: ha un comportamento specificato solo per un sottoinsieme del dominio degli argomenti.
+
+```java
+//@ requires n > 0
+//@ ensures (*condzione sul risultato*)
+public void myFunction(int n) {
+    // ...
+}
+```
+
+L'operazione che effettua `myFunction(int n)` è poco sicura: non sappiamo cosa succede se dovesse ricevere in input un numero negativo!
+
+Le procedure parziali sono infatti *poco sicure* da questo punto di vista, conviene avere quindi procedure *totali*.
+
+### Procedure totali
+
+Spesso, nelle procedure *totali* conviene *eliminare* la clausola requires e specificare ogni output possibile mediante *ensures* e *signals*.
+
+Per esempio, una funzione `indexOf(String x, String[] a)` che restituisce la posizione di un elemento `x` all'interno di un array `a`:
+
+```java
+//@ requires x != null;
+//@ ensures a[\result].equals(x);
+//@ signals (NotFoundException e) (*x non e in a *);
+public static int indexOf(String x, String[] a) throws NotFoundException
+```
+
+può essere migliorata rimuovendo `//@ requires ...`
+
+```java
+//@ ensures x != null && a[\result].equals(x);
+//@ signals (NotFoundException e) (*x non e
+//@ signals (NullPointerException e) x == null;
+public static int indexOf(String x, String[] a) throws NullPointerException, NotFoundException
+```
+
+Non è conveniente lanciare eccezioni quando la *verifica* richiede più tempo dell'*esecuzione*, fatta eccezione per la fase di testing.
+
+## Astrazione per specifica
+
+Una volta che abbiamo specificato i valori e le operazioni possibili di un *tipo di dato*, abbiamo ottenuto un *ADT* (detto anche *data abstraction*, o semplicemente **tipo**).
+
+Se facciamo astrazione sulla rappresentazione dei valori e su come implementare i metodi, ci rimane solo la *specifica* dell'ADT.
+
+L'ADT divide la *specifica* dall'*implementazione*. Java per conto suo *non è* sufficiente a separare efficientemente specifica da implementazione (fattibile fino ad un certo punto mediante le classi/interfacce).
+
+In JML, nello specificare un *metodo pubblico non statico* devono solo comparire gli elementi **pubblici** del metodo e della classe: \result, i parametri del metodo, [metodi puri](#metodo-puro-pure-method) e attributi pubblici.
+
+### Metodo puro (*pure method*)
+
+Un metodo puro è un metodo non statico che viene dichiarato con la *keyword* `/*@ pure @*/` e:
+
+- non ha effetti collaterali
+- `//@ assignables \nothing` si può omettere in quanto ci pensa già la keyword *pure* a imporre la condizione.
+- si possono chiamare solo altri metodi puri
+
+Anche i costruttori possono essere dichiarati *pure*, il che vuol dire che possono solo inizializzare gli attributi della classe e nient'altro.
