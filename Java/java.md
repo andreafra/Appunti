@@ -2563,6 +2563,16 @@ L'ADT divide la *specifica* dall'*implementazione*. Java per conto suo *non è* 
 
 In JML, nello specificare un *metodo pubblico non statico* devono solo comparire gli elementi **pubblici** del metodo e della classe: \result, i parametri del metodo, [metodi puri](#metodo-puro-pure-method) e attributi pubblici.
 
+### Oggetto Astratto vs Oggetto Concreto
+
+La *specifica* di un'astrazione descrive un *oggetto astratto*, mentre l'*implementazione* di un'astrazione descrive un *oggetto concreto*.
+
+Nel caso della specifica, sappiamo quali sono le condizioni che l'oggetto deve rispettare.
+
+Nel caso dell'implementazione scegliamo quale algoritmo, struttura dati, etc. utilizzare nei metodi che ci sono dati dalla specifica.
+
+Una modifica dell'oggetto *concreto* non cambia l'oggetto *astratto*. Per esempio, posso cambiare  il tipo di struttura dati utilizzata da un certo metodo, ma lasciando intatta la *trasparenza* rispetto all'utilizzatore: il risultato restituito sarà sempre lo stesso a prescindere dal fatto che io usi un albero o una lista, perchè devo rispettare la specifica!
+
 ### Metodo puro (*pure method*)
 
 Un metodo puro è un metodo non statico che viene dichiarato con la *keyword* `/*@ pure @*/` e:
@@ -2571,4 +2581,178 @@ Un metodo puro è un metodo non statico che viene dichiarato con la *keyword* `/
 - `//@ assignables \nothing` si può omettere in quanto ci pensa già la keyword *pure* a imporre la condizione.
 - si possono chiamare solo altri metodi puri
 
-Anche i costruttori possono essere dichiarati *pure*, il che vuol dire che possono solo inizializzare gli attributi della classe e nient'altro.
+Anche i costruttori possono essere dichiarati *pure*, cioè possono solo inizializzare gli attributi della classe e nient'altro.
+
+## OAT
+
+---------------------
+> TODO
+
+---------------------
+
+## Proprietà delle Data Abstraction
+
+Si individuano quattro categorie di operazioni in un'astrazione:
+
+### Creatori (*creators*)
+
+Un *creatore* produce oggetti. Sono tutti *costruttori*, ma non tutti i costruttori sono creatori (se hanno come argomento il proprio tipo, vedi *produttori*)
+
+```java
+class Poly {
+    // ...
+
+    // Creator
+    public Poly() {
+        // ...
+        // crea un nuovo Poly
+    }
+}
+```
+### Produttori (*producers*)
+
+Un *produttore* crea oggetti del proprio tipo a partire da oggetti del proprio tipo. Di solito sono puri.
+
+```java
+class Poly {
+    // ...
+
+    // Producer
+    public Poly add(Poly q) {
+        // ...
+    }
+}
+```
+
+### Modificatori (*mutators*)
+
+Un *modificatore* modifica oggetti del proprio tipo (`insert`, `remove` e metodi simili). Non sono mai metodi puri e non hanno dichiarazione `//@ assignable` in JML.
+
+### Osservatori (*observers*)
+
+Un *osservatore* restituisce un tipo diverso dal proprio ricevendo in ingresso un input del proprio tipo. Sono di solito puri. Possono essere combinati con modificatori e produttori.
+
+```java
+class IntSet {
+    // ...
+    ArrayList set = // ...
+    // Observer
+    // Anche se non riceve in ingresso nulla dai parametri,
+    // avrà come input delle variabili di stato, es.: `set`.
+    public int size() {
+        // ...
+    }
+}
+```
+
+### Adeguatezza
+
+Un ADT è adeguato se fornisce operazioni sufficienti all'utilizzo. Se l'ADT è:
+
+- ***Mutable*** richiede almeno: *creators*, *observers*, *mutators*
+- ***Immutable*** richiede almeno: *creators*, *observers*, *producers*
+
+Usando *creators*, *producers* e *mutators* deve essere possibile ottenere ogni possibile stato astratto.
+
+Conviene anche verificare se si possono ottenere maggiori prestazioni modificando e/o aggiungendo ulteriori metodi.
+
+## Invarianti astratti (*abstract invariant*)
+
+Un *invariante astratto* è una condizione che è sempre verificata per l'oggetto astratto.
+
+In JML si indicano con `//@ public invariant <espressione>`.
+
+Per esempio, in un triangolo
+```java
+//@ public invariant latoMaggiore() < latoMinore() + latoMedio()
+//@ && latoMinore() * latoMedio() * latoMaggiore() > 0;
+``` 
+
+Bisogna essere sicuri che gli invarianti siano sempre verificati: è possibile provare che valga un invariante utilizzando esclusivamente la specifica.
+
+Nel caso di classi non pure, si può procedere dimostrando per esempio che vale l'invarianza per il costruttore di un ADT, e poi verificare che, a partire da un input per cui vale l'invarianza, per ogni risultato di ogni metodo valga ancora l'invarianza.
+
+## Implementazione di un ADT
+
+Quando implemento un ADT mi serve implementare tutti i costruttori, i metodi e una *struttura dati* per rappresentarne i valori. Tale rappresentazione è detta **rep**.
+
+Scelgo una *rep* che sia efficiente, semplice da utilizzare e possibilmente che usi strutture dati già esistenti/implementate. Conviene spesso utilizzare una struttura dati che velocizzi l'operazione più frequente.
+
+### Esempio di implementazione: `IntSet`
+
+Nell'implementazione di `IntSet` tramite un `ArrayList`, facico uso di una *helper function* `getIndex` evidenziata da `/*@ helper @*/`.
+
+```java
+public class IntSet {
+        
+    private ArrayList<Integer> els; //rappresentazione (rep). els è detta instance variable.
+    public IntSet() {
+        els = new ArrayList <Integer>();
+    }
+    public int size() {
+        return els.size();
+    }
+    public int choose() throws EmptyException {
+        if(els.size() == 0) {
+            throw new EmptyException( IntSet: choose );
+        } else {
+            return els.get(els.size()-1); 
+        }
+    }
+
+    // Creo una helper function utile per implementare
+    // i metodi `remove`, `insert`, `isIn`. 
+    // Utile per evitare i duplicati!
+    //@ assignable \nothing;
+    //  ^ Non posso accedere ad elementi private!
+    //@ ensures (this.isIn(x))
+    //@ ? els.get(\result) == x
+    //@ : \result == -1
+    /*@ helper @*/ private int getIndex(Integer x) {
+        // ...
+    }
+
+    public void insert(int x) {
+        if (getIndex(x)<0) els.add(y);
+    }
+    public boolean isIn(int x) {
+        return getIndex(x) >= 0;
+    }
+    public void remove(int x) {
+        // ...
+    }
+```
+
+Inoltre, facciamo anche l'ipotesi che l'*arrayList* non sia mai `null`, cioè vuota, e non ci sono *buchi*.
+
+### Esempio di implementazione: `Poly`
+
+I *Poly* sono immutabili, quindi mi basta un'array:
+
+```
+1 -5x +6x^2 -2x^3 + 3x^4
+=> [1, -5, 6, -2, 3]
+```
+
+La dimensione dell'array dipende dal grado del polinomio.
+
+```java
+public class Poly {
+    // array per memorizzare i coeff.
+    final private int[] trms;
+    // grado del polinomio
+    final private int deg;
+
+    //@ ensures this.degree() == 0
+    //@         && this.coeff(0)==0;
+    public Poly() {
+        trms = new int[1];
+        // deg è gia inizializzato a 0
+    }
+}
+```
+
+Il problema con questa implementazione è per esempio il monomio `x^900`, che mi richiede un array di dimensione 900 di cui userò solo una cella.
+
+Si può reimplementare come una lista delle adiacenze, in cui ho delle coppie `(coefficiente, grado)`.
+
