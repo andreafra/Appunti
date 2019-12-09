@@ -2369,6 +2369,8 @@ In JML si scrive la specifica sopra il metodo in questione in dei commenti speci
 
 Si usano le seguenti *clausole* per specificare le varie condizioni.
 
+È convenienete cercare di avere il minor numero possibile di vincoli ed essere il più generale possibile nella specifica: se si è troppo specifici si limita l'implementazione, se si è troppo generici la specifica è poco utile.
+
 #### `assignable`
 `assignable` indica su quali variabili è possibile fare un assegnamento, separate da una "`,`". Se non ci devono essere variabili assegnabili, si aggiunge `\nothing`. Per gli array, si aggiunge `[*]` dopo il nome della variabile.
 
@@ -2402,7 +2404,7 @@ public static float squareRoot(int n) {
 Se omettiamo la clausola *requires*, il metodo non ha nessuna precondizione da soddisfare.
 
 #### `ensures`
-`ensures` specifica il risultato garantito, cioè che cosa deve essere vero, al termine dell'esecuzione del metodo, **solo se** il `requires` è verificato. È la *postcondizione normale*.
+`ensures` specifica il risultato garantito, cioè che cosa deve essere vero, al termine dell'esecuzione del metodo, **solo se** il `requires` è verificato, e non si verificano *eccezioni*. È la *postcondizione normale*.
 
 ```java
 //@ ensures \result > 0
@@ -2431,21 +2433,430 @@ public static float squareRoot(int n) {
 
 #### Commenti/Linguaggio naturale
 
-Per inserire commenti o espressioni in linguaggio naturale, si usano i delimitatori `* ... *`. Tutto ciò che è compreso tra i due `*` è un espressione che ha sempre valore `true`.
+Per inserire commenti o espressioni in linguaggio naturale, si usano i delimitatori `* ... *`. Tutto ciò che è compreso tra i due "`*`" è un espressione che ha sempre valore `true`.
 
 #### Congiunzioni
 
-Per legare più espressioni simili fra loro si può usare `&&` (AND), `||` (OR), `!` (NOT), e anche `===>` (implicazione) e `<==>` (doppia implicazione).
+Per legare più espressioni simili fra loro si può usare `&&` (AND), `||` (OR), `!` (NOT), e anche `==>` (implicazione) e `<==>` (doppia implicazione).
 
 ### Quantificatori
 
-JML fornisce anche dei quantificatori simili a quelli della *logica del primo ordine*, come *per ogni* (for all) e *esiste* (exists):
+JML fornisce anche dei quantificatori simili a quelli della *logica del primo ordine*, come *per ogni* (for all) e *esiste* (exists).
 
-- `\forall`
-- `\exists`
-- `\sum`
-- `\product`
-- `\min`
-- `\max`
-- `\num_of`
-- `\old`
+#### `\old`
+
+**Sintassi:** `\old(x)`
+
+Restituisce il valore della variabile `x` che aveva quando la funzione è stata invocata, cioè il valore iniziale.
+
+#### `\forall`
+
+**Sintassi:**
+`(\forall variable (inizializza), condizione ciclo (boolean), condizione (boolen))`
+
+Restituisce `true` se la *condizione* è verificata *per ogni* interazione.
+
+Per esempio, quest'espressione si assicura che gli elementi di un array `a` siano ordinati in modo crescente:
+
+```java
+//@ ensures (\forall int i; 0<=i && i< a.length-1; a[i]<=a[i+1])
+```
+
+Nella prima parte definisco `int i`, che sarà il contatore.
+Nella seconda parte specifico il range per cui effettuo il controllo sulla condizione, cioè per `i` compreso tra `0` e `a.length-1`, cioè la lunghezza dell'array.
+Nella terza parte, controllo che ogni elemento di `a`, cioè `a[i]`, sia minore o uguale al successivo `a[i+1]`. Se tale condizione è vera *per ogni* iterazione, la clausola sarà verificata.
+
+#### `\exists`
+
+**Sintassi:** `(\exists variabile; cond. ciclo (boolean); condizione (bool))`
+
+Restituisce `true` se la *condizione* è verificata *almeno una volta*.
+
+```java
+//@ ensures
+//@ (\exists int i; 0<=i && i<a.length; a[i] == x)
+//@ ? x == a[\result]
+//@ : \result == -1;
+public static int indexOf(int x, int [] a)
+```
+
+Come in `\forall`, si itera finchè la condizione del ciclo è *vera*. In quest'esempio, controlliamo se un valore `a[i]` di `a` è uguale al parametro `x` di `indexOf(...)`. Se almeno una volta tale condizione è `true`, l'[operatore ternario](https://docs.oracle.com/javase/tutorial/java/nutsandbolts/op2.html) `? :` (praticamente è un if-else: `<expression> ? < if true> : <if false>`) impone che `x = i`, altrimenti restituisce `-1`.
+
+#### `\num_of`
+
+**Sintassi:** `(\num_of variabile; cond. ciclo (boolean); condizione (bool))`
+
+Restituisce il numero di volte che la condizione è verificate durante il ciclo (cioè il numero di volte che *cond. ciclo* e *condizione* sono verificate).
+
+#### `\sum`
+
+**Sintassi:** `(\sum var; cond. ciclo (boolean); espressione)`
+
+Restituisce la somma dei valori delle espressioni.
+
+#### `\product`
+
+**Sintassi:** `(\product var; cond. ciclo (boolean); espressione)`
+
+Restituisce il prodotto dei valori delle espressioni.
+
+#### `\min`
+
+**Sintassi:** `(\min var; cond. ciclo (boolean); espressione)`
+
+Restituisce il minimo valore di tutte le espressioni computate durante il ciclo.
+
+
+#### `\max`
+
+**Sintassi:** `(\max var; cond. ciclo (boolean); espressione)`
+
+Restituisce il massimo valore di tutte le espressioni computate durante il ciclo.
+
+### Procedure parziali
+
+Una procedura è *parziale* se ha *requires* (precondizione) non vuoto: ha un comportamento specificato solo per un sottoinsieme del dominio degli argomenti.
+
+```java
+//@ requires n > 0
+//@ ensures (*condzione sul risultato*)
+public void myFunction(int n) {
+    // ...
+}
+```
+
+L'operazione che effettua `myFunction(int n)` è poco sicura: non sappiamo cosa succede se dovesse ricevere in input un numero negativo!
+
+Le procedure parziali sono infatti *poco sicure* da questo punto di vista, conviene avere quindi procedure *totali*.
+
+### Procedure totali
+
+Spesso, nelle procedure *totali* conviene *eliminare* la clausola requires e specificare ogni output possibile mediante *ensures* e *signals*.
+
+Per esempio, una funzione `indexOf(String x, String[] a)` che restituisce la posizione di un elemento `x` all'interno di un array `a`:
+
+```java
+//@ requires x != null;
+//@ ensures a[\result].equals(x);
+//@ signals (NotFoundException e) (*x non e in a *);
+public static int indexOf(String x, String[] a) throws NotFoundException
+```
+
+può essere migliorata rimuovendo `//@ requires ...`
+
+```java
+//@ ensures x != null && a[\result].equals(x);
+//@ signals (NotFoundException e) (*x non e
+//@ signals (NullPointerException e) x == null;
+public static int indexOf(String x, String[] a) throws NullPointerException, NotFoundException
+```
+
+Non è conveniente lanciare eccezioni quando la *verifica* richiede più tempo dell'*esecuzione*, fatta eccezione per la fase di testing.
+
+## Astrazione per specifica
+
+Una volta che abbiamo specificato i valori e le operazioni possibili di un *tipo di dato*, abbiamo ottenuto un *ADT* (detto anche *data abstraction*, o semplicemente **tipo**).
+
+Se facciamo astrazione sulla rappresentazione dei valori e su come implementare i metodi, ci rimane solo la *specifica* dell'ADT.
+
+L'ADT divide la *specifica* dall'*implementazione*. Java per conto suo *non è* sufficiente a separare efficientemente specifica da implementazione (fattibile fino ad un certo punto mediante le classi/interfacce).
+
+In JML, nello specificare un *metodo pubblico non statico* devono solo comparire gli elementi **pubblici** del metodo e della classe: \result, i parametri del metodo, [metodi puri](#metodo-puro-pure-method) e attributi pubblici.
+
+### Oggetto Astratto vs Oggetto Concreto
+
+La *specifica* di un'astrazione descrive un *oggetto astratto*, mentre l'*implementazione* di un'astrazione descrive un *oggetto concreto*.
+
+Nel caso della specifica, sappiamo quali sono le condizioni che l'oggetto deve rispettare.
+
+Nel caso dell'implementazione scegliamo quale algoritmo, struttura dati, etc. utilizzare nei metodi che ci sono dati dalla specifica.
+
+Una modifica dell'oggetto *concreto* non cambia l'oggetto *astratto*. Per esempio, posso cambiare  il tipo di struttura dati utilizzata da un certo metodo, ma lasciando intatta la *trasparenza* rispetto all'utilizzatore: il risultato restituito sarà sempre lo stesso a prescindere dal fatto che io usi un albero o una lista, perchè devo rispettare la specifica!
+
+### Metodo puro (*pure method*)
+
+Un metodo puro è un metodo non statico che viene dichiarato con la *keyword* `/*@ pure @*/` e:
+
+- non ha effetti collaterali
+- `//@ assignables \nothing` si può omettere in quanto ci pensa già la keyword *pure* a imporre la condizione.
+- si possono chiamare solo altri metodi puri
+
+Anche i costruttori possono essere dichiarati *pure*, cioè possono solo inizializzare gli attributi della classe e nient'altro.
+
+## OAT
+
+Quando si tratta di [collezioni](#collection), non basta usare degli osservatori per definire la specifica, perchè non riescono a gestire bene le diverse situazioni in cui si trova lo stato astratto.
+
+Si ricorre quindi all'*oggetto astratto tipico* (OAT) che definisce in modo precisco l'oggetto astratto.
+
+Di solito un OAT è una *lista*, un *set* o una *stringa*.
+
+Descrivo le operazioni come un effetto sull'OAT.
+
+### Esempio di OAT su `IntSet`
+
+```java
+public class IntSet {
+    //@ spec_public List<Integer> oat;
+    //@ ensures \result == oat.contains(x); 
+    public /*@ pure @*/ boolean isIn (int x) {
+        // ...
+    }
+    //@ ensures \result ==oat.size();
+    public /*@ pure @*/ int size() {
+        // ...
+    }
+ }
+```
+
+## Proprietà delle Data Abstraction
+
+Si individuano quattro categorie di operazioni in un'astrazione:
+
+### Creatori (*creators*)
+
+Un *creatore* produce oggetti. Sono tutti *costruttori*, ma non tutti i costruttori sono creatori (se hanno come argomento il proprio tipo, vedi *produttori*)
+
+```java
+class Poly {
+    // ...
+
+    // Creator
+    public Poly() {
+        // ...
+        // crea un nuovo Poly
+    }
+}
+```
+### Produttori (*producers*)
+
+Un *produttore* crea oggetti del proprio tipo a partire da oggetti del proprio tipo. Di solito sono puri.
+
+```java
+class Poly {
+    // ...
+
+    // Producer
+    public Poly add(Poly q) {
+        // ...
+    }
+}
+```
+
+### Modificatori (*mutators*)
+
+Un *modificatore* modifica oggetti del proprio tipo (`insert`, `remove` e metodi simili). Non sono mai metodi puri e non hanno dichiarazione `//@ assignable` in JML.
+
+### Osservatori (*observers*)
+
+Un *osservatore* restituisce un tipo diverso dal proprio ricevendo in ingresso un input del proprio tipo. Sono di solito puri. Possono essere combinati con modificatori e produttori.
+
+```java
+class IntSet {
+    // ...
+    ArrayList set = // ...
+    // Observer
+    // Anche se non riceve in ingresso nulla dai parametri,
+    // avrà come input delle variabili di stato, es.: `set`.
+    public int size() {
+        // ...
+    }
+}
+```
+
+### Adeguatezza
+
+Un ADT è adeguato se fornisce operazioni sufficienti all'utilizzo. Se l'ADT è:
+
+- ***Mutable*** richiede almeno: *creators*, *observers*, *mutators*
+- ***Immutable*** richiede almeno: *creators*, *observers*, *producers*
+
+Usando *creators*, *producers* e *mutators* deve essere possibile ottenere ogni possibile stato astratto.
+
+Conviene anche verificare se si possono ottenere maggiori prestazioni modificando e/o aggiungendo ulteriori metodi.
+
+## Invarianti astratti (*abstract invariant*)
+
+Un *invariante astratto* è una condizione che è sempre verificata per l'oggetto astratto.
+
+In JML si indicano con `//@ public invariant <espressione>`.
+
+Per esempio, in un triangolo
+```java
+//@ public invariant latoMaggiore() < latoMinore() + latoMedio()
+//@ && latoMinore() * latoMedio() * latoMaggiore() > 0;
+``` 
+
+Bisogna essere sicuri che gli invarianti siano sempre verificati: è possibile provare che valga un invariante utilizzando esclusivamente la specifica.
+
+Nel caso di classi non pure, si può procedere dimostrando per esempio che vale l'invarianza per il costruttore di un ADT, e poi verificare che, a partire da un input per cui vale l'invarianza, per ogni risultato di ogni metodo valga ancora l'invarianza.
+
+## Implementazione di un ADT
+
+Quando implemento un ADT mi serve implementare tutti i costruttori, i metodi e una *struttura dati* per rappresentarne i valori. Tale rappresentazione è detta **rep**.
+
+Scelgo una *rep* che sia efficiente, semplice da utilizzare e possibilmente che usi strutture dati già esistenti/implementate. Conviene spesso utilizzare una struttura dati che velocizzi l'operazione più frequente.
+
+### Esempio di implementazione: `IntSet`
+
+Nell'implementazione di `IntSet` tramite un `ArrayList`, facico uso di una *helper function* `getIndex` evidenziata da `/*@ helper @*/`.
+
+```java
+public class IntSet {
+        
+    private ArrayList<Integer> els; //rappresentazione (rep). els è detta instance variable.
+    public IntSet() {
+        els = new ArrayList <Integer>();
+    }
+    public int size() {
+        return els.size();
+    }
+    public int choose() throws EmptyException {
+        if(els.size() == 0) {
+            throw new EmptyException( IntSet: choose );
+        } else {
+            return els.get(els.size()-1); 
+        }
+    }
+
+    // Creo una helper function utile per implementare
+    // i metodi `remove`, `insert`, `isIn`. 
+    // Utile per evitare i duplicati!
+    //@ assignable \nothing;
+    //  ^ Non posso accedere ad elementi private!
+    //@ ensures (this.isIn(x))
+    //@ ? els.get(\result) == x
+    //@ : \result == -1
+    /*@ helper @*/ private int getIndex(Integer x) {
+        // ...
+    }
+
+    public void insert(int x) {
+        if (getIndex(x)<0) els.add(y);
+    }
+    public boolean isIn(int x) {
+        return getIndex(x) >= 0;
+    }
+    public void remove(int x) {
+        // ...
+    }
+```
+
+Inoltre, facciamo anche l'ipotesi che l'*arrayList* non sia mai `null`, cioè vuota, e non ci sono *buchi*.
+
+### Esempio di implementazione: `Poly`
+
+I *Poly* sono immutabili, quindi mi basta un'array:
+
+```
+1 -5x +6x^2 -2x^3 + 3x^4
+=> [1, -5, 6, -2, 3]
+```
+
+La dimensione dell'array dipende dal grado del polinomio.
+
+```java
+public class Poly {
+    // array per memorizzare i coeff.
+    final private int[] trms;
+    // grado del polinomio
+    final private int deg;
+
+    //@ ensures this.degree() == 0
+    //@         && this.coeff(0)==0;
+    public Poly() {
+        trms = new int[1];
+        // deg è gia inizializzato a 0
+    }
+}
+```
+
+Il problema con questa implementazione è per esempio il monomio `x^900`, che mi richiede un array di dimensione 900 di cui userò solo una cella.
+
+Si può reimplementare come una lista delle adiacenze, in cui ho delle coppie `(coefficiente, grado)`.
+
+
+## Funzione e Invariante di Astrazione
+
+Una *funzione di astrazione* descrive l'interpretazione del *rep*:
+
+- associa a ogni oggetto concreto che rispetta le proprietà ("legale") l'oggetto astratto che si intende rappresentare
+- si può specificare con un *private invariant*, che mette in relazione gli attributi privati e gli observer pubblici
+- si implementa con `toString()`
+- *non è definita* per oggetti **illegali**, cioè che non rispettano le ipotesi dell'implementazione.
+
+Implementare un *AF* è utile per trovare possibili errori nel codice: a tale scopo conviene *ridefinire* il metodo `toString()` in modo da fargli stampare la rappresentazione testuale dell'oggetto.
+
+Un *invariante di astrazione* è un modo per descrivere in modo preciso tutte le ipotesi da rispettare perchè un rappresentazione dell'ADT sia *legale*, e dunque valga la funzione di astrazione.
+
+È buona pratica scrivere il *rep invariant* **prima** di implementare qualunque operazione, implementarlo come `private invariant`, e descrivendo tutte le proprietà necessarie.
+
+#### Rep Invariant e `repOk()`
+
+Si può implementare un *rep invariant* in Java con il metodo `repOk()`
+
+```java
+public boolean repOk() {
+    // Ensures: restituisce true se
+    // rep invariant vale per this, 
+    // altrimenti restituisce false
+}
+```
+
+### Esempio di Funzione e Invariante di Astrazione per `IntSet`
+
+Riprendendo l'[esempio sopra](#esempio-di-implementazione-intset) di `IntSet`, possiamo definire una *FA* come
+
+```java
+/* @ private invariant
+   @ (\forall int i; ; this.isIn(i) <==> els.contains(i))
+   @ */
+```
+
+Reimplementiamo `toString()` in modo da ottenere un output del tipo `IntSet: {1, 3, 5}`:
+
+```java
+public String toString() {
+    if (els.size() == 0) return "IntSet: {}";
+    String s = "IntSet: {" + els.elementAt(0).toString(); 
+    for (int i = 1; i < els.size(); i++) {
+        s = s + ", " + els.elementAt(i).toString();
+    }
+    return s + "}";
+}
+```
+
+Definiamo infine l'invariante di astrazione:
+
+```java
+//@ private invariant els != null &&
+//@ !els.contains(null) &&
+//@ (\forall int i; 0 <= i && i < els.size();
+//@     (\forall int j; i < j && j < els.size();
+//@         !(els.get(i).equals(els.get(j))));
+```
+
+In particolare vogliamo che:
+- `els` sia non vuoto
+- `els` contiene solo elementi non nulli
+- ogni elemento è diverso dagli altri (cioè niente duplicati)
+
+Implementiamo infine `repOk()` per `IntSet`:
+
+```java
+public boolean repOk() {
+    // els <> null && :
+    if (els == null) return false;
+    // !els.contains(null)&& :
+    if (els.contains(null)) return false;
+    // for all integers i, j. (0 <= i< j<c.els.size => c.els[i].intValue !=c.els[i].intValue:
+    for (int j = i + 1; j < els.size(); j++)
+    if (x.equals(els.get(j))) return false;
+    }
+    return true;
+}
+```
+
+A livello di codice, invocheremo `assert repOk()` per esempio nei metodi di `IntSet`. Se `repOk()` restituisce `false`, viene generato un errore.
+
+
