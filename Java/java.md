@@ -2585,10 +2585,29 @@ Anche i costruttori possono essere dichiarati *pure*, cioè possono solo inizial
 
 ## OAT
 
----------------------
-> TODO
+Quando si tratta di [collezioni](#collection), non basta usare degli osservatori per definire la specifica, perchè non riescono a gestire bene le diverse situazioni in cui si trova lo stato astratto.
 
----------------------
+Si ricorre quindi all'*oggetto astratto tipico* (OAT) che definisce in modo precisco l'oggetto astratto.
+
+Di solito un OAT è una *lista*, un *set* o una *stringa*.
+
+Descrivo le operazioni come un effetto sull'OAT.
+
+### Esempio di OAT su `IntSet`
+
+```java
+public class IntSet {
+    //@ spec_public List<Integer> oat;
+    //@ ensures \result == oat.contains(x); 
+    public /*@ pure @*/ boolean isIn (int x) {
+        // ...
+    }
+    //@ ensures \result ==oat.size();
+    public /*@ pure @*/ int size() {
+        // ...
+    }
+ }
+```
 
 ## Proprietà delle Data Abstraction
 
@@ -2755,4 +2774,89 @@ public class Poly {
 Il problema con questa implementazione è per esempio il monomio `x^900`, che mi richiede un array di dimensione 900 di cui userò solo una cella.
 
 Si può reimplementare come una lista delle adiacenze, in cui ho delle coppie `(coefficiente, grado)`.
+
+
+## Funzione e Invariante di Astrazione
+
+Una *funzione di astrazione* descrive l'interpretazione del *rep*:
+
+- associa a ogni oggetto concreto che rispetta le proprietà ("legale") l'oggetto astratto che si intende rappresentare
+- si può specificare con un *private invariant*, che mette in relazione gli attributi privati e gli observer pubblici
+- si implementa con `toString()`
+- *non è definita* per oggetti **illegali**, cioè che non rispettano le ipotesi dell'implementazione.
+
+Implementare un *AF* è utile per trovare possibili errori nel codice: a tale scopo conviene *ridefinire* il metodo `toString()` in modo da fargli stampare la rappresentazione testuale dell'oggetto.
+
+Un *invariante di astrazione* è un modo per descrivere in modo preciso tutte le ipotesi da rispettare perchè un rappresentazione dell'ADT sia *legale*, e dunque valga la funzione di astrazione.
+
+È buona pratica scrivere il *rep invariant* **prima** di implementare qualunque operazione, implementarlo come `private invariant`, e descrivendo tutte le proprietà necessarie.
+
+#### Rep Invariant e `repOk()`
+
+Si può implementare un *rep invariant* in Java con il metodo `repOk()`
+
+```java
+public boolean repOk() {
+    // Ensures: restituisce true se
+    // rep invariant vale per this, 
+    // altrimenti restituisce false
+}
+```
+
+### Esempio di Funzione e Invariante di Astrazione per `IntSet`
+
+Riprendendo l'[esempio sopra](#esempio-di-implementazione-intset) di `IntSet`, possiamo definire una *FA* come
+
+```java
+/* @ private invariant
+   @ (\forall int i; ; this.isIn(i) <==> els.contains(i))
+   @ */
+```
+
+Reimplementiamo `toString()` in modo da ottenere un output del tipo `IntSet: {1, 3, 5}`:
+
+```java
+public String toString() {
+    if (els.size() == 0) return "IntSet: {}";
+    String s = "IntSet: {" + els.elementAt(0).toString(); 
+    for (int i = 1; i < els.size(); i++) {
+        s = s + ", " + els.elementAt(i).toString();
+    }
+    return s + "}";
+}
+```
+
+Definiamo infine l'invariante di astrazione:
+
+```java
+//@ private invariant els != null &&
+//@ !els.contains(null) &&
+//@ (\forall int i; 0 <= i && i < els.size();
+//@     (\forall int j; i < j && j < els.size();
+//@         !(els.get(i).equals(els.get(j))));
+```
+
+In particolare vogliamo che:
+- `els` sia non vuoto
+- `els` contiene solo elementi non nulli
+- ogni elemento è diverso dagli altri (cioè niente duplicati)
+
+Implementiamo infine `repOk()` per `IntSet`:
+
+```java
+public boolean repOk() {
+    // els <> null && :
+    if (els == null) return false;
+    // !els.contains(null)&& :
+    if (els.contains(null)) return false;
+    // for all integers i, j. (0 <= i< j<c.els.size => c.els[i].intValue !=c.els[i].intValue:
+    for (int j = i + 1; j < els.size(); j++)
+    if (x.equals(els.get(j))) return false;
+    }
+    return true;
+}
+```
+
+A livello di codice, invocheremo `assert repOk()` per esempio nei metodi di `IntSet`. Se `repOk()` restituisce `false`, viene generato un errore.
+
 
