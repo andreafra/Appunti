@@ -1,6 +1,8 @@
 Java
 ====
 
+> Se ci sono errori, mandami una mail a `hi@andreafranchini.me`
+
 Java è un linguaggio di programmazione che è compilato in *bytecode* eseguibile su ogni architettura che abbia una propria JVM (Java Virtual Machine).
 
 È un linguaggio orientato agli oggetti, cioè consiste di un insieme di classi che contengono **attributi** (variabili) e **metodi** (funzioni). Lo scopo della struttura a classi è limitare tramite opportuni modificatori la **visibilità** delle componenti di un oggetto, al fine di rendere più agevole e modulare la modifica del codice.
@@ -828,6 +830,41 @@ class MyCollectio  implements Iterable<T> {
     public Iterator<T> iterator() {
         // Restituisce l'iteratore per scandire
         // la collezione
+    }
+}
+```
+
+### Iteratori Statici
+
+È possibile implementare un iteratore come procedura statica *stand-alone*, per esempio come generatori di numeri della catena di Fibonacci.
+
+```java
+public class Num {
+    public static Iterator allFibos() {
+        return new FibosGen();
+    }
+
+    //classe interna
+    private static class FibosGen implements Iterator<Integer> {
+        private int prev1, prev2; //i due ultimi generati
+        private int nextFib; //nuovo numero generato
+
+        // Constructor
+        FibosGen() {
+            prev2=1; prev1=0;
+        }
+
+        // Implemento i metodi di Iterator
+        public boolean hasNext() {
+            return true;
+        }
+
+        public Integer next() {
+            nextFib = prev1 + prev2;
+            prev2 = prev1;
+            prev1 = nextFib;
+            return Integer(nextFib);
+        }
     }
 }
 ```
@@ -2693,7 +2730,7 @@ Nel caso di classi non pure, si può procedere dimostrando per esempio che vale 
 
 ## Implementazione di un ADT
 
-Quando implemento un ADT mi serve implementare tutti i costruttori, i metodi e una *struttura dati* per rappresentarne i valori. Tale rappresentazione è detta **rep**.
+Quando implemento un ADT mi serve implementare tutti i costruttori, i metodi e una *struttura dati* per rappresentarne i valori. Tale rappresentazione, quindi tutti gli attributi privati della classe, sono detti **rep**.
 
 Scelgo una *rep* che sia efficiente, semplice da utilizzare e possibilmente che usi strutture dati già esistenti/implementate. Conviene spesso utilizzare una struttura dati che velocizzi l'operazione più frequente.
 
@@ -2859,4 +2896,21 @@ public boolean repOk() {
 
 A livello di codice, invocheremo `assert repOk()` per esempio nei metodi di `IntSet`. Se `repOk()` restituisce `false`, viene generato un errore.
 
+## Effetti collaterali benevoli
 
+Un'implementazione ha un effetto collaterale benevolo se modifica il rep senza influenzare lo stato astratto di un oggetto.
+
+In JML, non è possibile avere effetti collaterali benevoli chiamando solo [metodi puri](#metodo-puro-pure-method).
+
+È **da evitare** invece un'implementazione che espone il *rep*, cioè che fornisce all'utilizzatore di un oggetto un metodo per accedere a parti mutabili del *rep* (quindi modificabile dall'utilizzatore), perchè *ci toglie il controllo sul rep*. Di solito accade quando
+
+- si restituisce tramite un metodo una parte mutabile del rep.
+
+    **Alternativa corretta:** restituire una copia dell'oggetto tramite il metodo `clone()` ad esempio.
+- memorizzando nel rep una reference ad una componente mutabile che esiste al di fuori di esso: il problema è che non è detto che la componente referenziata rispetti le ipotesi del *rep*. 
+
+    Conviene quindi utilizzare gli opportuni setter, che se ben implementanti garantiscono il rispetto delle condizioni.
+
+Non è invece un problema restituire reference a parti immutabili del *rep*.
+
+Conviene quindi dichiarare il rep sempre privato ed evitare problemi.
