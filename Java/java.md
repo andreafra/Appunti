@@ -24,6 +24,14 @@ Java ha i seguenti tipi primitivi:
 
 Ulteriori tipi possono essere definiti mediante [classi](#classi-classes) o [enum](#enum).
 
+# Control Flow
+
+## `if`
+
+## Loop
+
+## Switch
+
 # Classi (*classes*)
 
 Le classi sono una struttura fondamentale di Java che incapsula il codice attraverso metodi (*methods*) e attributi (*attributes*). La sintassi è la seguente:
@@ -851,7 +859,8 @@ public class Num {
 
         // Constructor
         FibosGen() {
-            prev2=1; prev1=0;
+            prev1 = 0;
+            prev2 = 1;
         }
 
         // Implemento i metodi di Iterator
