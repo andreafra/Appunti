@@ -3,16 +3,162 @@
 \usepackage{graphicx}
 \usepackage[italian]{babel}
 \usepackage[margin=0.7in]{geometry}
+\usepackage[colorlinks]{hyperref}
+\usepackage[toc]{glossaries}
+\usepackage{bookmark}
 
 \title{Appunti di Economia}
 \author{Andrea Franchini}
 
 \setcounter{tocdepth}{4}
 
+% Glossary
+\makeglossaries
+
+\newglossaryentry{imprenditore}{
+    name=imprenditore,
+    description={chi esercita professionalmente un'attività economica
+    organizzata al fine della produzione o dello scambio di beni o di servizi}
+}
+
+\newglossaryentry{impresa}{
+    name=impresa,
+    description={attività economica organizzata, svolta professionalmente, al fine della
+    produzione o dello scambio di beni o di servizi}
+}
+
+\newglossaryentry{lavsub}{
+    name=lavoratore subordinato,
+    description={chi si obbliga, mediante retribuzione a
+    collaborare nell'\gls{impresa}, prestando il proprio lavoro, intellettuale o
+    manuale, alle dipendenze e sotto la direzione dell'\gls{imprenditore}}
+}
+
+\newglossaryentry{societa}{
+    name=società,
+    description={contratto con cui \emph{due o più persone} conferiscono beni
+    o servizi per l’esercizio in comune di un’attività economica allo scopo di
+    dividerne gli \glspl{utile}}
+}
+
+\newglossaryentry{azienda}{
+    name=azienda,
+    description={\emph{complesso dei beni organizzati} dall'\gls{imprenditore} per
+    l'esercizio dell'\gls{impresa}}
+}
+
+\newglossaryentry{ditta}{
+    name=ditta,
+    description={\emph{nome commerciale} scelto dall’imprenditore per
+    esercitare l’\gls{impresa}: è un segno distintivo che consente ai consumatori di
+    identificare l’impresa, ha valore commerciale e pertanto la legge ne garantisce
+    l'\emph{uso esclusivo}}
+}
+
+\newglossaryentry{utile}{
+    name=utile,
+    description={indica la differenza tra ricavi e costi di un'impresa. Se tale
+    differenza è positiva viene comunemente chiamato \emph{profitto}, in caso
+    contrario viene chiamato perdita},
+    plural=utili
+}
+
+\newglossaryentry{shareholder}{
+    name=shareholder,
+    description={}
+}
+
+\newglossaryentry{stakeholder}{
+    name=stakeholder,
+    description={}
+}
+
+\newglossaryentry{rischio}{
+    name=rischio,
+    description={impossibilità di prevedere con certezza gli esiti futuri delle decisioni
+    in merito alle attività dell’impresa (``probabilità di un evento e delle sue
+    conseguenze'')}
+}
+
+\glsaddall
+
+% Document
+
 \begin{document}
+
 \maketitle
+
 \tableofcontents
 
 \chapter{Impresa}
+
+\section{Definizione giuridica}
+
+\subsection{Requisiti di un'impresa}
+Per essere considerata un'\gls{impresa}, un'attività deve essere:
+\begin{itemize}
+    \item economica: l’output deve poter essere oggetto di \emph{scambio} su un 
+    mercato (deve avere un valore \emph{economico})
+    \item professionale: svolta abitualmente, ma non necessariamente, con
+    \emph{continuità temporale in esclusiva} da un \gls{imprenditore} (ma è
+    possibile delegare la gestione dell’\gls{impresa})
+    \item organizzata: l’impresa ha una sua organizzazione, struttura che
+    consente una \emph{gestione coordinata delle risorse} (umane, finanziarie,
+    tecnologiche). L’imprenditore organizza liberamente l’impresa.
+\end{itemize}
+
+\section{Cosa fa l'impresa}
+
+Un impresa utilizza come \emph{input} beni e servizi per \emph{trasformarli},
+mediante delle \emph{risorse} (impianti, macchinari, personale, conoscenze
+tecnologiche, brevetti) in \emph{output} da vendere ai \emph{consumatori finali}
+o ad \emph{altre imprese}. L'obiettivo di un impresa è \emph{generare valore},
+cioè un \gls{utile}, per gli \glspl{shareholder}. Altri obiettivi sono la
+riduzione dei costi, l'aumento delle quote di mercato, il miglioramento della
+qualità del prodotto, l'innovazione, l'ingresso in nuovi mercati\dots
+
+\section{Responsabilità Sociale d'Impresa (RSI)}
+La Responsabilità Sociale d’impresa (RSI) o Corporate Social Responsibility
+(CSR) è ``la responsabilità delle imprese per gli impatti che hanno sulla
+società''.
+
+\subsection{Principi della RSI}
+\begin{itemize}
+    \item \emph{sostenibilità}: uso consapevole ed efficiente delle risorse
+    ambientali in quanto beni comuni, capacità di valorizzare le risorse umane
+    e contribuire allo sviluppo della comunità locale in cui l’azienda opera,
+    capacità di mantenere uno sviluppo economico dell’impresa nel tempo.
+    \item \emph{volontarietà}: come azioni svolte oltre gli obblighi di legge.
+    \item \emph{trasparenza}: ascolto e dialogo con gli \glspl{stakeholder}.
+    \item \emph{qualità}: in termini di prodotti e processi produttivi.
+    \item \emph{integrazione}: visione e azione coordinata delle varie attività.
+    di ogni direzione e reparto, a livello orizzontale e verticale, su obiettivi
+    e valori condivisi.
+\end{itemize}
+
+\section{Rischio d'impresa}
+Il \gls{rischio} è l'impossibilità di prevedere con certezza gli esiti futuri delle decisioni
+in merito alle attività dell’impresa (``probabilità di un evento e delle sue
+conseguenze'')
+
+\subsection{Fattori di rischio}
+\begin{itemize}
+    \item \emph{Tempo}: l'imprenditore prende oggi decisioni i cui risultati si
+    vedranno domani (\emph{mancano} alcune informazioni necessarie a decidere).
+    \item \emph{Contesto dinamico e mutevole}: domanda, preferenze dei
+    consumatori, numero e tipologia di concorrenti, tecnologie, condizioni di
+    accesso al credito, etc. sono variabili nel tempo.
+    \item \emph{Rigidità strutturale}: l’impresa ha un’organizzazione non
+    immediatamente modificabile in risposta all’ambiente (per esempio, in caso
+    di riduzione della domanda non sempre è possibile licenziare il personale).
+\end{itemize}
+
+L'imprenditore si assume il rischio d'impresa, che non è necessariamente una
+fattore negativo: così come risponde delle perdite, si appropria dei guadagni.
+
+\section{Nascita di un'impresa}
+
+
+\printglossaries
 
 \end{document}
