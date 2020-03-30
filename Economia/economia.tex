@@ -99,12 +99,13 @@
 
 \newglossaryentry{shareholder}{
     name=shareholder,
-    description={}
+    description={I proprietari dell'impresa}
 }
 
 \newglossaryentry{stakeholder}{
     name=stakeholder,
-    description={}
+    description={Insieme delle parti interessate (management, finanziatori a titolo oneroso,
+    fornitori, clienti, dipendenti, organizzazioni sindacali, concorrenti, Stato}
 }
 
 \newglossaryentry{rischio}{
@@ -161,6 +162,107 @@
     componenti della famiglia''}
 }
 
+\newglossaryentry{contabilita}{
+    name=contabilità,
+    description={Processo di individuazione, misurazione, analisi, interpretazione,
+    comunicazione di informazioni che consentono di esprimere giudizi e valutazioni
+    economiche sull’impresa. Sistema di rilevazione continuadi qualunque evento di
+    rilevanza economico-finanziaria dell’impresa}
+}
+
+\newglossaryentry{esercizio}{
+    name=esercizio,
+    description={Periodo di tempo, generalmente 1/1 – 31/12, ma a seconda dei settori
+    produttivi e/o di particolari esigenze l’inizio e la fine dell’esercizio possono
+    essere diverse, comunque di durata 12 mesi}
+}
+
+\newglossaryentry{bilancio}{
+    name=bilancio,
+    description={È un documento redatto con la finalità di informare i diversi \glspl{stakeholder}
+    sulla situazione economica, finanziaria e patrimoniale dell’impresa in un determinato
+    \gls{esercizio}}
+}
+
+\newglossaryentry{ifrsias}{
+    name=IFRS/IAS,
+    description={(International Financial Reporting Standards/International Accounting Standards)}
+}
+
+\newglossaryentry{sp}{
+    name=stato patrimoniale,
+    description={Documento del \gls{bilancio} che descrive la situazione patrimoniale dell’impresa in un determinato istante, normalmente il 31/12 di ciascun anno}
+}
+
+\newglossaryentry{ce}{
+    name=conto economico,
+    description={Documento del \gls{bilancio} che riassume i flussi di ricavi e costi avvenuti nell’esercizio}
+}
+
+\newglossaryentry{rf}{
+    name=rendiconto finanziario,
+    description={(o schema di cash-flow) Documento del \gls{bilancio} che presenta i flussi di cassa che hanno interessato l’impresa nell’esercizio}
+}
+
+\newglossaryentry{attivita}{
+    name=attività,
+    description={Risorsa controllata dall’impresa, risultato di operazioni svolte
+    in passato, dalla quale ci si attende un afflusso di \emph{benefici economici futuri}}
+}
+
+\newglossaryentry{passivita}{
+    name=passività,
+    description={Obbligazioni assunte dall’impresa in relazione ad operazioni e
+    altri fatti verificatisi in passato, ossia \emph{impegni irrevocabili} a tenere un
+    certo comportamento per effetto di disposizioni contrattuali, di leggi o di prassi consolidate}
+}
+
+\newglossaryentry{patrnet}{
+    name=patrimonio netto,
+    description={\emph{Valore residuo} delle attività dell’impresa dopo aver dedotto tutte le passività}
+}
+
+\newglossaryentry{fairvalue}{
+    name=fair value,
+    description={Corrispettivo al quale un'attività può essere scambiata, o una
+    passività estinta, tra parti consapevoli e disponibili, in una transazione tra parti terze e indipendenti}
+}
+
+\newglossaryentry{imptest}{
+    name=impairment test,
+    description={Verifica che le attività in bilancio siano iscritte ad un valore non superiore a quello effettivamente recuperabile}
+}
+
+\newglossaryentry{costo}{
+    name=costo,
+    description={Costo di acquisto, stimabile col metodo FIFO (First In - First Out)
+    o del costo medio ponderato}
+}
+\newglossaryentry{valrealizzo}{
+    name=valore di realizzo,
+    description={Prezzo medio di vendita stimato}
+}
+
+\newglossaryentry{rateo}{
+    name=rateo,
+    description={Evento economico che precede evento finanziario}
+}
+
+\newglossaryentry{risconto}{
+    name=risconto,
+    description={Evento finanziario precede evento economico}
+}
+
+\newglossaryentry{patrnetto}{
+    name=patrimonio netto,
+    description={Valore dei diritti vantati sull’impresa dagli azionisti per il
+    capitale versato e/o maturati in seguito alle attività di funzionamento dell’impresa}
+}
+
+\newglossaryentry{TFR}{
+    name=TFR,
+    description={Trattamento di Fine Rapporto}
+}
 \glsaddall
 
 % Document
@@ -586,11 +688,384 @@ Dal 2012, esiste una nuova tipologia d'impresa, le \emph{startup innovative}.
     intraprendere un nuovo progetto in tempi brevi
 \end{itemize}
 
+\chapter{Contabilità Esterna}
+La \gls{contabilita} si occupa di gestire le informazioni pubbliche redatte da 
+imprese e altri soggetti (per esempio gli enti pubblici), secondo criteri omogenei 
+stabiliti dalla legge per ragioni di efficacia e trasparenza.
+
+Le informazioni devono quindi essere:
+\begin{itemize}
+    \item \emph{accertate}: documentate secondo rigide regole formali
+    \item \emph{sintetiche}: si riportano entrate/uscite
+    \item \emph{storiche}: relative a eventi avvenuti in un dato periodo di tempo
+\end{itemize}
+
+I destinatari della contabilità esterna sono gli \glspl{shareholder} e gli
+\glspl{stakeholder}, che studiano la contabilità per stabilire:
+\begin{itemize}
+    \item La capacità dell’impresa di creare valore economico
+    \item Le determinanti della redditività
+    \item La sostenibilità finanziaria del modello di business
+    \item La capacità dell’impresa di far fronte alle obbligazioni assunte
+    \item La redditività conseguita a fronte della redditività attesa
+\end{itemize}
+ 
+\section{Bilancio di esercizio}
+È un documento redatto con la finalità di informare i diversi \glspl{stakeholder}
+sulla situazione economica, finanziaria e patrimoniale dell’impresa in un determinato
+\gls{esercizio}.
+
+Il bilancio è \emph{pubblico}, \emph{obbligatorio}, che sintetizza le operazioni
+di gestione condotte dall’impresa nel corso di un esercizio contabile (anno solare),
+soggetto a \emph{regolamentazione}.
+
+Il bilancio deve comunicare se e quanto l’impresa è:
+\begin{itemize}
+    \item In \emph{equilibrio reddituale}
+    \begin{itemize}
+        \item La gestione dell’impresa da parte del management è stata in grado di generare un reddito ``sufficiente''?
+        \item Ciò che resta dei ricavi delle vendite e degli altri proventi dopo avere sostenuto i costi
+        (dipendenti, fornitori, creditori, fisco...) è all’altezza delle aspettative di remunerazione dei proprietari?
+    \end{itemize}
+    \item In \emph{equilibrio finanziario}
+    \begin{itemize}
+        \item Le entrate dell’impresa permettono di far fronte nei tempi richiesti agli obblighi sottoscritti nei confronti di terzi?
+    \end{itemize}
+\end{itemize}
+
+\subsection{Esempio di bilancio}
+\textit{Vendo prodotti per 100 al tempo $T$ (il prodotto è scambiato al tempo $T$), incasso il pagamento per 100 dal cliente al tempo $T+1$.}
+\begin{enumerate}
+    \item Logica reddituale: \quad
+    $
+        \textbf{Utile}
+        \begin{cases}
+            \text{Ricavi}_T = +100\\
+            \text{Ricavi}_{T+1} = 0
+        \end{cases}
+    $
+    \item Logica finanziaria: \quad
+    $
+    \textbf{Disponibilità Liquide}
+    \begin{cases}
+        \text{Cassa}_T = 0\\
+        \text{Cassa}_{T+1} = +100
+    \end{cases}
+    $
+\end{enumerate}
+
+\subsection{Principi contabili}
+Sono criteri che stabiliscono:
+\begin{itemize}
+    \item i fatti da registrare
+    \item le modalità attraverso le quali contabilizzare le operazioni di gestione
+    \item i criteri di valutazione e di esposizione dei valori di bilancio
+\end{itemize}
+
+Le informazioni devono essere \emph{complete}, \emph{veritiere}, \emph{comparabili tra imprese}
+
+\subsection{Normativa}
+Un \gls{bilancio} redatto in accordo ai principi \gls{ifrsias} (International Financial
+Reporting Standards/International Accounting Standards).
+
+I principi \gls{ifrsias} sono obbligatori per le società quotate.
+
+\subsection{Documenti}
+
+\begin{itemize}
+    \item \textbf{\Gls{sp} (SP):} descrive la situazione patrimoniale dell’impresa in un determinato istante
+    \item \textbf{\Gls{ce} (CE):} riassume i flussi di ricavi e costi avvenuti nell’esercizio
+    \item \textbf{\Gls{rf}:} presenta i flussi di cassa che hanno interessato l’impresa nell’esercizio
+    \item \textbf{Nota integrativa:} contiene le regole, le ipotesi e le convenzioni utilizzate dall’impresa per redigere Stato Patrimoniale e Conto Economico
+\end{itemize}
+
+Nella normativa italiana, le aziende devono anche redigere:
+\begin{itemize}
+    \item \textbf{Relazione degli amministratori}: riporta le considerazioni del management in merito all’andamento dell’impresa
+    \item \textbf{Relazione dei sindaci}, o comunque dell’organo preposto al controllo di legalità
+    \item \textbf{Relazione della società di revisione}: attesta l’oggettiva correttezza del bilancio, la rispondenza ai principi contabili utilizzati per la redazione del bilancio, la veridicità delle informazioni in esso contenute
+\end{itemize}
+
+\subsection{Limiti}
+A causa della sua valenza esterna e dei tempi necessari alla sua  predisposizione,
+\emph{il bilancio manca di analiticità e tempestività}.
+
+Le informazioni riportate nel bilancio sono sintetiche e aggregate, e risultano
+disponibili anche dopo settimane o  addirittura mesi dalla chiusura dello stesso.
+\emph{Tempi di approvazione ordinari sono entro 120 giorni dalla chiusura dell’esercizio}.
+
+Perciò tali informazioni non costituiscono un supporto adeguato per le singole decisioni del management,
+per le quali è necessario disporre di \emph{indicazioni più puntuali e tempestive}, di cui si occupa la
+\emph{contabilità interna}.
+
+\section{Stato Patrimoniale}
+È l'insieme delle \emph{risorse} a disposizione dell’impresa per produrre e vendere, dette \gls{attivita},
+e dei \emph{diritti} vantati sull’impresa da parte dei finanziatori, detti \gls{passivita}.
+
+La grandezza utilizzata per rappresentare sia le risorse sia i diritti è il \emph{valore monetario}.
+
+Solitamente non compaiono nelle attività le risorse umane, perchè su tali risorse
+nessuno dei soggetti che hanno conferito capitale può vantare diritti di controllo.
+
+\subsection{Identità fondamentale}
+\begin{equation*}
+    \text{Totale Attività} \equiv \text{Totale Passività} + \text{Patrimonio Netto}
+\end{equation*}
+
+\subsubsection{Esempio}
+\begin{tabular}{| l r | l r |}
+    \hline
+    \textbf{Attività} & & \textbf{Patrimonio netto e passività} & \\
+    \hline
+    Macchinario & 300 & Capitale sociale & 150 \\
+    Cassa       & 50  & Debito           & 200 \\ 
+    \hline 
+\end{tabular}
+\newline
+\newline
+$\text{Totale Attività} = \text{Totale Passività} + \text{Patrimonio Netto} = 300 + 50 = 150 + 200 = 350$
+
+\subsection{Attività}
+
+\subsubsection{Attività non correnti}
+Sono risorse utilizzate anche oltre l’esercizio contabile, con utilità pluriennale. Si distinguono tra:
+\begin{itemize}
+    \item \emph{a vita definita}: hanno un effetto nel tempo limitato e stimabile
+    \item \emph{a vita non definita}: non vi è un limite prevedibile al periodo
+    durante il quale ci si attende che l’attività generi benefici economici
+\end{itemize}
+
+\paragraph{Immobilizzazioni materiali} risorse aventi natura prevalentemente ``fisica''
+ed il cui impiego naturale per l’impresa si estende oltre l’esercizio di riferimento:
+\begin{itemize}
+    \item Immobili, impianti e macchinari di proprietà
+    \item Beni in locazione (es. flotta auto aziendale)
+    \item Investimenti immobiliari
+\end{itemize}
+
+\subparagraph{Iscrizione a bilancio} al costo d'acquisto.
+\subparagraph{Valorizzazione negli anni successivi} dipende dall’attività (vita utile).
+
+\paragraph{Immobilizzazioni immateriali} attività prive di consistenza fisica, controllate
+dall’impresa e in grado di produrre benefici economici:
+\begin{itemize}
+    \item Costi di sviluppo
+    \item Brevetti e licenze
+    \item Avviamento: eccedenza del costo di un’acquisizione aziendale rispetto
+    al valore contabile delle attività e delle passività dell’impresa acquisita
+\end{itemize}
+
+\subparagraph{Iscrizione a bilancio}
+\begin{itemize}
+    \item Attività acquisita all’esterno: costo di acquisto più costi direttamente imputabili
+    \item Attività autoprodotta: costi direttamente imputabili alla fase di sviluppo
+\end{itemize}
+
+\subparagraph{Valorizzazione negli anni successivi} dipende dall’attività (vita utile)
+
+\paragraph{Immobilizzazioni finanziarie}
+\begin{itemize}
+    \item Partecipazioni: azioni e quote societarie di altre imprese
+    \item Titoli, crediti finanziari, altre attività finanziarie
+\end{itemize}
+
+\subparagraph{Iscrizione a bilancio} al costo d'acquisto
+\subparagraph{Valorizzazione negli anni successivi} tipicamente \gls{fairvalue}:
+rivalutazioni/svalutazioni
+
+\subsubsection{Valorizzazione}
+
+\begin{itemize}
+    \item Nel caso di \emph{attività a vita utile definita} si usa il metodo dell'ammortamento.
+    \item Nel caso di \emph{attività a vita utile non definita} è necessaria la stima del \gls{fairvalue}.
+\end{itemize}
 
 
+\paragraph{Ammortamento} valore della ``quota'' della risorsa che viene ``consumata''
+dalla produzione o “deperisce” per obsolescenza tecnologica
+\begin{itemize}
+    \item a quote costanti: in parti uguali lungo la vita utile del bene
+    \item a quote decrescenti: maggiore ``consumo'' del bene nei primi anni
+    \item secondo le quantità prodotte: ``consumo'' del bene basato sull’utilizzo
+    effettivo o sulla produzione ottenuta dal bene
+\end{itemize}
 
+\subparagraph{Calcolo dell'ammortamento a quote costanti} dove $V_0$ è il costo
+di acquisto della risorsa, $V_f$ valore presunto di cessione dopo $T$ anni.
 
+\begin{equation*}
+    \text{Ammortamento} = \frac{V_0 - V_f}{T}
+\end{equation*}
 
+\subparagraph{Valore della risorsa in ciascun anno $T$}
+\begin{equation*}
+    V(t) = V(t-1) - \text{Ammortamento}
+\end{equation*}
+
+\subparagraph{Valorizzazione negli anni successivi} per le attività materiali è pari al
+costo di acquisto al netto degli ammortamenti cumulati fino all’anno corrente
+
+\subparagraph{\Gls{imptest}} valutazione periodica/\emph{una tantum} quando la
+risorsa mostra una perdita di valore giudicata durevole
+
+\paragraph{Fair value} corrispettivo al quale un'attività può essere scambiata,
+o una passività estinta, tra parti consapevoli e disponibili, in una transazione
+tra parti terze e indipendenti.
+
+È una valutazione annua.
+
+\subparagraph{Calcolo del \gls{fairvalue}}
+$\text{FV}(T)$: prezzo che un potenziale acquirente è disposto a pagare all'anno $T$.
+\begin{itemize}
+    \item Se $\text{FV}(T) > V(T-1) \Rightarrow$ rivalutazione
+    \item Se $\text{FV}(T) < V(T-1) \Rightarrow$ svalutazione
+\end{itemize}
+
+\subparagraph{\Gls{imptest}} obbligatorio annualmente per attività a vitanon definita e avviamento
+
+\subsubsection{Attività correnti}
+Attività liquide o destinate a trasformarsi in liquidità entro l’esercizio successivo.
+
+\paragraph{Rimanenze di magazzino} beni posseduti per la vendita o impiegati nei
+processi produttivi o nella prestazione di servizi
+\begin{itemize}
+    \item Materie prime
+    \item Semilavorati
+    \item Prodotti finiti
+\end{itemize}
+
+\subparagraph{Iscrizione a bilancio} valore minore tra \gls{costo} e \gls{valrealizzo}
+
+\paragraph{Crediti commerciali} crediti verso clienti a cui si è accordata una dilazione di pagamento.
+\subparagraph{Iscrizione a bilancio} presumibile \gls{valrealizzo} (al netto del corrispondente fondo rischi)
+
+\paragraph{Lavori in corso su ordinazione} contratti stipulati specificamente per la costruzione di un bene o di una combinazione di beni.
+\subparagraph{Iscrizione a bilancio} valore pattuito nella commessa in proporzione allo stato di avanzamento
+
+\paragraph{Disponibilità liquide (Cassa)} valori contanti in cassa aziendale,
+depositi bancari e postali, titoli di stato di breve (e quindi facilmente liquidabili).
+\subparagraph{Iscrizione a bilancio} \gls{valrealizzo} (ammontare del denaro)
+
+\paragraph{Attività finanziarie correnti}
+\begin{itemize}
+    \item Titoli
+    \item Crediti finanziari 
+    diverse dalle partecipazioni, detenute per negoziazione o disponibili per la vendita
+    \item Altre partecipazioni
+    \item Derivati di copertura relativi ad attività correnti
+    \item Altre voci residuali
+\end{itemize}
+\subparagraph{Iscrizione a bilancio} \gls{fairvalue}
+
+\paragraph{Ratei e risconti attivi} sono voci di aggiustamento delle entrate e
+delle uscite di cassa rispetto ai costi e ai ricavi di competenza dell’esercizio.
+
+\subparagraph{Ratei attivi} (\emph{ricavo posticipato}) ricavi la cui competenza economica è già maturata al 
+termine dell’esercizio, mentre il corrispondente flusso monetario non è ancora avvenuto.
+\subparagraph{Risconti attivi} (\emph{costo anticipato}) costi già sostenuti dall’impresa la cui competenza
+economica è relativa ad esercizi futuri.
+\subparagraph{Iscrizione a bilancio}: gli IAS non trattano specificamente dei
+ratei e dei risconti considerandoli all'interno di altre classi di debiti e crediti
+
+\section{Patrimonio netto e Passività}
+
+\subsection{Patrimonio netto}
+Il \gls{patrnetto} comprende:
+
+\paragraph{Capitale emesso} capitale conferito dagli azionisti all’impresa all’atto della sottoscrizione
+\begin{itemize}
+    \item del capitale iniziale
+    \item i aumenti di capitale (gratuiti, a pagamento con sovrapprezzo e senza sovrapprezzo)
+\end{itemize}
+\subparagraph{Iscrizione a bilancio} somma del valore delle singole quote
+
+\paragraph{Riserva sovrapprezzo azioni} capitale ``aggiuntivo'' conferito dagli
+azionisti all’atto della sottoscrizione di aumenti di capitale a pagamento.
+\subparagraph{Iscrizione a bilancio} 
+\begin{equation*}
+    \text{(Valore acquisto azioni)} - \text{(Valore nominale azioni)}
+    \times \text{(Numero di azioni dell'aumento capitale)}
+\end{equation*}
+
+\paragraph{Riserva da rivalutazione} incorpora gli effetti delle modifiche di
+valore derivanti dall’applicazione del criterio del \gls{fairvalue}.
+\subparagraph{Iscrizione a bilancio}
+\begin{equation*}
+    \text{(Fair value dell'attivo)} - \text{(Valore precendente dell'attivo)}
+\end{equation*}
+
+\paragraph{Utile (perdita) portato a nuovo} somma di tutti gli \glspl{utile} che
+l’impresa ha deciso di non distribuire agli azionisti, ad esempio, per motivi di
+autofinanziamento interno.
+
+\paragraph{Utile (perdita) di esercizio} risultato economico di pertinenza degli
+azionisti maturato nell’esercizio cui si riferisce il bilancio.
+È pari al valore riportato alla fine del Conto Economico.
+
+\vspace{5mm}
+\begin{center}
+    \begin{tabular}{|c|}
+        \hline
+        Gli \glspl{utile} sono le uniche voci dello Stato Patrimoniale che 
+    possono assumere valori negativi.\\
+        \hline
+    \end{tabular}
+\end{center}
+
+\subsection{Passività}
+
+\subsubsection{Passività finanziarie}
+Diritti vantati da soggetti terzi (\emph{non azionisti}) che hanno finanziato l’impresa.
+\begin{itemize}
+    \item Passività \emph{non correnti}: non esauriscono il loro impatto all’interno dell’\gls{esercizio} successivo
+    \item Passività \emph{correnti}: esauriscono il loro impatto all’interno dell’\gls{esercizio} successivo 
+\end{itemize}
+Di solito prevedono il pagamento di un interesse.
+
+\paragraph{Obbligazioni} sono titoli di credito emessi per la raccolta di capitale di debito.
+
+L’obbligazione è costituita da un certificato che rappresenta una frazione, di uguale
+valore nominale e con uguali diritti, di un’operazione di finanziamento.
+
+La società emittente garantisce ai sottoscrittori la riscossione di un interesse
+ed il rimborso del capitale a scadenza, o sulla base di un piano di ammortamento predefinito.
+
+\subparagraph{Iscrizione a bilancio} \gls{fairvalue}, cioè il valore da riconoscere
+a chi oggi si assume il titolo debito
+
+\paragraph{Debiti verso banche}
+\subparagraph{Iscrizione a bilancio} \gls{fairvalue}
+
+\paragraph{Fondo TFR e altri fondi relativi al personale} obblighi verso i dipendenti
+da liquidare all’interruzione del rapporto lavorativo (\gls{TFR}) o alla data della pensione
+(fondo pensione). I fondi sono creati con \emph{accantonamenti annui al TFR nel Conto Economico}.
+\subparagraph{Iscrizione a bilancio} stima attuariale di ente indipendente
+
+\paragraph{Fondo rischi e oneri} costi e oneri di esistenza certa o probabile che
+alla data di chiusura dell’esercizio sono indeterminati nell’ammontare o nella data
+di sopravvenienza (per esempio, un fondo  garanzia prodotti, contenziosi fiscali\dots oppure
+fondi creati con accantonamenti annui).
+\subparagraph{Iscrizione a bilancio} \gls{fairvalue}
+
+\paragraph{Debiti commerciali} pagamenti differiti verso i fornitori sorti per costi
+relativi all’acquisto di materie prime, servizi, costi per godimento di beni di terzi.
+In genere sono passività correnti.
+\subparagraph{Iscrizione a bilancio} costo d'acquisto
+
+\paragraph{Debiti per imposte} imposte sul reddito dell’esercizio calcolate sulla
+base della stima del reddito imponibile.
+\subparagraph{Iscrizione a bilancio} valore che si prevede di pagare alle autorità
+fiscali applicando le aliquote e la normativa fiscale vigenti (o approvate alla
+data di chiusura dell’esercizio)
+
+\paragraph{Ratei e risconti passivi} I ratei e i risconti sono voci di aggiustamento
+delle entrate e delle uscite di cassa rispetto ai costi e ai ricavi di competenza dell’esercizio.
+\subparagraph{Rateo passivo} (\emph{costo posticipato})
+\subparagraph{Risconto passivo} (\emph{ricavo anticipato})
+\subparagraph{Iscrizione a bilancio} gli IAS non trattano specificatamente dei ratei
+e dei risconticonsiderandoli all'interno di altre classi di debiti e crediti
+
+%% TODO: CONTO ECONOMICO
 
 \printglossaries
 
