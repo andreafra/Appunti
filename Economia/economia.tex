@@ -10,12 +10,22 @@
 \usepackage[T1]{fontenc}
 \usepackage{tabularx}
 \usepackage{booktabs}
+\usepackage[table]{xcolor}
+\usepackage{enumitem}
+\usepackage{makecell}
+
 
 \title{Appunti di Economia}
 \author{Andrea Franchini}
 
 % TOC
 \setcounter{tocdepth}{4}
+
+% Paragraphs don't have indents
+\setlength{\parindent}{3em}
+
+% Reduce spacing between \items
+\setlist[itemize]{noitemsep}
 
 % Images
 \graphicspath{ {./images/} }
@@ -45,6 +55,21 @@
         \\\bottomrule
     \end{tabularx}
 }
+
+% TextBox
+\newcommand{\textbox}[1]{
+\vspace{1em}
+\begin{center}
+    \begin{tabular}{|c|}
+        \hline
+        #1\\
+        \hline
+    \end{tabular}
+\end{center}
+}
+
+% Highlight table row
+\newcommand{\grayrow}{\rowcolor[gray]{.90}}
 
 % Glossary
 \makeglossaries
@@ -263,6 +288,26 @@
     name=TFR,
     description={Trattamento di Fine Rapporto}
 }
+
+\newglossaryentry{contoeconomico}{
+    name=conto economico,
+    description={Documento di bilancio che presenta i \emph{flussi economici in entrata ed uscita} dall’impresa nel corso
+    dell’esercizio contabile, determina l’\emph{utile di esercizio} dell’impresa come differenza tra i costi e i
+    ricavi dell’esercizio e mostra se e quanto l’impresa \emph{remunera il capitale investito}}
+}
+
+\newglossaryentry{ammortamento}{
+    name=ammortamento,
+    description={Valore della ``quota'' delle risorse di utilità pluriennale
+    (attività non correnti) che viene ``consumata'' dalla produzione o ``deperisce''
+    per obsolescenza tecnologica}
+}
+
+\newglossaryentry{ebit}{
+    name=EBIT,
+    description={Earnings Before Interest and Taxes}
+}
+
 \glsaddall
 
 % Document
@@ -967,9 +1012,9 @@ economica è relativa ad esercizi futuri.
 \subparagraph{Iscrizione a bilancio}: gli IAS non trattano specificamente dei
 ratei e dei risconti considerandoli all'interno di altre classi di debiti e crediti
 
-\section{Patrimonio netto e Passività}
+\subsection{Patrimonio netto e Passività}
 
-\subsection{Patrimonio netto}
+\subsubsection{Patrimonio netto}
 Il \gls{patrnetto} comprende:
 
 \paragraph{Capitale emesso} capitale conferito dagli azionisti all’impresa all’atto della sottoscrizione
@@ -1002,17 +1047,9 @@ autofinanziamento interno.
 azionisti maturato nell’esercizio cui si riferisce il bilancio.
 È pari al valore riportato alla fine del Conto Economico.
 
-\vspace{5mm}
-\begin{center}
-    \begin{tabular}{|c|}
-        \hline
-        Gli \glspl{utile} sono le uniche voci dello Stato Patrimoniale che 
-    possono assumere valori negativi.\\
-        \hline
-    \end{tabular}
-\end{center}
 
-\subsection{Passività}
+\textbox{Gli \glspl{utile} sono le uniche voci dello Stato Patrimoniale che 
+possono assumere valori negativi.}
 
 \subsubsection{Passività finanziarie}
 Diritti vantati da soggetti terzi (\emph{non azionisti}) che hanno finanziato l’impresa.
@@ -1058,15 +1095,481 @@ base della stima del reddito imponibile.
 fiscali applicando le aliquote e la normativa fiscale vigenti (o approvate alla
 data di chiusura dell’esercizio)
 
-\paragraph{Ratei e risconti passivi} I ratei e i risconti sono voci di aggiustamento
+\paragraph{Ratei e risconti passivi} i ratei e i risconti sono voci di aggiustamento
 delle entrate e delle uscite di cassa rispetto ai costi e ai ricavi di competenza dell’esercizio.
 \subparagraph{Rateo passivo} (\emph{costo posticipato})
 \subparagraph{Risconto passivo} (\emph{ricavo anticipato})
 \subparagraph{Iscrizione a bilancio} gli IAS non trattano specificatamente dei ratei
 e dei risconticonsiderandoli all'interno di altre classi di debiti e crediti
 
-%% TODO: CONTO ECONOMICO
+\section{Conto Economico}
+Documento di bilancio che presenta i \emph{flussi economici in entrata ed uscita} dall’impresa nel corso
+dell’esercizio contabile, determina l’\emph{utile di esercizio} dell’impresa come differenza tra i costi e i
+ricavi dell’esercizio e mostra se e quanto l’impresa \emph{remunera il capitale investito}.
 
-\printglossaries
+\subsection{Principio di competenza economica}
+Stabilisce che solo i costi e i ricavi di competenza di un esercizio contribuiscono
+a formare l’utile di esercizio. 
+
+\paragraph{Ricavi di competenza}
+valore dei beni alienati e/o dei servizi erogati nel
+corso dell’esercizio.
+
+I ricavi vengono registrati nel \gls{contoeconomico} nell’anno in cui è avvenuta l’alienazione
+del bene/erogazione del servizi anche se l’entrata di cassa (incasso) è
+precedente o successiva.
+
+Applicando il principio di competenza economica, possono verificarsi le
+seguenti situazioni per quanto riguarda i \emph{ricavi}:
+\begin{itemize}
+    \item Il prodotto/servizio è stato consegnato e la controparte ha pagato
+    \begin{itemize}
+        \item Un Ricavo è registrato nel CE dell’esercizio
+        \item Contestualmente, aumentano le Attività nello SP\footnote{\gls{sp}} (Cassa)
+    \end{itemize}
+    \item Il prodotto/servizio è stato consegnato, ma la controparte non ha pagato
+    \begin{itemize}
+        \item Un Ricavo è registrato nel CE dell’esercizio
+        \item Contestualmente, aumentano le Attività nello SP (Credito Commerciale)
+    \end{itemize}
+\end{itemize}
+
+\paragraph{Costi di competenza}
+valore delle risorse utilizzate per ``produrre'' i ricavi.
+
+I costi vengono registrati nel CE nell’anno in cui contribuiscono alla
+produzione anche se l’uscita di cassa (esborso) è precedente o
+successiva.
+
+Applicando il principio di competenza economica, possono verificarsi le
+seguenti situazioni per quanto riguarda i costi:
+\begin{itemize}
+    \item L’impresa ha usufruito di un bene/servizio e ha pagato la controparte
+    \begin{itemize}
+        \item Un Costo è registrato nel CE dell’esercizio
+        \item Contestualmente, dimuniscono le Attività nello SP (Cassa)
+    \end{itemize}
+    \item L’impresa ha usufruito di un bene/servizio, ma non lo ha ancora pagato
+    \begin{itemize}
+        \item Un Costo è registrato nel CE dell’esercizio
+        \item Contestualmente, aumentano le Passività nello SP (Debito Commerciale)
+    \end{itemize}
+\end{itemize}
+
+\subsection{Presentazione del conto economico}
+
+\paragraph{Per natura}
+i costi sono aggregati secondo la loro natura (es: acquisti di
+materiali, costi del personale)
+
+\paragraph{Per destinazione (o del ``costo del venduto'')}
+i costi sono aggregati secondo la loro funzione all’interno dell’impresa (parte del costo di
+realizzazione dei beni venduti, costi di distribuzione, costi amministrativi)
+
+\subsection{Gestioni}
+Il \gls{contoeconomico} è un conto scalare in cui ricavi/proventi e costi/oneri sono distinti per ``gestioni'',
+delle quali si può identificare il reddito generato.
+
+\subsubsection{Gestione Operativa}
+
+\paragraph{Ricavi operativi}
+\begin{itemize}
+    \item Ricavi derivanti dalla vendita di beni/erogazione di servizi
+    \item Ricavi dell’attività tipica e ordinaria dell’impresa
+\end{itemize}
+
+\paragraph{Altri proventi operativi}
+\begin{itemize}
+    \item Ricavi derivanti dall’utilizzo da parte di terzi di beni dell’impresa (ad
+    esempio: canoni di affitto, royalties)
+\end{itemize}
+
+\paragraph{Acquisti di materie primi}
+\begin{itemize}
+    \item Costo delle materie prime acquistate e dei materiali
+    di consumo
+\end{itemize}
+
+\paragraph{Costi del personale}
+\begin{itemize}
+    \item Salari e stipendi
+    \item Oneri sociali e riferiti al trattamento di
+    fine rapporto e più in generale ai piani di benefici per i dipendenti
+\end{itemize}
+
+\paragraph{Altri costi operativi}
+\begin{itemize}
+    \item Costi dell’energia
+    \item Costi di manutenzione e riparazione ordinarie
+    \item Costi di distribuzione, commerciali e amministrativi
+    \item Canoni di affitti e i canoni di leasing operativi
+\end{itemize}
+
+\paragraph{Costi per lavori interni capitalizzati}
+\begin{itemize}
+    \item Costi per migliorie, ammodernamento
+    e trasformazione delle attività materiali
+\end{itemize}
+
+\paragraph{Variazione delle rimanenze}
+Si indica la \emph{differenza algebrica tra il valore delle rimanenze finali e quelle
+iniziali}, eliminando così l’effetto di distorsione dei costi di produzione che non sono di
+competenza economica.
+
+\begin{itemize}
+    \item Materie prime
+    \item Prodotti finiti
+    \item Work in progress (prodotti in corso di lavorazione)
+    \item Semilavorati
+\end{itemize}
+
+\paragraph{Ammortamento}
+\begin{itemize}
+    \item Costo \emph{non cash}
+    \item Nel CE si inserisce la \emph{quota} della risorsa in questione consumata nell'\gls{esercizio}.
+    \item Corrisponde ad una riduzione tra le attività dello SP
+\end{itemize}
+
+Per esempio, se l'ammortamento è a quote costanti per una vita utile
+di 10 anni, la quota sarà un decimo del costo d'acquisto.
+
+\paragraph{Accantonamento}
+\begin{itemize}
+    \item Costo \emph{non cash}, creato per far fronte a impegni incerti per il loro ammontare e/o per la
+    loro scadenza.
+    \item Nel CE è incluso nel costo del personale dell’esercizio
+    \item Corrisponde ad un aumento delle passività dello SP
+\end{itemize}
+
+\paragraph{Plusvalenze/minusvalenze da realizzo di attività non correnti}
+\begin{itemize}
+    \item Differenza tra il ricavo ottenuto a seguito della cessione di un’attività non corrente ed il
+    valore iscritto a bilancio.
+\end{itemize}
+
+\paragraph{Ripristini o rivalutazioni/svalutazioni di valore di attività non correnti}
+\begin{itemize}
+    \item Voce che include gli effetti dell’applicazione del criterio del \gls{fairvalue} sulle
+    attività non correnti.
+    \item Quando il valore contabile di una attività materiale o immateriale aumenta
+    per effetto di una \emph{rivalutazione}, l’incremento viene attribuito
+    direttamente alla riserva di rivalutazione nel PN.
+    \item Un incremento deve essere \emph{rilevato a CE} solo se rappresenta il
+    \emph{recupero di valore di una svalutazione precedente} imputata al
+    CE e relativa allo stesso bene.
+    \item L’effetto di una \emph{svalutazione} deve invece essere imputato \emph{direttamente
+    a CE}, a meno che non sia successiva ad una precedente rivalutazione
+    dello stesso bene contabilizzata a PN (in quel caso si riduce la riserva
+    fino ad estinguerla, l’eventuale eccedenza si imputa a CE) 
+\end{itemize}
+
+\subsubsection{Gestione Finanziaria}
+
+\paragraph{Proventi finanziari}
+\begin{itemize}
+    \item Interessi attivi su disponibilità liquide
+    \item Proventi da partecipazioni
+    \item Altri proventi finanziari derivanti da titoli iscritti nell’attivo (interessi
+    attivi su prestiti, obbligazioni, dividendi su azioni)
+    \item Variazioni positive fair value di attività finanziarie
+\end{itemize}
+
+\paragraph{Oneri finanziari}
+\begin{itemize}
+    \item Interessi e gli altri oneri sostenuti in relazione all’ottenimento di
+    finanziamenti (breve e lungo)
+    \item Variazioni negative fair value di passività finanziarie
+\end{itemize}
+
+\subsubsection{Gestione Fiscale}
+\paragraph{Imposte calcolate sull’esercizio corrente}
+
+\subparagraph{IRES (Imposta sul reddito delle società)}
+calcolata sul risultato ante imposte: 24\%
+
+\textbf{Base imponibile}
+\begin{itemize}
+    \item Risultato prima delle imposte 
+    \item Deduzioni ($+$, $-$)
+\end{itemize}
+
+\subparagraph{IRAP (Imposta sul reddito delle attività produttive)}
+calcolata sul valore aggiunto: 3,9\% (Lombardia, imprese industriali)
+
+\textbf{Base imponibile}
+\begin{itemize}
+    \item \gls{ebit} 
+    \item Costo del personale ($+$)
+    \item Svalutazioni ($+$) (crediti, immobilizzazioni..) 
+    \item Accantonamenti ($+$)
+\end{itemize}
+
+Sono inoltre previste delle deduzioni (es.: costo del personale per
+ricercatori, per incremento occupazionale, forfettarie,...) che abbattono la
+base imponibile.
+
+\subparagraph{Osservazioni}
+\begin{itemize}
+    \item Con provvedimenti ad hoc, sono rese possibili riduzioni delle imposte
+    per incentivare le imprese a sostenere specifici costi
+    \item Esistono anche le imposte indirette (imposte sull’energia, sui trasporti)
+\end{itemize}
+
+\subsubsection{Utile del periodo}
+Noto anche come \emph{utile netto} o \emph{reddito d'impresa}, è il risultato residuale
+delle gestioni.
+
+\begin{itemize}
+    \item Si iscrive anche nello SP sotto ``\gls{patrnetto}''
+    \begin{itemize}
+        \item Utile $> 0 \rightarrow$ aumenta i diritti di competenza degli azionisti
+        \item Utile $< 0 \rightarrow$ viene eroso valore per gli azionisti
+    \end{itemize}
+    \item Nel bilancio consolidato, è obbligatoria l’indicazione del risultato di
+    pertinenza di terzi
+\end{itemize}
+
+\paragraph{Distribuzione degli utili}
+L’Assemblea dei Soci in sede di approvazione del bilancio decide:
+\begin{itemize}
+    \item Quale quota distribuire ai soci (\emph{dividendi})
+    \item Quale quota reinvestire (la quale va ad incrementare il PN come
+    \emph{utile portato a nuovo} e resta di competenza degli azionisti, cioè utili che potranno essere
+    distribuiti negli esercizi futuri)
+\end{itemize}
+
+% Opzionale? C'e' in esame?
+% \subsection{Consolidamento}
+
+% \paragraph{Consolidamento partecipazioni (bilancio consolidato)}
+
+% \subparagraph{Controllo congiunto}
+% nessuna delle parti controlla singolarmente l’accordo. Le
+%     decisioni sulle attività rilevanti richiedono il consenso unanime delle parti che
+%     controllano l’accordo collettivamente.
+% \subparagraph{Joint-venture societaria}
+% controllo congiunto che assume una forma societaria (joint venture corporation)
+% in cui i partecipanti (co-ventures) si spartiscono oneri e utili della società
+% e sono responsabili esclusivamente per la parte di capitale da loro versato.
+
+% \paragraph{Consolidamento integrale bilanci}
+% \begin{enumerate}
+%     \item Somma di tutte le voci di attivo/passivo
+%     \item Eliminazioni dei flussi tra società controllata e controllante (es. crediti/debiti tra le due
+%     società)
+%     \item Eliminazione della partecipazione nell’attivo della società controllante
+%     \item Rilevazione della parte di PN ed utile di pertinenza di terzi
+% \end{enumerate}
+
+% TODO: Controllare?
+% \paragraph{Metodo Patrimonio Netto}
+
+\section{Rendiconto Finanziario}
+
+Fornisce informazioni utili agli utilizzatori per rappresentare i 
+\emph{flussi finanziari in entrata ed in uscita}
+ di un’impresa durante l’esercizio contabile.
+
+\textbox{Il Rendiconto Finanziario non segue il principio di competenza economica.}
+
+\subsection{Flussi Finanziari (cash flows)}
+Sono \emph{variazioni di disponibilità liquide}, quali ad
+esempio la \emph{cassa}, \emph{investimenti a breve termine altamente liquidi} poiché
+convertibili in importi di denaro di ammontare determinato e soggetti a rischi
+non significativi di cambiamenti di valore (cash equivalents)
+
+\subsubsection{Schema aggregato del Rendiconto Finanziario}
+\begin{tabular}{|l | c |}
+    \hline
+    Flusso di cassa netto della gestione operativa & A \\
+    Flusso di cassa netto per attività di investimento & B \\
+    Flusso di cassa netto per attività di finanziamento & C \\
+    \hline\grayrow
+    Incremento (decremento) delle disponibilità liquide & D=A+B+C \\
+    \hline
+    Disponibilità liquide all’inizio del periodo & E \\
+    \hline\grayrow
+    Disponibilità liquide alla fine del periodo & F=D+E \\
+    \hline
+\end{tabular}
+
+\subsubsection{Flusso di cassa netto della gestione operativa}
+
+\begin{itemize}
+\item I flussi finanziari generati dall’attività operativa derivano dallo
+\emph{svolgimento dei processi produttivi dell’impresa}.
+\item Essi possono essere ricondotti a:
+\begin{itemize}
+    \item Incassi dalla vendita di prodotti e dalla prestazione di servizi
+    \item Incassi da royalties, compensi, commissioni e altri ricavi
+    \item Pagamenti a fornitori di materie prime, merci e servizi
+    \item Pagamenti a e per conto di lavoratori dipendenti
+    \item Proventi finanziari e dividendi ricevuti
+    \item Pagamenti per oneri finanziari
+    \item Pagamenti o rimborsi di imposte sul reddito
+\end{itemize}
+
+\item È un \emph{indicatore chiave} della capacità dell’impresa di generare cassa,
+senza dover ricorrere a finanziamenti esterni (\emph{autofinanziamento}), per:
+\begin{itemize}
+    \item Mantenere efficiente la capacità operativa
+    \item Finanziare nuovi investimenti
+    \item Rimborsare i prestiti
+    \item Pagare dividendi
+\end{itemize}
+
+\item E’ strettamente legato al CE e alla variazione di Attività e Passività correnti
+nello SP.
+\end{itemize}
+
+\subparagraph{Metodo diretto}
+esposizione delle principali categorie di incassi e di
+pagamenti lordi (incassi dai clienti, pagamenti ai fornitori\dots).
+
+L'uso del metodo diretto è fortemente incoraggiato, perchè consente
+una lettura più immediata delle fonti e degli impieghi di liquidità.
+
+Nel metodo diretto, il passaggio da ricavi e costi di competenza economica
+alle relative entrate ed uscite finanziarie richiede la
+\emph{preventiva ricostruzione dei ricavi e dei costi conseguiti e sostenuti nel periodo}
+che vanno poi \emph{rettificati} rispettivamente
+\emph{delle parti non riscosse e non pagate nel periodo stesso}.
+
+\vspace{1em}
+\begin{tabular}{|l|c|}
+    \hline
+    Incassi dalla vendita di prodotti e dalla prestazione di servizi & $+$ \\
+    \hline
+    Incassi da royalties, compensi, commissioni e altri ricavi & $+$ \\
+    \hline
+    Pagamenti a fornitori di materie prime, merci e servizi & $-$ \\
+    \hline
+    Pagamenti a e per conto di lavoratori dipendenti & $-$ \\
+    \hline
+    Proventi finanziari e dividendi ricevuti & $+$ \\
+    \hline
+    Pagamenti per oneri finanziari & $-$ \\
+    \hline
+    Pagamenti di imposte sul reddito & $-$ \\
+    \hline\grayrow
+    Flusso di cassa netto della gestione operativa & $+/-$ \\
+    \hline
+\end{tabular}
+
+\subparagraph{Metodo indiretto} rettificazione del risultato netto d’esercizio degli effetti
+delle operazioni di natura non monetaria (costi non cash), e da variazioni ci
+capitale circolante netto.
+
+Si parte sempre dall'utile d'esercizio (prima riga).
+
+\vspace{1em}
+\begin{tabular}{|l|c|}
+    \hline\grayrow
+    Utile del periodo & $-/+$ \\
+    \hline
+    Ammortamenti & $+$ \\
+    \hline
+    Accantonamenti & $+$ \\
+    \hline
+    Plusvalenze (minusvalenze) da realizzo di attività non correnti & $-/+$ \\
+    \hline
+    Ripristini (svalutazioni) di valore di attività non correnti & $-/+$ \\
+    \hline
+    Variazione crediti (finali – iniziali) & $-$ \\
+    \hline
+    Variazione rimanenze (finali – iniziali) & $-$ \\
+    \hline
+    Variazione debiti commerciali (finali – iniziali) & $+$ \\
+    \hline
+    Variazione debiti per imposte (finali – iniziali) & $+$ \\
+    \hline\grayrow
+    Flusso di cassa netto della gestione operativa & $+/-$ \\
+    \hline
+\end{tabular}
+
+\subsubsection{Flusso di cassa netto per attività di investimento}
+\begin{itemize}
+    \item Evidenzia gli investimenti ed i disinvestimenti effettuati dall’impresa nel
+    periodo.
+    \item Essi possono essere ricondotti a:
+    \begin{itemize}
+        \item Pagamenti per acquistare immobili, impianti e macchinari, beni
+        immateriali e altri beni immobilizzati
+        \item Entrate dalla vendita di immobili, impianti e macchinari, attività
+        immateriali e altre attività a lungo termine
+        \item Pagamenti per l’acquisizione di partecipazioni in altre imprese
+        \item Incassi dalla vendita di partecipazioni in altre imprese
+    \end{itemize}
+    \item È strettamente legato alla variazione di \emph{attività non correnti nello SP}
+\end{itemize}
+
+\begin{tabular}{|l|c|}
+    \hline
+    \makecell[l]{Pagamenti per acquistare immobili, impianti e macchinari,\\
+    beni immateriali e altri beni immobilizzati} & $-$ \\
+    \hline
+    \makecell[l]{Entrate dalla vendita di immobili, impianti e macchinari,\\
+    attività immateriali e altre attività a lungo termine} & $+$ \\
+    \hline
+    Pagamenti per l’acquisizione di partecipazioni in altre imprese & $-$ \\
+    \hline
+    Incassi dalla vendita di partecipazioni in altre imprese & $+$ \\
+    \hline\grayrow
+    Flusso di cassa netto per attività di investimento & $+/-$ \\
+    \hline
+\end{tabular}
+
+\subsubsection{Flusso di cassa netto per attività di finanziamento}
+\begin{itemize}
+    \item Evidenzia i finanziamenti acquisiti e rimborsati da parte dell’impresa
+    \item Tali flussi possono essere ricondotti a:
+    \begin{itemize}
+        \item Incassi derivanti dall’emissione di azioni o altri strumenti rappresentativi
+        di capitale
+        \item Rimborsi agli azionisti a seguito di riduzioni di capitale
+        \item Dividendi erogati
+        \item Incassi derivanti dall’accensione di prestiti
+        \item Rimborsi di prestiti
+    \end{itemize}
+    
+    \item E’ strettamente legato alla variazione di \emph{passività finanziarie e Patrimonio
+    Netto nello SP}
+\end{itemize}
+
+\begin{tabular}{|l|c|}
+    \hline
+    \makecell[l]{Incassi derivanti dall’emissione di azioni o altri strumenti\\
+    rappresentativi di capitale} & $+$ \\
+    \hline
+    Rimborsi agli azionisti a seguito di riduzioni di capitale & $-$ \\
+    \hline
+    Dividendi erogati & $-$ \\
+    \hline
+    Incassi derivanti dall’accensione di prestiti & $+$ \\
+    \hline
+    Rimborsi di prestiti & $-$ \\
+    \hline\grayrow
+    Flusso di cassa netto per attività di finanziamento & $+/-$ \\
+    \hline
+\end{tabular}
+
+\subsubsection{Osservazioni sul flusso di cassa}
+\paragraph{Un flusso di cassa netto positivo è sempre auspicabile?}
+\begin{itemize}
+    \item Segnali di attenzione:
+    \item Incassi dai clienti sono più bassi dei pagamenti a fornitori e dipendenti
+    \item Flusso di cassa netto della gestione operativa negativo
+    \item Flusso di cassa netto della gestione operativa è più basso dell’utile
+    \item Emissioni di nuove azioni per finanziare le attività operative
+    \item Flusso di cassa netto per le attività di investimento altamente positivo
+    \item Incassi derivanti dall’accensione di prestiti costantemente più alti dei
+    rimborsi di prestiti
+    \item Disponibilità liquide alla fine del periodo troppo alte
+\end{itemize}
+
+% COSTRUZIONE STATO PATRIMONIALE E CONTO ECONOMICO
+
+
+% \printglossaries
 
 \end{document}
