@@ -1,0 +1,318 @@
+% !TeX root = ../economia.tex
+\chapter{Valutazione degli Investimenti}
+
+\section{Introduzione}
+Il \emph{flusso di capitale} in un'azienda si articola nelle seguenti fasi:
+\begin{enumerate}
+    \item Gli \emph{azionisti} versano capitale nell'\emph{impresa}
+    \item L'\emph{impresa} investe il capitale per realizzare \emph{progetti di investimento}
+    \item L'attività dell'impresa genera \emph{cassa}
+    \item Parte della \emph{cassa} viene usata per autofinanziare nuovi progetti
+    \item Parte della cassa viene distribuita agli azionisti come \emph{dividendi}
+\end{enumerate}
+
+Per finanziarsi, un'azienda si avvale di \emph{istituti di credito}, che erogano
+\emph{finanziamenti}, debiti (\emph{oneri finanziari}) che verranno ripagati dall'azienda.
+
+\section{Politiche di investimento}
+Un'\gls{investimento} è  tipicamente una decisione rilevante per l’impresa, che
+ha effetti economici significativi (tali da giustificarne il \emph{rischio}) e
+\emph{dilazionati} nel tempo, quindi incerti.
+
+In particolare:
+\begin{itemize}
+    \item \textbf{È difficilmente reversibile:} un investimento richiede, solitamente, notevoli impieghi iniziali di denaro
+    \item \textbf{Ha un impatto temporale di lungo periodo:} gli esiti dell’investimento si hanno lungo un orizzonte temporale ampio
+    \item \textbf{Ha un effetto economico incerto:} genera risultati dagli esiti incerti
+\end{itemize}
+
+\subsection{Concetti preliminari (con esempi)}
+\begin{itemize}
+    \item \textbf{\Gls{rendinvest}}: L’investitore compra un’azione di una certa impresa pagando $100$.
+    A fine anno guarda il valore di tale azione sul mercato, scoprendo che è salito a $110$.
+    In più, durante l’anno ha ricevuto dividendi per un valore di $5$.
+    Il valore finale dell’investimento è $110 + 5 = 115$.
+
+    $\rightarrow$ Rendimento $ = 15\%$
+
+    \item \textbf{\Gls{riscinvest}}: Invece di avere un prezzo finale di $110$, l’azione vale solo $80$.
+    Tenendo conto dei dividendi pari a $5$, il valore finale dell’investimento è $80 + 5 = 85$.
+
+    $\rightarrow$ Rendimento (negativo) $= -15\%$
+\end{itemize}
+
+\textbox{
+I rendimenti futuri (incerti) associati all’investimento valgono i costi iniziali
+(certi e/o onerosi)?
+}
+
+\subsection{Esempi di decisioni di investimento \emph{finanziarie}}
+\begin{itemize}
+    \item \textbf{Investimenti in attività finanziarie:}
+    Il prezzo del titolo (azione, obbligazione) è adeguato?
+    \item \textbf{Investimenti in attività reali:}
+    Il valore dell’immobile che sto acquistando è commisurato al prezzo di vendita?
+    \item \textbf{Finanziamento bancario:}
+    Il costo di finanziamento è commisurato alla redditività che lo stesso riesce a generare?
+    \item \textbf{Destinazione degli utili d’impresa:}
+    E’ meglio distribuire dividendi o re-investire le risorse nell’azienda?
+\end{itemize}
+
+\subsection{Esempi di decisioni di investimento \emph{tecniche}}
+\begin{itemize}
+    \item \textbf{Espansione:}
+    Acquistiamo un nuovo impianto o un nuovo stabilimento in aggiunta a quelli già disponibili?
+    \item \textbf{Sostituzione:}
+    Conviene sostituire gli impianti esistenti?
+    \item \textbf{Scelta di tecnologia:}
+    Quale dei diversi possibili macchinari/impianti scegliamo per un certo scopo?
+    \item \textbf{Ampliamento dell’offerta (sviluppo di nuovi prodotti):}
+    Aggiungiamo un prodotto all’attuale gamma?
+    Entriamo o meno in un nuovo mercato?
+\end{itemize}
+
+\section{Metodi finanziari: il VAN}
+Il Valore Attuale Netto (\gls{VAN}) o Net Present Value (NPV) rappresenta la
+\emph{somma dei flussi di cassa netti}, cioè i benefici ($=$ ricavo $-$ costi), che un investimento
+è in grado di generare tenendo in considerazione il fattore \emph{tempo} e \emph{rischio}.
+
+Il \gls{VAN} dipende quindi da:
+\begin{itemize}
+    \item L’ammontare dei net cash flows (\gls{NCF}) stimati generati dall’investimento
+    \item Gli istanti di tempo nei quali i \gls{NCF} vengono generati
+    \item L’incertezza (rischio) associata ai \gls{NCF}
+\end{itemize}
+
+Poiché l’investimento ha impatti di lungo periodo, i flussi finanziari sono
+localizzati in \emph{istanti temporali differenti} quindi \emph{non sono direttamente sommabili}.
+
+Attraverso il meccanismo di \emph{attualizzazione} rendiamo comparabili flussi di denaro
+localizzati in istanti di tempo differenti e con diversi livelli di rischio.
+
+\subsection{Fattore tempo}
+Consideriamo un ``mondo'' in cui esistano solo investimenti ``certi'' (privi di rischio)
+e chiamiamo $i$ il tasso di rendimento di questi investimenti.
+Se disponiamo adesso di una somma $X(0)$, possiamo investirla a un tasso pari a $i$.
+
+Dopo un periodo di tempo $t$, disporremo con certezza di una cifra superiore, pari a
+\[X(t) = X(0) + X(0) \times i\]
+
+È quindi indifferente disporre al periodo $t=0$ di $X(0)$ oppure al periodo $t=1$ di una cifra
+\[X(1) = X(0)\times(1+i)\]
+
+Se manteniamo il nostro denaro nell’investimento per un altro periodo, disporremo al periodo $t=2$ di
+\[X(2) = X(1)*(1+i) = X(0)*(1+i)^2\]
+
+Iterando il procedimento, otteniamo che il valore futuro, in un periodo $t$ generico, di una somma $X(0)$
+disponibile attualmente è dato dalla formula di capitalizzazione, mentre la sua inversa,
+la formula di attualizzazione, ci permette di calcolare il valore attuale $X(0)$ di una somma di denaro $X(t)$ disponibile
+tra $t$ anni.
+\begin{multicols}{2}
+    \paragraph{Formula di capitalizzazione}
+    \[X(t) = X(0)*(1+i)^t\]
+    
+    \paragraph{Formula di attualizzazione}
+    \[X(0) = \frac{X(t)}{(1+i)^t}\]
+\end{multicols}
+
+\subsection{Fattore tempo + rischio}
+
+Assumiamo di essere \emph{avversi al rischio}, ovvero che preferiamo disporre di \emph{somme certe} piuttosto che incerte
+e che accetteremo investimenti rischiosi solo se ci aspettiamo un \emph{rendimento superiore} di quello degli
+investimenti privi di rischio. Introduciamo $d$, che rappresenta il \emph{premio per il rischio}, ovvero l’incremento nel rendimento richiesto per compensare il
+rischio associato al futuro.
+\begin{multicols}{2}
+    \paragraph{Formula di capitalizzazione}
+    \[X(t) = X(0)\times(1+i+d)^t\]
+    
+    \paragraph{Formula di attualizzazione}
+    \[X(0) = \frac{X(t)}{(1+i+d)^t}\]
+\end{multicols}
+
+\subsection{Tasso di sconto (rendimento)}
+Se definiamo $k=i+d$ come \emph{tasso di sconto}, possiamo definire il \emph{fattore di sconto}
+\[\text{Fattore di sconto} = \frac{1}{(1+k)^t}\]
+
+Il fattore di sconto corrisponde al valore attuale ($t=0$) di \euro 1 ottenuto al tempo $t$.
+
+Se moltiplico il fattore di sconto per il flusso di cassa, ottengo il valore attuale di quel flusso di cassa.
+
+$I_0$ indica l'investimento iniziale.
+\begin{equation*}
+    \text{\gls{NCF}}(t) = \text{Entrate di cassa}(t) - \text{Uscite di cassa}(t)
+\end{equation*}
+\begin{equation*}
+    \text{VA (Valore Attuale)} = \text{fattore di sconto} \times \text{NCF} = \frac{\text{NCF}}{(1+k)^t}
+\end{equation*}
+\begin{equation*}
+    \text{\gls{VAN}} = -I_0 + \text{VA}
+\end{equation*}
+
+\subsection{VAN di un progetto di investimento}
+
+Il \gls{VAN} è la somma di tutti i \gls{NCF} differenziali, in valore attuale, al \emph{netto} dell’investimento iniziale $I_0$.
+
+\begin{equation*}
+    \text{VAN} = \sum^T_{t=0} \frac{\Delta\text{NCF}_t}{(1+k)^t}
+    = \sum^T_{t=1} \frac{\Delta\text{NCF}_t}{(1+k)^t} - I_0
+    = \text{PV} - I_0
+\end{equation*}
+
+\begin{itemize}
+    \item Se VAN $> 0$, l’investimento crea valore e all’impresa conviene intraprendere il progetto di investimento.
+    \item Se VAN $= 0$, per l’impresa è indifferente intraprendere o meno il progetto di investimento.
+    \item Se VAN $< 0$, l’investimento distrugge valore e all’impresa non conviene intraprendere il progetto di investimento.
+\end{itemize}
+
+Talvolta uno degli aspetti critici nella valutazione del VAN è dato dalla definizione dell’orizzonte temporale di
+riferimento: l’investimento infatti, essendo una decisione di lungo periodo, ha effetti significativi
+sull’impresa su un arco di tempo limitato, ma può anche avere impatti successivi fino a $t = +\infty$.
+
+In questo caso, è opportuno dividere la formula in due orizzonti temporali di riferimento:
+\begin{itemize}
+    \item $0 \rightarrow T$: orizzonte di previsione, orizzonte temporale per il quale è possibile esprimere previsioni “ragionevoli” e puntuali sugli impatti dell’investimento in termini di creazione di valore
+    \item $T \rightarrow +\infty$ concretizzato in un’unica grandezza che esprime il valore dei NCF successivi all’anno $T$, che
+    chiamiamo \emph{valore residuo} o \emph{valore terminale}:
+    \begin{equation*}
+        \text{Valore residuo} = \frac{V(t)}{(1+k)^T} \quad\longrightarrow\quad
+        \text{VAN} = \sum_{t=1}^T \frac{\Delta \text{NCF}_t}{(1+k)^t} + \frac{V(t)}{(1+k)^T}
+    \end{equation*}
+\end{itemize}
+\paragraph{Investimento con rendita perpetua (serie geometrica)}
+\begin{equation*}
+    \text{VAN} = -I_0 + \frac{C}{k}
+\end{equation*}
+dove $I_0$ è l'investimento iniziale, $C$ è il flusso di cassa, $k$ è il tasso di sconto.
+
+\paragraph{Investimento con rendita perpetua crescente a tasso costante} con tasso $g < k$
+\begin{equation*}
+    \text{VAN} = -I_0 + \frac{C}{k-g}
+\end{equation*}
+
+\paragraph{Investimento con rendita annuale costante} es.: mutuo
+\begin{equation*}
+    \text{VAN} = -I_0 + \frac{C}{k} \left(1-\frac{1}{(1+k)^T}\right)
+\end{equation*}
+
+\section{Stima dei NCF}
+Il primo passo nella valutazione di un investimento consiste nella stima dei \gls{NCF} che
+esso sarà in grado di generare. La procedura si articola nelle seguenti fasi:
+
+\subsection{Valutare gli effetti dell’investimento}
+ll primo step nella stima dei NCF consiste nel valutare in che modo 
+l’investimento influenzerebbe l’attività dell’impresa nel futuro:
+\begin{itemize}
+    \item Il numero, la tipologia e il prezzo dei prodotti/servizi venduti (es.: 
+    cambiamenti attesi nella quota di mercato, nel mix di produzione, nel 
+    margine di profitto..)
+    \item Gli investimenti in immobilizzazioni (es.: macchinari e impianti) e attività 
+    correnti (es. rimanenze) richiesti
+    \item Marchio e reputazione dell’impresa (es.: qualità del prodotto, time to 
+    market…)
+    \item Qualità percepita e la soddisfazione del cliente (es.: incremento dei servizi 
+    post-vendita…)
+    \item Soddisfazione degli impiegati e produttività del lavoro (es.: miglioramento 
+    delle condizioni di lavoro, riduzione del turnover, job enlargment e job 
+    enrichment)
+\end{itemize}
+
+\subsection{Misura economica}
+Il secondo step nella stima dei NCF consiste nel tradurre gli effetti reali in termini di impatto
+economico. È importante osservare che l’effetto dell’investimento deve essere isolato dalle restanti attività
+dell’impresa, e quindi deve essere valutato solo l’\emph{effetto differenziale} generato dallo specifico investimento in
+analisi.
+
+\subsubsection{Logica differenziale}
+È necessario prendere in considerazione tutti e solo i flussi direttamente generati
+dall’investimento.
+Particolare attenzione deve essere rivolta alle previsioni di alcune tipologie di costi:
+\begin{itemize}
+    \item \textbf{Costi comuni}, ovvero quei costi che sarebbero sostenuti anche nel caso in cui non si attuasse il progetto (es. il
+    personale già presente in azienda e che non potrebbe essere licenziato senza costi addizionali). \emph{Tali costi non
+    devono essere considerati}
+    \item \textbf{Effetti collaterali}, generati dall’attuazione di un progetto, sui flussi di cassa che si producono in altri comparti
+    dell’impresa (ad esempio il lancio di un nuovo prodotto potrebbe ridurre le vendite di un prodotto già in produzione).
+    Tali costi DEVONO essere considerati
+    \item Erosioni: quando un nuovo progetto impatta negativamente i flussi di progetti già avviati
+    \item Sinergie: quando un nuovo progetto fa aumentare i flussi di progetti già avviati 
+    \item \textbf{Costi affondati} (sunk cost), ovvero quei costi, correlati allo specifico investimento, che vengono sostenuti prima
+    della scelta di effettuare o meno l’investimento.
+    I costi affondati non sono rilevanti nell’analisi in quanto l’impresa non ha modo di scegliere se sostenerli o meno: dal
+    momento in cui l’azienda sostiene il costo, quel costo diventa irrilevante per qualunque decisione futura.
+    \emph{Tali costi non devono essere considerati}
+\end{itemize}
+
+
+\subsection{Costo economico differenziale}
+Il terzo step consiste nell’utilizzare i risultati della valutazione in termini economici degli effetti
+dell’investimento per redigere un conto economico differenziale.
+Le voci di conto economico che sono spesso influenzate da un investimento sono:
+\begin{itemize}
+    \item Ricavi
+    \item Costo dei materiali
+    \item Costo del lavoro
+    \item Costo dei servizi
+    \item Costo di manutenzione
+    \item Costo dell’energia
+    \item Imposte
+\end{itemize}
+Il contributo dell’investimento a queste voci di conto economico può essere positivo o negativo.
+
+L’obiettivo è determinare il NCF generato dall’\emph{investimento} rispetto a quello
+realizzato dall’impresa nelle condizioni attuali (prima di effettuare l’investimento).
+
+\subsection{Calcolo dei NCF}
+In questa fase si passa dalla \emph{logica economica} a quella \emph{monetaria/finanziaria}:
+consideriamo solo le componenti che generano flussi di cassa nel periodo considerato.
+
+\subsubsection{Bottom-up}
+Un approccio è quello \emph{bottom-up}: aggiustamento dell’utile netto differenziale (bottom line del conto economico differenziale
+creato precedentemente) generato dall’investimento per \emph{depurarlo dell’effetto delle componenti non-cash}.
+L'NFC sarà dato da:
+\begin{enumerate}
+    \item Utile Netto differenziale
+    \item $(+)$ Ammortamenti
+    \item $(-)$ Plusvalenze/$+$ Minusvalenze
+    \item $(-/+)$ Investimenti in immobilizzazioni
+    \item $(-/+)$ Investimenti in attività correnti\footnote{investimenti in attività correnti misurati dalla \emph{variazione di capitale circolante netto} (CCN)
+    \\CCN$=$ crediti commerciali $+$ scorte $-$ debiti commerciali}
+\end{enumerate}
+
+\paragraph{Ammortamenti} Gli ammortamenti rientrano tra i costi in conto economico in quanto il riconoscimento del costo di
+un’immobilizzazione avviene durante la sua vita utile (anno per anno) piuttosto che essere totalmente
+scontato nell’anno in cui tale immobilizzazione è stata acquistata. Tuttavia, secondo la logica finanziaria,
+l’esborso avviene nell’anno di acquisto dell’immobilizzazione e
+non vengono effettivamente sostenuti dei costi annui per la sua perdita di valore, pertanto l’ammortamento deve essere
+sommato all’utile differenziale in modo da ricondurlo ad una logica finanziaria.
+
+\paragraph{Plusvalenze/Minusvalenze} Quando un immobile viene venduto ad un prezzo diverso dal suo valore di bilancio la differenza tra
+prezzo di vendita e valore contabile genera una plusvalenza (o minusvalenza) quando la differenza è
+positiva (o negativa). Le plusvalenze devono essere sottratte all’utile di bilancio in quanto non rappresentano l’entrata di cassa,
+ma, piuttosto, l’incasso aggiuntivo rispetto al valore contabile. Le minusvalenze devono essere sommate all’utile di bilancio in quanto non rappresentano un costo, ma,
+piuttosto, il mancato incasso rispetto al valore contabile.
+
+\paragraph{Investimenti} Per ottenere il NCF, dall’utile si dovranno infine scontare gli investimenti netti in immobilizzazioni e
+attività correnti. Per investimenti netti in immobilizzazioni si intende:
+\begin{itemize}
+    \item Uscite di cassa relative all’acquisto di nuove immobilizzazioni
+    \item Entrate di casse relative alla dismissione di immobilizzazioni
+\end{itemize}
+Per investimenti netti in attività correnti si intende:
+\begin{itemize}
+    \item Incremento dei crediti commerciali (che rappresentano una mancata entrata di cassa rispetto al
+    conto economico), cioè un \emph{ricavo, ma non flusso di cassa}
+    \item Incremento delle rimanenze di magazzino (che rappresentano una mancata entrata di cassa
+    rispetto al conto economico), cioè un \emph{ricavo, ma non flusso cassa}
+    \item Riduzione dei debiti commerciali (che rappresentano un’uscita di cassa aggiuntiva rispetto al
+    conto economico), cioè un \emph{costo, ma non flusso cassa}
+\end{itemize}
+
+\subsubsection{Top-down}
+L'NFC sarà dato da:
+\begin{enumerate}
+    \item EBIT differenziale
+    \item $(-)$ Tasse differenziali pagate dall’impresa
+    \item $(+)$ Ammortamenti
+    \item $(-/+)$ Investimenti (disinvestimenti) in immobilizzazioni
+    \item $(-/+)$ Investimenti (disinvestimenti) in attività correnti 
+\end{enumerate}
