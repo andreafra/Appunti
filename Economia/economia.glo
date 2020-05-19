@@ -46,6 +46,8 @@
 \glossaryentry{budget?\glossentry{budget}|setentrycounter[]{page}\glsnumberformat}{1}
 \glossaryentry{materiali diretti?\glossentry{md}|setentrycounter[]{page}\glsnumberformat}{1}
 \glossaryentry{lavoro diretto?\glossentry{ld}|setentrycounter[]{page}\glsnumberformat}{1}
+\glossaryentry{valore attuale?\glossentry{VA}|setentrycounter[]{page}\glsnumberformat}{1}
+\glossaryentry{profitability index?\glossentry{PI}|setentrycounter[]{page}\glsnumberformat}{1}
 \glossaryentry{impresa?\glossentry{impresa}|setentrycounter[]{page}\glsnumberformat}{5}
 \glossaryentry{imprenditore?\glossentry{imprenditore}|setentrycounter[]{page}\glsnumberformat}{5}
 \glossaryentry{impresa?\glossentry{impresa}|setentrycounter[]{page}\glsnumberformat}{5}
@@ -119,16 +121,20 @@
 \glossaryentry{VAN?\glossentry{VAN}|setentrycounter[]{page}\glsnumberformat}{32}
 \glossaryentry{NCF?\glossentry{NCF}|setentrycounter[]{page}\glsnumberformat}{32}
 \glossaryentry{NCF?\glossentry{NCF}|setentrycounter[]{page}\glsnumberformat}{32}
-\glossaryentry{budget?\glossentry{budget}|setentrycounter[]{page}\glsnumberformat}{35}
-\glossaryentry{materiali diretti?\glossentry{md}|setentrycounter[]{page}\glsnumberformat}{37}
-\glossaryentry{imprenditore?\glossentry{imprenditore}|setentrycounter[]{page}\glsnumberformat}{41}
-\glossaryentry{impresa?\glossentry{impresa}|setentrycounter[]{page}\glsnumberformat}{41}
-\glossaryentry{stakeholder?\glossentry{stakeholder}|setentrycounter[]{page}\glsnumberformat}{41}
-\glossaryentry{esercizio?\glossentry{esercizio}|setentrycounter[]{page}\glsnumberformat}{41}
-\glossaryentry{bilancio?\glossentry{bilancio}|setentrycounter[]{page}\glsnumberformat}{41}
-\glossaryentry{impresa?\glossentry{impresa}|setentrycounter[]{page}\glsnumberformat}{41}
-\glossaryentry{impresa?\glossentry{impresa}|setentrycounter[]{page}\glsnumberformat}{42}
-\glossaryentry{imprenditore?\glossentry{imprenditore}|setentrycounter[]{page}\glsnumberformat}{42}
-\glossaryentry{bilancio?\glossentry{bilancio}|setentrycounter[]{page}\glsnumberformat}{42}
-\glossaryentry{utile?\glossentry{utile}|setentrycounter[]{page}\glsnumberformat}{42}
-\glossaryentry{bilancio?\glossentry{bilancio}|setentrycounter[]{page}\glsnumberformat}{43}
+\glossaryentry{VAN?\glossentry{VAN}|setentrycounter[]{page}\glsnumberformat}{34}
+\glossaryentry{valore attuale?\glossentry{VA}|setentrycounter[]{page}\glsnumberformat}{34}
+\glossaryentry{VAN?\glossentry{VAN}|setentrycounter[]{page}\glsnumberformat}{35}
+\glossaryentry{VAN?\glossentry{VAN}|setentrycounter[]{page}\glsnumberformat}{35}
+\glossaryentry{budget?\glossentry{budget}|setentrycounter[]{page}\glsnumberformat}{40}
+\glossaryentry{materiali diretti?\glossentry{md}|setentrycounter[]{page}\glsnumberformat}{42}
+\glossaryentry{imprenditore?\glossentry{imprenditore}|setentrycounter[]{page}\glsnumberformat}{46}
+\glossaryentry{impresa?\glossentry{impresa}|setentrycounter[]{page}\glsnumberformat}{46}
+\glossaryentry{stakeholder?\glossentry{stakeholder}|setentrycounter[]{page}\glsnumberformat}{46}
+\glossaryentry{esercizio?\glossentry{esercizio}|setentrycounter[]{page}\glsnumberformat}{46}
+\glossaryentry{bilancio?\glossentry{bilancio}|setentrycounter[]{page}\glsnumberformat}{46}
+\glossaryentry{impresa?\glossentry{impresa}|setentrycounter[]{page}\glsnumberformat}{46}
+\glossaryentry{impresa?\glossentry{impresa}|setentrycounter[]{page}\glsnumberformat}{47}
+\glossaryentry{imprenditore?\glossentry{imprenditore}|setentrycounter[]{page}\glsnumberformat}{47}
+\glossaryentry{bilancio?\glossentry{bilancio}|setentrycounter[]{page}\glsnumberformat}{47}
+\glossaryentry{utile?\glossentry{utile}|setentrycounter[]{page}\glsnumberformat}{47}
+\glossaryentry{bilancio?\glossentry{bilancio}|setentrycounter[]{page}\glsnumberformat}{48}

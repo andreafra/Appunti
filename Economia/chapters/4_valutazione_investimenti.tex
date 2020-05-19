@@ -71,7 +71,7 @@ I rendimenti futuri (incerti) associati all’investimento valgono i costi inizi
     Entriamo o meno in un nuovo mercato?
 \end{itemize}
 
-\section{Metodi finanziari: il VAN}
+\section{Valore attuale netto (VAN)}
 Il Valore Attuale Netto (\gls{VAN}) o Net Present Value (NPV) rappresenta la
 \emph{somma dei flussi di cassa netti}, cioè i benefici ($=$ ricavo $-$ costi), che un investimento
 è in grado di generare tenendo in considerazione il fattore \emph{tempo} e \emph{rischio}.
@@ -316,3 +316,358 @@ L'NFC sarà dato da:
     \item $(-/+)$ Investimenti (disinvestimenti) in immobilizzazioni
     \item $(-/+)$ Investimenti (disinvestimenti) in attività correnti 
 \end{enumerate}
+
+\section{Tasso interno di rendimento (TIR)}
+
+Il tasso di attualizzazione che annulla il valore del \gls{VAN} viene detto Tasso Interno di Rendimento (TIR) oInternal Rate of Return (IRR) del progetto. In altri termini, il TIR corrisponde al tasso per cui il \gls{VA} dei flussi in ingresso eguaglia il VA dei flussi inuscita.
+\[
+0 = -CF_0 + \frac{CF_1}{\left( 1 + IRR\right) } + \frac{CF_2}{\left( 1 + IRR\right)^2 } + \frac{CF_3}{\left( 1 + IRR\right)^3 } + \dots
+\]
+cio\`e, con $k$ rendimento richiesto:
+\[
+VAN(k = TIR) = 0
+\]
+\subsection{Uso del TIR}
+Il TIR è un indicatore che esprime il rendimento annuo intrinseco di un progetto di investimento,
+quindi facilmente confrontabile con il rendimento di investimenti alternativi (obbligazioni, azioni...):
+\begin{itemize}
+	\item Se TIR $> k$ (rendimento richiesto) è conveniente intraprendere il progetto di investimento
+	\item Se TIR $= k$ (rendimento richiesto) è indifferente intraprendere il progetto di investimento
+	\item Se TIR $< k$ (rendimento richiesto) non è conveniente intraprendere il progetto di investimento
+\end{itemize}
+È possibile esprimere il \gls{VAN} come funzione del tasso di attualizzazione $k$:
+\[
+\textit{VAN(k)} = \sum^T_{t=0} \frac{NCF_t}{(1+t)^t} - I(0) + \frac{V(T)}{(1+k)^t}
+\]
+
+\subsection{Limiti del TIR}
+\begin{enumerate}
+	\item Per alcuni investimenti non esiste alcun TIR, ad esempio il \gls{VAN} può essere positivo per ogni tasso di
+	attualizzazione utilizzato
+	\item Può non distinguere tra situazioni di investimento e di finanziamento
+	\item \`E possibile la presenza di TIR multipli quando si verificano più cambiamenti di segno nei flussi dicassa:
+	
+		\small{I flussi di cassa possono avere segno positivo o negativo (ad esempio un investimento successivo dopo alcuni
+			anni). In questo caso, la funzione $VAN(x)$ non risulta monotona non decrescente, intersecando in più punti
+			l’asse del tempo. In questo caso non è possibile attribuire un significato economico alle diverse intersezioni della funzione
+			con l’asse delle ascisse}
+\end{enumerate}
+
+\subsection{Utilizzi del TIR}
+\begin{itemize}
+	\item Il TIR può essere considerato come il tasso di rendimento che permette di raggiungere il \emph{break-even
+	finanziario} di un investimento: con un tasso di attualizzazione pari al TIR, il valore attuale netto di un
+	progetto è pari a zero
+	\item Il TIR è frequentemente utilizzato in quanto permette ai manager finanziari e agli analisti di valutare le
+	performance in termini relativi, come ``12\%'', piuttosto che in termini assoluti, come ``46 000''\euro
+	\item Il metodo del TIR è preferito a quello del VAN nei casi in cui il tasso di attualizzazione dei flussi è
+	non noto o soggetto ad incertezza; in queste situazioni il TIR fornisce maggiori informazioni su un
+	investimento di quanto possa fare il VAN
+	\item Nei casi in cui il tasso di attualizzazione non sia costante lungo il periodo di vita del progetto o ancora la
+	struttura dei flussi di cassa è non convenzionale, si raccomanda l’utilizzo del VAN
+\end{itemize}
+
+\section{Profitability Index (PI)}
+
+Il PI è una misura dell’intensità di creazione di valore. Utilizza le medesime componenti del VAN,
+combinate in modo differente, misurando il rendimento assicurato dal progetto di investimento per
+ogni \euro di capitale investito. \`E conveniente per l’impresa intraprendere un progetto di investimento se PI $> 1$:
+\[
+PI = \frac{\textit{VAN dei flussi di cassa futuri}}{\textit{Investimento iniziale}} = \textit{Index} + 1 = \frac{NPV}{I_0} + 1
+\]
+
+Il PI è un indicatore relativo, che misura l’entità dei benefici rispetto al costo dell’investimento: esprime
+quindi la produttività marginale dell’investimento effettuato.
+
+Se PI $> 1$ indica che il valore attuale dei flussi di cassa è maggiore dell’investimento iniziale: ciò implica un incrementoatteso di ricchezza ed un VAN positivo. PI $< 1$ corrisponde ad un VAN negativo.
+
+Se un’impresa possiede un portafoglio di progetti, tutti con VAN positivo, ma ha una limitata disponibilità
+di capitale, il PI permette di classificare i progetti, indicando l’ordine di scelta per l’impresa. Per \emph{effetto di scala}, il PI favorisce i progetti con un minore esborso iniziale piuttosto che quelli didimensione più elevata.
+
+\pagebreak
+\section{Payback period (PB)}
+Il PB period (o Periodo di Recupero) risponde alla domanda: \emph{``Quanto tempo è necessario all’impresa per
+rientrare del denaro che ha investito nel progetto?''} ovvero \emph{``Qual è l’anno a partire dal quale il VAN $> 0$?''}
+\[
+PB = \min{t} : VAN > 0
+\]
+
+\subsection{Utilizzi del Payback Period}
+\begin{itemize}
+	\item Se PB $> t$ scelto dall’impresa, all’impresa non conviene intraprendere l’investimento
+	\item Se PB $= t$ scelto dall’impresa, per l’impresa è indifferente intraprendere l’investimento
+	\item Se PB $< t$ scelto dall’impresa, all’impresa conviene intraprendere l’investimento
+\end{itemize}
+
+\emph{Attenzione}: affinché sia possibile costruire la funzione di payback e trovare il payback period, è
+necessaria un’ipotesi semplificativa:
+\[
+I(0) \ne 0 \quad \textit{e} \quad I(t) = 0 \quad \textit{per} \quad t \ne 0
+\]
+Se $I(t)$ fosse diverso da $0$ in anni successivi a $t=0$, potrebbe accadere che $NCF(t) – I(t) < 0$ e che $PB(t)$
+non risulti monotona non decrescente, intersecando in più punti l’asse del tempo.
+
+Utilizzare il PB period significa dare valore decisionale al momento entro il quale si prevede che l’impresa
+sia in grado di recuperare i mezzi monetari investiti nel progetto.
+Ciò implica la determinazione da parte dell’impresa di un \emph{tempo massimo di recupero}, oltre il quale i
+progetti vengono respinti e al di sotto del quale vengono accolti.
+
+Il PB period esprime quindi il grado di liquidità di un progetto.
+
+Per contro, il PB period \emph{non misura l’economicità di un’iniziativa}, cioè il suo contributo agli obiettivi di valore
+per la gestione d’impresa, ponendo sullo stesso piano progetti con \emph{tempi di recupero uguali} anche se
+caratterizzati da \emph{diverse capacità di generare flussi di cassa} nel futuro.
+
+Il PB \`e fortemente utilizzato dal management in presenza di \emph{elevata incertezza} sui flussi e sui rendimenti futuri.
+La scelta del cut-off period da parte dell’impresa dipende dall’entità del rischio del progetto: al crescere
+del rischio il cut-off period si accorcia, per recuperare velocemente gli investimenti.
+\`E efficace in presenza di incertezza nei flussi di cassa temporalmente più distantima fornisce una valutazione semplificata dei progetti, distorta verso gli investimenti dibreve periodo.
+
+\section{Confronto fra indicatori}
+
+Se dobbiamo scegliere tra investimenti alternativi c'`e da tenere conto dell'effetto scala (il PI, essendo relativo, favorisce progetticon minore esborso inziale). Per risolvere questa incoerenza dobbiamo distinguere tra:
+\begin{enumerate}
+	\item Esistono vincoli di budget
+	\begin{enumerate}
+		\item Ho informazioni sui progetti futuri
+		\item Non ho informazioni sui progetti futuri
+
+	\end{enumerate}
+	\item Non esistono vincoli di budget
+\end{enumerate}
+
+\subsection{VAN vs PI}
+\paragraph{Caso 1a}	Costruisco dei pacchetti di investimenti alternativi che esauriscano il vincolo di budget e scelgo
+quale pacchetto attuare utilizzando indifferentemente il VAN o il PI (in quanto avranno tutti la medesimascala).
+
+\subparagraph{Esempio} Vincolo di budget: 300. L’eventuale eccedenza di risorse può essere investita in titoli che assicurano unrendimento almeno pari a k=10\% (costo capitale).
+
+\vspace{1em}
+\begin{tabular}{|l|l|c|c|c|c|}
+	\hline
+	\grayrow & & PV & I & NPV & PI \\
+	\hline
+	$t=0$ & Progetto 1 & 400 & 300 & 100 & 1.3 \\
+	$t=0$ & Progetto 2 & 480 & 200 & 80 & 1.4 \\
+	\hline
+	$t=1$ & Progetto 3 & 210 & 140 & 70 & 1.5 \\
+	$t=1$ & Progetto 4 & 160 & 100 & 60 & 1.6 \\
+	$t=1$ & Progetto 5  & 90 & 50 & 40 & 1.8 \\
+	$t=1$ & Progetto 6 & 40 & 10 & 30 & 4.0 \\
+	\hline
+\end{tabular}
+
+\begin{enumerate}
+	\item Pacchetto A = Progetto 1
+	\begin{itemize}
+		\item VAN = $100$
+		\item PI = $1.3$
+	\end{itemize}
+	\item Pacchetto B = Progetti 2, 4
+	\begin{itemize}
+		\item VAN $= 80 + 60 = 140$
+		\item PI $= (280 + 160) / (200 + 100) = 1.47$
+	\end{itemize}
+	\item Pacchetto C = Progetti 2, 5, 6 + residuo di 40
+	\begin{itemize}
+		\item VAN $= 80 + 40 + 30 + 4 = 154$
+		\item PI $= (280 + 90 + 40 + 44) / 300 = 1.51$
+	\end{itemize}
+	\item Pacchetto D = Progetti 3, 4, 5, 6
+	\begin{itemize}
+		\item VAN $= 70 + 60 + 40 + 30 = 200$
+		\item PI $= 500 / 300 = 1.67$
+	\end{itemize}
+\end{enumerate}
+
+\paragraph{Caso 1b}	Costruisco dei pacchetti di investimenti alternativi che esauriscano il vincolo di budget e scelgo
+quale pacchetto attuare utilizzando indifferentemente il VAN o il PI (in quanto avranno tutti la medesimascala).
+
+Empiricamente si osserva che, scegliendoattraverso il PI, l’impresa esaurisce il vincolo di
+budget generando maggior valore rispetto al casoin cui scegliesse attraverso il VAN.
+
+\subparagraph{Esempio} Vincolo di budget: 350. L’eventuale eccedenza di risorse può essere investita in titoli che assicurano unrendimento almeno pari a k=10\% (costo capitale).
+
+\vspace{1em}
+\begin{tabular}{|c|c|c|c|c|}
+	\hline
+	\grayrow & PV & I & NPV & PI \\
+	\hline
+	 Progetto 1 & 280 & 200 & $80^*$ & 1.4 \\
+	 Progetto 2 & 180 & 120 & 60 & $1.5^**$ \\
+	\hline
+	 Progetto 3 & 240 & 150 & $90^*$ & 1.6 \\
+	 Progetto 4 & 170 & 100 & 70 & $1.7^**$ \\
+	\hline
+	 Progetto 5 & 210 & 120 & 90 & 1.75 \\
+	 Progetto 6 & 140 & 70 & 70 & $2^**$ \\
+	\hline
+	 Progetto 7 & 120 & 80 & 40 & 1.5 \\
+	 Progetto 8 & 100 & 60 & 40 & $1.6^**$ \\
+	\hline
+\end{tabular}
+
+\[
+* \rightarrow NPV = 90+80=170; \quad PI = 520/350=1.49
+\]
+\[
+** \rightarrow NPV = 60+70+70+40=\textbf{240}; \quad PI = 580/350 = \textbf{1.69}
+\]
+
+\begin{enumerate}
+	\item Pacchetto A = Progetto 1
+	\begin{itemize}
+		\item VAN = $100$
+		\item PI = $1.3$
+	\end{itemize}
+	\item Pacchetto B = Progetti 2, 4
+	\begin{itemize}
+		\item VAN $= 80 + 60 = 140$
+		\item PI $= (280 + 160) / (200 + 100) = 1.47$
+	\end{itemize}
+	\item Pacchetto C = Progetti 2, 5, 6 + residuo di 40
+	\begin{itemize}
+		\item VAN $= 80 + 40 + 30 + 4 = 154$
+		\item PI $= (280 + 90 + 40 + 44) / 300 = 1.51$
+	\end{itemize}
+	\item Pacchetto D = Progetti 3, 4, 5, 6
+	\begin{itemize}
+		\item VAN $= 70 + 60 + 40 + 30 = 200$
+		\item PI $= 500 / 300 = 1.67$
+	\end{itemize}
+\end{enumerate}
+
+\paragraph{Caso 2} Costruisco dei pacchetti di investimenti alternativi che esauriscano il vincolo di budget e scelgoquale pacchetto attuare utilizzando indifferentemente il VAN o il PI (in quanto avranno tutti la medesimascala).
+
+\subsection{VAN vs TIR}
+Se dobbiamo scegliere tra investimenti alternativi può esserci un contrasto dovuto a:
+\begin{enumerate}
+	\item Effetto scala
+	\begin{itemize}
+		\item Si risolve nello stesso modo del contrasto tra VAN e PI
+		\item È necessario quindi distinguere tra:
+		\begin{enumerate}
+			\item Esistono vincoli di budget:
+			\begin{enumerate}
+				\item Ho informazioni sui progetti di investimento che potrò attuare nel futuro: costruisco
+				pacchetti di progetti di investimento che esauriscano il vincolo di budget e scelgo
+				indifferentemente utilizzando VAN o TIR
+				\item Non ho informazioni sui progetti di investimento che potrò attuare in futuro: ogni volta
+				che si presenta la necessità di scegliere tra due o più progetti di investimento utilizzo ilTIR.
+			\end{enumerate}
+			\item Non esistono vincoli di budget: ogni volta che si presenta la necessità di scegliere tra due o
+			più progetti di investimento utilizzo il VAN
+		\end{enumerate}
+	\end{itemize}
+	\item Diversa distribuzione temporale dei flussi di cassa
+\end{enumerate}
+
+\subsubsection{Caso 2: Esempio}
+\begin{tabular}{|c|r|r|r|r|}
+	\hline
+	\grayrow & \multicolumn{2}{l|}{Progetto A ($k = 12\%$)} & \multicolumn{2}{l|}{Progetto B ($k = 12\%$)}  \\
+	\hline
+	\grayrow Anno & Cash Flow & VA dei CF & Cash Flow & VA dei CF \\
+	\hline
+	0 & (5000) & (5000) & (5000) & (5000) \\
+	\hline
+	1 & 800 & 714.29 & 2400 & 2142.86 \\
+	\hline
+	2 & 900 & 717.47 & 1800 & 1434.95 \\
+	\hline
+	3 & 1500 & 1067.67 & 900 & 640.60 \\
+	\hline
+	4 & 1200 & 762.62 & 900 & 571.97 \\
+	\hline
+	5 & 3200 & 1815.77 & 700 & 397.20 \\
+	\hline
+\end{tabular}
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.5\linewidth]{images/van_vs_tir}
+	\caption{Profili VAN per il progetto A e il progetto B}
+	\label{fig:vanvstir}
+\end{figure}
+
+\vspace{1em}
+Esaminando la \figurename ~\ref{fig:vanvstir} si nota che:
+\begin{itemize}
+	\item Con bassi tassi di sconto il progetto A mostra un VAN maggiore, mentre il progetto B ha un VAN
+	maggiore a tassi più elevati. La spiegazione di tale andamento risiede nel fatto che, sebbene il
+	progetto B generi flussi di cassa inferiori al progetto A, la distribuzione temporale di tali flussi è
+	differente: B genera i flussi più consistenti nei primi anni, mentre per A avviene il contrario, per cui
+	TIR B > TIR A
+	\item La pendenza della curva è maggiore per il progetto A rispetto al progetto B, fatto che indica come il
+	VAN del progetto A sia più sensibile ai cambiamenti nel tasso di sconto: variazioni nei tassi comportano variazioni maggiori nel VAN di A rispetto a B
+\end{itemize}
+
+Il punto in cui $VAN_A = VAN_B$, detto \emph{crossover rate}, si trova in corrispondenza di un tasso di sconto pari al
+10.2\%. Tale valore può essere determinato prendendo le differenze tra i flussi di cassa dei due progetti e
+calcolandone il relativo TIR.
+
+\begin{tabular}{|c|r|r|r|}
+	\hline
+	\grayrow\multicolumn{4}{|c|}{Cash Flows} \\
+	\hline
+	\grayrow Anno & Progetto A & Progetto B & Differenza \\
+	\hline
+	0 & 5000 & 5000 & 0 \\
+	\hline
+	1 & 800 & 2400 & 1600 \\
+	\hline
+	2 & 900 & 1800 & 900 \\
+	\hline
+	3 & 1500 & 900 & 600 \\
+	\hline
+	4 & 1200 & 900 & 300 \\
+	\hline
+	5 & 3200 & 700 & 2500 \\
+	\hline
+\end{tabular}
+\vspace{1em}
+
+Se il tasso di sconto è < 10.2\% il VAN del progetto A è maggiore di quello del progetto B, mentre se il
+tasso è > 10.2\% si verifica la situazione opposta.
+
+\subsection{VAN vs PB}
+
+I due indicatori considerano \emph{aspetti differenti} del progetto di investimento (redditività vs liquidità del
+progetto): il PB period costituisce un \emph{valido complemento} agli indicatori precedentemente esposti.
+
+\section{Schema riassuntivo}
+\begin{itemize}
+	\item \textbf{VAN}
+	\begin{itemize}
+		\item Accetto se VAN $> 0$
+		\item Corrisponde al valore attuale dei flussi di cassa
+		attesi, al netto dell’esborso iniziale per realizzareil progetto
+		\item Difficile scelta del tasso di attualizzazione
+		\item Inadeguato per valutare investimenti conrilevanza strategica
+		\item Difficile stima dei flussi di cassa
+	\end{itemize}
+	\item \textbf{TIR}
+	\begin{itemize}
+		\item Accetto se TIR $> k$
+		\item È il tasso di attualizzazione in corrispondenza delquale risulta VAN $=0$
+		\item Problemi se vi sono forti differenze tra tassi a breve/lungo nella struttura per scadenza dei tassidi interesse
+		\item Non sempre applicabile (flussi di cassa nonconvenzionali)
+	\end{itemize}
+	\item \textbf{PI}
+	\begin{itemize}
+		\item Accetto se PI $> k$
+		\item Misura l’entità dei benefici rispetto ai costi
+		dell’investimento
+		\item Essendo una variante del VAN presenta tutti i
+		suoi limiti
+		\item Effetto di scala
+	\end{itemize}
+	\item \textbf{PB Period}
+	\begin{itemize}
+		\item Accetto se PB Period $> k$
+		\item Misura il momento nel quale i flussi in entrata
+		attualizzati eguagliano il valore dei flussi in uscitaattualizzati
+		\item Pone sullo stesso piano investimenti con tempo
+		di recupero uguale, anche se comportanoesborsi iniziali diversi
+	\end{itemize}
+\end{itemize}
