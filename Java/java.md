@@ -1,7 +1,7 @@
 Java
 ====
 
-> Se ci sono errori, mandami una mail a `hi@andreafranchini.me`
+> Se ci sono errori, mandami una mail a `hello@andreafranchini.com`
 
 Java è un linguaggio di programmazione che è compilato in *bytecode* eseguibile su ogni architettura che abbia una propria JVM (Java Virtual Machine).
 
