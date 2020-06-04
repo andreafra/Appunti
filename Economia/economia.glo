@@ -36,57 +36,120 @@
 \glossaryentry{conto economico?\glossentry{contoeconomico}|setentrycounter[]{page}\glsnumberformat}{1}
 \glossaryentry{ammortamento?\glossentry{ammortamento}|setentrycounter[]{page}\glsnumberformat}{1}
 \glossaryentry{EBIT?\glossentry{ebit}|setentrycounter[]{page}\glsnumberformat}{1}
-\glossaryentry{impresa?\glossentry{impresa}|setentrycounter[]{page}\glsnumberformat}{3}
-\glossaryentry{imprenditore?\glossentry{imprenditore}|setentrycounter[]{page}\glsnumberformat}{3}
-\glossaryentry{impresa?\glossentry{impresa}|setentrycounter[]{page}\glsnumberformat}{3}
-\glossaryentry{utile?\glossentry{utile}|setentrycounter[]{page}\glsnumberformat}{3}
-\glossaryentry{shareholder?\glossentry{shareholder}|setentrycounter[]{page}\glsnumberformat}{3}
-\glossaryentry{stakeholder?\glossentry{stakeholder}|setentrycounter[]{page}\glsnumberformat}{3}
-\glossaryentry{rischio?\glossentry{rischio}|setentrycounter[]{page}\glsnumberformat}{3}
-\glossaryentry{business model?\glossentry{bizmodel}|setentrycounter[]{page}\glsnumberformat}{4}
-\glossaryentry{business plan?\glossentry{bizplan}|setentrycounter[]{page}\glsnumberformat}{5}
-\glossaryentry{piccolo imprenditore?\glossentry{piccoloimpr}|setentrycounter[]{page}\glsnumberformat}{6}
-\glossaryentry{responsabilità illimitata?\glossentry{respill}|setentrycounter[]{page}\glsnumberformat}{6}
-\glossaryentry{responsabilità illimitata?\glossentry{respill}|setentrycounter[]{page}\glsnumberformat}{6}
-\glossaryentry{responsabilità illimitata?\glossentry{respill}|setentrycounter[]{page}\glsnumberformat}{8}
-\glossaryentry{responsabilità limitata?\glossentry{resplim}|setentrycounter[]{page}\glsnumberformat}{8}
-\glossaryentry{contabilità?\glossentry{contabilita}|setentrycounter[]{page}\glsnumberformat}{9}
-\glossaryentry{shareholder?\glossentry{shareholder}|setentrycounter[]{page}\glsnumberformat}{9}
-\glossaryentry{stakeholder?\glossentry{stakeholder}|setentrycounter[]{page}\glsnumberformat}{9}
-\glossaryentry{stakeholder?\glossentry{stakeholder}|setentrycounter[]{page}\glsnumberformat}{9}
-\glossaryentry{esercizio?\glossentry{esercizio}|setentrycounter[]{page}\glsnumberformat}{9}
-\glossaryentry{bilancio?\glossentry{bilancio}|setentrycounter[]{page}\glsnumberformat}{10}
-\glossaryentry{IFRS/IAS?\glossentry{ifrsias}|setentrycounter[]{page}\glsnumberformat}{10}
-\glossaryentry{IFRS/IAS?\glossentry{ifrsias}|setentrycounter[]{page}\glsnumberformat}{10}
-\glossaryentry{stato patrimoniale?\glossentry{sp}|setentrycounter[]{page}\glsnumberformat}{10}
-\glossaryentry{conto economico?\glossentry{ce}|setentrycounter[]{page}\glsnumberformat}{10}
-\glossaryentry{rendiconto finanziario?\glossentry{rf}|setentrycounter[]{page}\glsnumberformat}{10}
-\glossaryentry{attività?\glossentry{attivita}|setentrycounter[]{page}\glsnumberformat}{10}
-\glossaryentry{passività?\glossentry{passivita}|setentrycounter[]{page}\glsnumberformat}{10}
-\glossaryentry{fair value?\glossentry{fairvalue}|setentrycounter[]{page}\glsnumberformat}{11}
-\glossaryentry{fair value?\glossentry{fairvalue}|setentrycounter[]{page}\glsnumberformat}{11}
-\glossaryentry{impairment test?\glossentry{imptest}|setentrycounter[]{page}\glsnumberformat}{12}
-\glossaryentry{fair value?\glossentry{fairvalue}|setentrycounter[]{page}\glsnumberformat}{12}
-\glossaryentry{impairment test?\glossentry{imptest}|setentrycounter[]{page}\glsnumberformat}{12}
-\glossaryentry{costo?\glossentry{costo}|setentrycounter[]{page}\glsnumberformat}{12}
-\glossaryentry{valore di realizzo?\glossentry{valrealizzo}|setentrycounter[]{page}\glsnumberformat}{12}
-\glossaryentry{valore di realizzo?\glossentry{valrealizzo}|setentrycounter[]{page}\glsnumberformat}{12}
-\glossaryentry{valore di realizzo?\glossentry{valrealizzo}|setentrycounter[]{page}\glsnumberformat}{12}
-\glossaryentry{fair value?\glossentry{fairvalue}|setentrycounter[]{page}\glsnumberformat}{12}
-\glossaryentry{patrimonio netto?\glossentry{patrnetto}|setentrycounter[]{page}\glsnumberformat}{13}
-\glossaryentry{fair value?\glossentry{fairvalue}|setentrycounter[]{page}\glsnumberformat}{13}
-\glossaryentry{utile?\glossentry{utile}|setentrycounter[]{page}\glsnumberformat}{13}
-\glossaryentry{utile?\glossentry{utile}|setentrycounter[]{page}\glsnumberformat}{13}
+\glossaryentry{vita utile?\glossentry{vitautile}|setentrycounter[]{page}\glsnumberformat}{1}
+\glossaryentry{CPI?\glossentry{CPI}|setentrycounter[]{page}\glsnumberformat}{1}
+\glossaryentry{investimento?\glossentry{investimento}|setentrycounter[]{page}\glsnumberformat}{1}
+\glossaryentry{rendimento di un investimento?\glossentry{rendinvest}|setentrycounter[]{page}\glsnumberformat}{1}
+\glossaryentry{rischio di un investimento?\glossentry{riscinvest}|setentrycounter[]{page}\glsnumberformat}{1}
+\glossaryentry{VAN?\glossentry{VAN}|setentrycounter[]{page}\glsnumberformat}{1}
+\glossaryentry{NCF?\glossentry{NCF}|setentrycounter[]{page}\glsnumberformat}{1}
+\glossaryentry{budget?\glossentry{budget}|setentrycounter[]{page}\glsnumberformat}{1}
+\glossaryentry{materiali diretti?\glossentry{md}|setentrycounter[]{page}\glsnumberformat}{1}
+\glossaryentry{lavoro diretto?\glossentry{ld}|setentrycounter[]{page}\glsnumberformat}{1}
+\glossaryentry{valore attuale?\glossentry{VA}|setentrycounter[]{page}\glsnumberformat}{1}
+\glossaryentry{profitability index?\glossentry{PI}|setentrycounter[]{page}\glsnumberformat}{1}
+\glossaryentry{MON?\glossentry{MON}|setentrycounter[]{page}\glsnumberformat}{1}
+\glossaryentry{costi opportunità?\glossentry{costopport}|setentrycounter[]{page}\glsnumberformat}{1}
+\glossaryentry{mercato?\glossentry{mercato}|setentrycounter[]{page}\glsnumberformat}{1}
+\glossaryentry{consumatori?\glossentry{consumatori}|setentrycounter[]{page}\glsnumberformat}{1}
+\glossaryentry{utilità?\glossentry{utilita}|setentrycounter[]{page}\glsnumberformat}{1}
+\glossaryentry{Microstruttura?\glossentry{microstruttura}|setentrycounter[]{page}\glsnumberformat}{1}
+\glossaryentry{Compito?\glossentry{compito}|setentrycounter[]{page}\glsnumberformat}{1}
+\glossaryentry{Mansione?\glossentry{mansione}|setentrycounter[]{page}\glsnumberformat}{1}
+\glossaryentry{Macrostruttura?\glossentry{macrostruttura}|setentrycounter[]{page}\glsnumberformat}{1}
+\glossaryentry{impresa?\glossentry{impresa}|setentrycounter[]{page}\glsnumberformat}{7}
+\glossaryentry{imprenditore?\glossentry{imprenditore}|setentrycounter[]{page}\glsnumberformat}{7}
+\glossaryentry{impresa?\glossentry{impresa}|setentrycounter[]{page}\glsnumberformat}{7}
+\glossaryentry{utile?\glossentry{utile}|setentrycounter[]{page}\glsnumberformat}{7}
+\glossaryentry{shareholder?\glossentry{shareholder}|setentrycounter[]{page}\glsnumberformat}{7}
+\glossaryentry{stakeholder?\glossentry{stakeholder}|setentrycounter[]{page}\glsnumberformat}{7}
+\glossaryentry{rischio?\glossentry{rischio}|setentrycounter[]{page}\glsnumberformat}{7}
+\glossaryentry{business model?\glossentry{bizmodel}|setentrycounter[]{page}\glsnumberformat}{8}
+\glossaryentry{business plan?\glossentry{bizplan}|setentrycounter[]{page}\glsnumberformat}{9}
+\glossaryentry{piccolo imprenditore?\glossentry{piccoloimpr}|setentrycounter[]{page}\glsnumberformat}{10}
+\glossaryentry{responsabilità illimitata?\glossentry{respill}|setentrycounter[]{page}\glsnumberformat}{10}
+\glossaryentry{responsabilità illimitata?\glossentry{respill}|setentrycounter[]{page}\glsnumberformat}{10}
+\glossaryentry{responsabilità illimitata?\glossentry{respill}|setentrycounter[]{page}\glsnumberformat}{12}
+\glossaryentry{responsabilità limitata?\glossentry{resplim}|setentrycounter[]{page}\glsnumberformat}{12}
+\glossaryentry{contabilità?\glossentry{contabilita}|setentrycounter[]{page}\glsnumberformat}{13}
+\glossaryentry{shareholder?\glossentry{shareholder}|setentrycounter[]{page}\glsnumberformat}{13}
+\glossaryentry{stakeholder?\glossentry{stakeholder}|setentrycounter[]{page}\glsnumberformat}{13}
+\glossaryentry{stakeholder?\glossentry{stakeholder}|setentrycounter[]{page}\glsnumberformat}{13}
 \glossaryentry{esercizio?\glossentry{esercizio}|setentrycounter[]{page}\glsnumberformat}{13}
-\glossaryentry{esercizio?\glossentry{esercizio}|setentrycounter[]{page}\glsnumberformat}{13}
-\glossaryentry{fair value?\glossentry{fairvalue}|setentrycounter[]{page}\glsnumberformat}{13}
-\glossaryentry{fair value?\glossentry{fairvalue}|setentrycounter[]{page}\glsnumberformat}{14}
-\glossaryentry{TFR?\glossentry{TFR}|setentrycounter[]{page}\glsnumberformat}{14}
-\glossaryentry{fair value?\glossentry{fairvalue}|setentrycounter[]{page}\glsnumberformat}{14}
-\glossaryentry{conto economico?\glossentry{contoeconomico}|setentrycounter[]{page}\glsnumberformat}{14}
+\glossaryentry{bilancio?\glossentry{bilancio}|setentrycounter[]{page}\glsnumberformat}{14}
+\glossaryentry{IFRS/IAS?\glossentry{ifrsias}|setentrycounter[]{page}\glsnumberformat}{14}
+\glossaryentry{IFRS/IAS?\glossentry{ifrsias}|setentrycounter[]{page}\glsnumberformat}{14}
 \glossaryentry{stato patrimoniale?\glossentry{sp}|setentrycounter[]{page}\glsnumberformat}{14}
-\glossaryentry{conto economico?\glossentry{contoeconomico}|setentrycounter[]{page}\glsnumberformat}{15}
-\glossaryentry{esercizio?\glossentry{esercizio}|setentrycounter[]{page}\glsnumberformat}{16}
+\glossaryentry{conto economico?\glossentry{ce}|setentrycounter[]{page}\glsnumberformat}{14}
+\glossaryentry{rendiconto finanziario?\glossentry{rf}|setentrycounter[]{page}\glsnumberformat}{14}
+\glossaryentry{attività?\glossentry{attivita}|setentrycounter[]{page}\glsnumberformat}{14}
+\glossaryentry{passività?\glossentry{passivita}|setentrycounter[]{page}\glsnumberformat}{14}
+\glossaryentry{fair value?\glossentry{fairvalue}|setentrycounter[]{page}\glsnumberformat}{15}
+\glossaryentry{fair value?\glossentry{fairvalue}|setentrycounter[]{page}\glsnumberformat}{15}
+\glossaryentry{impairment test?\glossentry{imptest}|setentrycounter[]{page}\glsnumberformat}{16}
 \glossaryentry{fair value?\glossentry{fairvalue}|setentrycounter[]{page}\glsnumberformat}{16}
-\glossaryentry{EBIT?\glossentry{ebit}|setentrycounter[]{page}\glsnumberformat}{16}
+\glossaryentry{impairment test?\glossentry{imptest}|setentrycounter[]{page}\glsnumberformat}{16}
+\glossaryentry{costo?\glossentry{costo}|setentrycounter[]{page}\glsnumberformat}{16}
+\glossaryentry{valore di realizzo?\glossentry{valrealizzo}|setentrycounter[]{page}\glsnumberformat}{16}
+\glossaryentry{valore di realizzo?\glossentry{valrealizzo}|setentrycounter[]{page}\glsnumberformat}{16}
+\glossaryentry{valore di realizzo?\glossentry{valrealizzo}|setentrycounter[]{page}\glsnumberformat}{16}
+\glossaryentry{fair value?\glossentry{fairvalue}|setentrycounter[]{page}\glsnumberformat}{16}
 \glossaryentry{patrimonio netto?\glossentry{patrnetto}|setentrycounter[]{page}\glsnumberformat}{17}
+\glossaryentry{fair value?\glossentry{fairvalue}|setentrycounter[]{page}\glsnumberformat}{17}
+\glossaryentry{utile?\glossentry{utile}|setentrycounter[]{page}\glsnumberformat}{17}
+\glossaryentry{utile?\glossentry{utile}|setentrycounter[]{page}\glsnumberformat}{17}
+\glossaryentry{esercizio?\glossentry{esercizio}|setentrycounter[]{page}\glsnumberformat}{17}
+\glossaryentry{esercizio?\glossentry{esercizio}|setentrycounter[]{page}\glsnumberformat}{17}
+\glossaryentry{fair value?\glossentry{fairvalue}|setentrycounter[]{page}\glsnumberformat}{18}
+\glossaryentry{fair value?\glossentry{fairvalue}|setentrycounter[]{page}\glsnumberformat}{18}
+\glossaryentry{TFR?\glossentry{TFR}|setentrycounter[]{page}\glsnumberformat}{18}
+\glossaryentry{fair value?\glossentry{fairvalue}|setentrycounter[]{page}\glsnumberformat}{18}
+\glossaryentry{conto economico?\glossentry{contoeconomico}|setentrycounter[]{page}\glsnumberformat}{18}
+\glossaryentry{stato patrimoniale?\glossentry{sp}|setentrycounter[]{page}\glsnumberformat}{18}
+\glossaryentry{conto economico?\glossentry{contoeconomico}|setentrycounter[]{page}\glsnumberformat}{19}
+\glossaryentry{esercizio?\glossentry{esercizio}|setentrycounter[]{page}\glsnumberformat}{20}
+\glossaryentry{fair value?\glossentry{fairvalue}|setentrycounter[]{page}\glsnumberformat}{20}
+\glossaryentry{EBIT?\glossentry{ebit}|setentrycounter[]{page}\glsnumberformat}{21}
+\glossaryentry{patrimonio netto?\glossentry{patrnetto}|setentrycounter[]{page}\glsnumberformat}{21}
+\glossaryentry{costo?\glossentry{costo}|setentrycounter[]{page}\glsnumberformat}{26}
+\glossaryentry{costo?\glossentry{costo}|setentrycounter[]{page}\glsnumberformat}{26}
+\glossaryentry{ammortamento?\glossentry{ammortamento}|setentrycounter[]{page}\glsnumberformat}{26}
+\glossaryentry{costo?\glossentry{costo}|setentrycounter[]{page}\glsnumberformat}{26}
+\glossaryentry{vita utile?\glossentry{vitautile}|setentrycounter[]{page}\glsnumberformat}{26}
+\glossaryentry{CPI?\glossentry{CPI}|setentrycounter[]{page}\glsnumberformat}{28}
+\glossaryentry{investimento?\glossentry{investimento}|setentrycounter[]{page}\glsnumberformat}{32}
+\glossaryentry{rendimento di un investimento?\glossentry{rendinvest}|setentrycounter[]{page}\glsnumberformat}{32}
+\glossaryentry{rischio di un investimento?\glossentry{riscinvest}|setentrycounter[]{page}\glsnumberformat}{32}
+\glossaryentry{VAN?\glossentry{VAN}|setentrycounter[]{page}\glsnumberformat}{33}
+\glossaryentry{VAN?\glossentry{VAN}|setentrycounter[]{page}\glsnumberformat}{33}
+\glossaryentry{NCF?\glossentry{NCF}|setentrycounter[]{page}\glsnumberformat}{33}
+\glossaryentry{NCF?\glossentry{NCF}|setentrycounter[]{page}\glsnumberformat}{33}
+\glossaryentry{NCF?\glossentry{NCF}|setentrycounter[]{page}\glsnumberformat}{33}
+\glossaryentry{NCF?\glossentry{NCF}|setentrycounter[]{page}\glsnumberformat}{34}
+\glossaryentry{VAN?\glossentry{VAN}|setentrycounter[]{page}\glsnumberformat}{34}
+\glossaryentry{VAN?\glossentry{VAN}|setentrycounter[]{page}\glsnumberformat}{34}
+\glossaryentry{NCF?\glossentry{NCF}|setentrycounter[]{page}\glsnumberformat}{34}
+\glossaryentry{NCF?\glossentry{NCF}|setentrycounter[]{page}\glsnumberformat}{34}
+\glossaryentry{VAN?\glossentry{VAN}|setentrycounter[]{page}\glsnumberformat}{37}
+\glossaryentry{valore attuale?\glossentry{VA}|setentrycounter[]{page}\glsnumberformat}{37}
+\glossaryentry{VAN?\glossentry{VAN}|setentrycounter[]{page}\glsnumberformat}{37}
+\glossaryentry{VAN?\glossentry{VAN}|setentrycounter[]{page}\glsnumberformat}{37}
+\glossaryentry{budget?\glossentry{budget}|setentrycounter[]{page}\glsnumberformat}{43}
+\glossaryentry{materiali diretti?\glossentry{md}|setentrycounter[]{page}\glsnumberformat}{45}
+\glossaryentry{MON?\glossentry{MON}|setentrycounter[]{page}\glsnumberformat}{50}
+\glossaryentry{MON?\glossentry{MON}|setentrycounter[]{page}\glsnumberformat}{50}
+\glossaryentry{MON?\glossentry{MON}|setentrycounter[]{page}\glsnumberformat}{50}
+\glossaryentry{costi opportunità?\glossentry{costopport}|setentrycounter[]{page}\glsnumberformat}{52}
+\glossaryentry{consumatori?\glossentry{consumatori}|setentrycounter[]{page}\glsnumberformat}{53}
+\glossaryentry{utilità?\glossentry{utilita}|setentrycounter[]{page}\glsnumberformat}{53}
+\glossaryentry{imprenditore?\glossentry{imprenditore}|setentrycounter[]{page}\glsnumberformat}{68}
+\glossaryentry{impresa?\glossentry{impresa}|setentrycounter[]{page}\glsnumberformat}{68}
+\glossaryentry{stakeholder?\glossentry{stakeholder}|setentrycounter[]{page}\glsnumberformat}{68}
+\glossaryentry{esercizio?\glossentry{esercizio}|setentrycounter[]{page}\glsnumberformat}{68}
+\glossaryentry{bilancio?\glossentry{bilancio}|setentrycounter[]{page}\glsnumberformat}{68}
+\glossaryentry{impresa?\glossentry{impresa}|setentrycounter[]{page}\glsnumberformat}{68}
+\glossaryentry{impresa?\glossentry{impresa}|setentrycounter[]{page}\glsnumberformat}{69}
+\glossaryentry{imprenditore?\glossentry{imprenditore}|setentrycounter[]{page}\glsnumberformat}{69}
+\glossaryentry{bilancio?\glossentry{bilancio}|setentrycounter[]{page}\glsnumberformat}{69}
+\glossaryentry{utile?\glossentry{utile}|setentrycounter[]{page}\glsnumberformat}{70}
+\glossaryentry{bilancio?\glossentry{bilancio}|setentrycounter[]{page}\glsnumberformat}{70}

@@ -1,0 +1,102 @@
+% !TeX root = ../economia.tex
+\chapter{Analisi degli scostamenti}
+
+L’allocazione economica delle risorse consumate dal processo
+produttivo è tanto importante quanto lo è la pianificazione preventiva
+del consumo stesso, nel momento in cui gli obiettivi dell’impresa
+vengono tradotti in programmi operativi.
+
+È inoltre fondamentale avere un sistema di controllo efficiente che sia in
+grado, tramite il confronto tra previsioni e dati reali, di individuare
+quali sono le motivazioni di eventuali scostamenti e su quali leve
+è necessario agire.
+
+L'\emph{analisi degli scostamenti} evidenzia gli eventuali scostamenti fra quanto previsto e quanto
+effettivamente realizzato (cio\`e dei ricavi e dei costi). Gli scostamenti possono essere:
+\begin{itemize}
+	\item Favorevoli, se comportano maggiori introiti o minori costi per l’impresa
+	\item Sfavorevoli
+\end{itemize}
+
+Gli effetti che vanno a determinare uno scostamento possono essere
+molteplici e vanno analizzati singolarmente, perci\`o si utilizza il \emph{budget flessibile}.
+
+\subsection{Budget flessibile}
+Ripercorre la stessa struttura del budget ma facendo riferimento alla
+quantità riportata a consuntivo $Q$ invece di quella previsionale $\hat{Q}$.\\
+
+\begin{tabular}{l l l l}
+	\hline
+	& Costo consuntivo & Budget flessibile & Budget \\\hline
+	Quantit\`a $Q$ & Effettiva & Effettiva & Standard \\
+	Prezzi e costi unitari & Effettivi & Standard & Standard\\\hline
+\end{tabular}
+
+\paragraph{Varianza di prezzo} differenza tra ricavi di consuntivo e ricavi indicati nel budget flessibile.
+\[
+	\textit{Varianza di prezzo} = Q \left(p - \hat{p}\right)
+\]
+
+dove $Q$ \`e il volume produttivo effettivo, $\hat{p}$ il prezzo standard pianificato e $p$ il prezzo effettivamente praticato.
+
+La Varianza di prezzo dipende \emph{unicamente} dalla politica di pricing effettuata dall’impresa.
+
+\paragraph{Varianza di volume} differenza tra ricavi indicati nel budget flessibile e ricavi previsti da budget.
+\[
+	\textit{Varianza di volume} = \hat{p} \left(Q - \hat{Q}\right)
+\]
+
+dove $\hat{Q}$ \`e il volume produttivo pianificato.
+
+La Varianza di volume è in genere dovuta alla contrazione (o espansione) del mercato del prodotto o della quota di mercato vantata dall’impresa.
+
+\paragraph{Varianza totale} somma fra varianza di prezzo e varianza di volume.
+\[
+	\textit{Varianza totale} = \textit{Varianza di prezzo} + \textit{Varianza di volume} = p \times Q - \hat{p} \times \hat{Q}
+\]
+
+La varianza totale è la differenza tra i ricavi di budget e i ricavi di consuntivo, e quindi lo scostamento totale.
+
+\paragraph{Varianza di efficienza} differenza tra costo unitario a consuntivo del $CPI$ e costo
+unitario standard di budget flessibile $CPI_s$ , a parità del volume produttivo effettivo $Q$.
+\[
+	\textit{Varianza di efficienza} = Q \left(CPI - CPI_s\right)
+\]
+
+Una varianza di efficienza \emph{positiva} indica un \emph{costo unitario effettivo delle risorse più
+elevato} rispetto alle previsioni, e quindi una \emph{minore efficienza produttiva}. Di solito dipende da un accesso alle risorse a
+condizioni migliori
+rispetto al previsto, oppure consumo minore di
+risorse, rispetto a quanto
+previsto.
+
+L’accesso alle risorse a condizioni migliori rispetto al previsto è legato a:
+
+\paragraph{varianza di prezzo della risorsa i} differenza tra il costo unitario effettivo $c_i$ della generica risorsa $i$ e il costo previsto a budget $\hat{c}_i$ e viene riferita al consumo effettivo
+delle risorse $a_i$.
+\[
+\textit{Varianza di prezzo della risorsa} i = Q \hat{a}_i \left(c_i - \hat{c}_i\right)
+\]
+
+Il consumo minore di risorse rispetto a quanto preventivato è legato a:
+
+\paragraph{Varianza di impiego della risorsa i} differenza tra il consumo effettivo $a_i$ e il consumo standard $\hat{a}_i$ delle risorse e viene riferita al costo standard unitario $\hat{c}_i$ delle
+risorse indicato nel budget.
+\[
+	\textit{Varianza di impiego della risorsa} i = Q \hat{c}_i \left(a_i - \hat{a}_i\right)
+\]
+
+La somma di varianza di impiego e varianza di prezzo, sommata su tutte le risorse $i$-esime, comprendendo anche il lavoro e gli overheads, è uguale alla varianza di efficienza.
+\[
+	\textit{Varianza di efficienza} = \sum^n_{i=1} \left(\textit{Varianza di prezzo} + \textit{Varianza di impiego}\right) = Q \sum^n_{i=1} a_i c_i - Q \sum^n_{i=1} \hat{a}_i \hat{c}_i
+\]
+
+\paragraph{Varianza di volume} differenza tra costi di budget flessibile e costi di budget.
+\[
+	\textit{Varianza di volume} = CPI_s \left(Q - \hat{Q}\right)
+\]
+
+La varianza di volume indica che l’impresa può avere registrato costi superiori (inferiori) al
+previsto, solo perché ha venduto di più (di meno) rispetto al piano iniziale.
+
+\paragraph{Varianza totale tra i costi di prodotto effettivi e costi standard} somma di varianza di efficienza e varianza di volume.
