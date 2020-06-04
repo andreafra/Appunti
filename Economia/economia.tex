@@ -1,5 +1,5 @@
 \documentclass[10pt,a4paper,fleqn,oneside]{book}
-\usepackage[utf8]{inputenc}
+%\usepackage[utf8]{inputenc}
 \usepackage{graphicx}
 \usepackage[italian]{babel}
 \usepackage[margin=0.7in]{geometry}
@@ -17,15 +17,22 @@
 \usepackage{subfiles}
 \usepackage{multicol}
 \usepackage{wrapfig}
+\usepackage{fontspec}
 
 \title{Appunti di Economia}
 \author{Andrea Franchini}
+
+% Set font
+\setmainfont{XCharter}
+
+% No date in title
+\date{}
 
 % TOC
 \setcounter{tocdepth}{4}
 
 % Paragraphs don't have indents
-\setlength{\parindent}{3em}
+\setlength{\parindent}{1em}
 
 % Reduce spacing between \items
 \setlist[itemize]{noitemsep}
@@ -40,7 +47,6 @@
 
 % Pro e contro
 \newcommand{\proandcons}[2]{
-%    \begin{tabularx}{\linewidth}{>{\parskip1ex}X@{\kern4\tabcolsep}>{\parskip1ex}X}
     \begin{tabularx}{\linewidth}{>{\parskip1ex}X@{\kern4\tabcolsep}>{\parskip1ex}X}
 
         \toprule
@@ -49,13 +55,14 @@
         \hfil\bfseries Contro
         \\\cmidrule(r{3\tabcolsep}){1-1}\cmidrule(l{-\tabcolsep}){2-2}
         
-        %% PROS, seperated by empty line or \par
+        %% PROS, separated by empty line or \par
         #1
 
         &
-        %% CONS, seperated by empty line or \par
+        %% CONS, separated by empty line or \par
         #2
-        \\\bottomrule
+        \\
+        \bottomrule
     \end{tabularx}
 }
 
@@ -98,6 +105,8 @@
 \subfile{chapters/7_decisioni_breve_periodo.tex}
 \subfile{chapters/8_domanda.tex}
 \subfile{chapters/9_concorrenza.tex}
+\subfile{chapters/10_organizzazione_aziendale.tex}
+
 \printglossaries
 
 \end{document}
